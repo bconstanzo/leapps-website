@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Releases — LEAPPs</title>
+  <meta name="description" content="Download the latest releases of iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA — free open-source digital forensics tools." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leapps.org/releases" />
+  <meta property="og:title" content="Releases — LEAPPs" />
+  <meta property="og:description" content="Download the latest releases of iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA — free open-source digital forensics tools." />
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <meta property="og:image:alt" content="LEAPPs — ALEAPP, iLEAPP, RLEAPP, VLEAPP forensics tools" />
+  <meta property="og:site_name" content="LEAPPs" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Releases — LEAPPs" />
+  <meta name="twitter:description" content="Download the latest releases of iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA — free open-source digital forensics tools." />
+  <meta name="twitter:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C020;
+      --gold-dk: #D4A010;
+      --off-black: #0E0E0E;
+      --surface: #161616;
+      --surface2: #1C1C1C;
+      --border: #2C2C2C;
+      --text: #F0EDE6;
+      --muted: #888888;
+      --font-head: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--off-black); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+
+    /* NAV */
+    .lp-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(14,14,14,0.96); backdrop-filter: blur(8px);
+      z-index: 1000;
+    }
+    .lp-nav-logo { font-family: var(--font-head); font-size: 1.4rem; font-weight: 900; letter-spacing: .05em; color: var(--text); text-decoration: none; }
+    .lp-nav-links { display: flex; gap: 2rem; list-style: none; }
+    .lp-nav-links a { color: var(--muted); text-decoration: none; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+    .lp-nav-links a:hover { color: var(--gold); }
+    .lp-nav-links a.active { color: var(--gold); }
+    .lp-nav-cta { background: var(--gold); color: var(--off-black) !important; padding: .5rem 1.25rem; font-family: var(--font-head); font-weight: 700; font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none !important; transition: background .2s; }
+    .lp-nav-cta:hover { background: var(--gold-dk) !important; }
+    .lp-nav-dropdown { position: relative; }
+    .lp-nav-dropdown-trigger {
+      color: var(--muted); font-size: .875rem; letter-spacing: .08em; text-transform: uppercase;
+      font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: .3rem;
+      user-select: none; transition: color .2s;
+    }
+    .lp-nav-dropdown-trigger i.lp-chev { font-size: .75rem; transition: transform .2s; }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger { color: var(--gold); }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-trigger i.lp-chev { transform: rotate(180deg); }
+    .lp-nav-dropdown-menu {
+      display: none; position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%); background: rgba(14,14,14,.98);
+      backdrop-filter: blur(8px); border: 1px solid var(--border);
+      min-width: 180px; z-index: 1001; flex-direction: column;
+      padding-top: 12px;
+    }
+    .lp-nav-dropdown-menu::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+      background: transparent;
+    }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-menu { display: flex; }
+    .lp-nav-dropdown-menu a {
+      color: var(--muted) !important; font-size: .78rem; letter-spacing: .08em;
+      text-transform: uppercase; padding: .65rem 1rem; text-decoration: none !important;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center;
+      gap: .5rem; transition: color .2s, background .2s;
+    }
+    .lp-nav-dropdown-menu a:last-child { border-bottom: none; }
+    .lp-nav-dropdown-menu a:hover { color: var(--gold) !important; background: var(--surface); }
+    .lp-nav-dropdown-menu i { font-size: .9rem; color: var(--gold); }
+
+    /* PAGE HEADER */
+    .lp-page-header {
+      padding: 3.5rem 2rem 3rem; border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .lp-page-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(245,192,32,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .lp-page-header-inner { max-width: 1100px; margin: 0 auto; }
+    .lp-eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+    .lp-page-header h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; text-transform: uppercase; line-height: .95; margin-bottom: 1rem; }
+    .lp-page-header h1 span { color: var(--gold); }
+    .lp-page-header p { color: var(--muted); font-size: 1rem; max-width: 520px; line-height: 1.7; margin-bottom: 2rem; }
+
+    /* TOOL NAV PILLS */
+    .lp-tool-nav { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .lp-tool-pill {
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .4rem 1rem; border: 1px solid var(--border); color: var(--muted);
+      text-decoration: none !important; transition: border-color .2s, color .2s, background .2s;
+    }
+    .lp-tool-pill:hover { border-color: var(--gold); color: var(--gold); }
+    .lp-tool-pill.lava { border-color: rgba(245,192,32,.4); color: var(--gold); }
+
+    /* MAIN LAYOUT */
+    .lp-main { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 3rem; align-items: start; }
+
+    /* SIDEBAR */
+    .lp-sidebar { position: sticky; top: 80px; }
+    .lp-sidebar-title { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .lp-sidebar-links { list-style: none; display: flex; flex-direction: column; gap: .25rem; }
+    .lp-sidebar-links a {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .6rem .75rem; font-size: .875rem; color: var(--muted);
+      text-decoration: none !important; border-left: 2px solid transparent;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .lp-sidebar-links a:hover { color: var(--text); background: var(--surface); border-left-color: var(--border); }
+    .lp-sidebar-links a.lava-link { color: var(--gold); border-left-color: rgba(245,192,32,.4); }
+    .lp-sidebar-links a.lava-link:hover { border-left-color: var(--gold); background: rgba(245,192,32,.05); }
+    .lp-sidebar-links i { font-size: 1rem; }
+
+    /* TOOL SECTIONS */
+    .lp-tool-section { margin-bottom: 3rem; scroll-margin-top: 90px; }
+    .lp-tool-section:last-child { margin-bottom: 0; }
+
+    .lp-tool-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 1rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .lp-tool-header-left {}
+    .lp-tool-platform { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
+    .lp-tool-header h2 { font-family: var(--font-head); font-size: 2.2rem; font-weight: 900; text-transform: uppercase; line-height: 1; color: var(--text); }
+    .lp-tool-header h2.lava { color: var(--gold); }
+    .lp-tool-fullname { font-size: .85rem; color: var(--muted); margin-top: .3rem; }
+    .lp-gh-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em;
+      padding: .5rem 1rem; border: 1px solid var(--border); color: var(--muted);
+      text-decoration: none !important; transition: border-color .2s, color .2s;
+      white-space: nowrap; align-self: flex-start;
+    }
+    .lp-gh-link:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* LAVA ABOUT BOX */
+    .lp-about-box {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 1.5rem; margin-bottom: 1.5rem; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .lp-about-box h3 { font-family: var(--font-head); font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); margin-bottom: .6rem; }
+    .lp-about-box p { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+    .lp-about-box ul { list-style: none; display: flex; flex-direction: column; gap: .3rem; }
+    .lp-about-box ul a { font-size: .85rem; color: var(--muted); text-decoration: none !important; transition: color .2s; }
+    .lp-about-box ul a:hover { color: var(--gold); }
+
+    /* RELEASE STATUS BAR */
+    .lp-status-bar {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .75rem 1rem; background: var(--surface); border: 1px solid var(--border);
+      margin-bottom: 1rem; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em;
+    }
+    .lp-status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .lp-status-text { color: var(--gold); }
+    .lp-status-sep { color: var(--border); }
+    .lp-status-sub { color: var(--muted); }
+
+    /* RELEASE CARDS */
+    .lp-releases-list { display: flex; flex-direction: column; gap: .75rem; }
+    .lp-release-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem; transition: border-color .2s;
+    }
+    .lp-release-card:hover { border-color: #444; }
+    .lp-release-card.latest { border-color: rgba(245,192,32,.3); }
+    .lp-release-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .75rem; flex-wrap: wrap; }
+    .lp-release-version { font-family: var(--font-head); font-size: 1.3rem; font-weight: 900; text-transform: uppercase; color: var(--text); }
+    .lp-release-date { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); letter-spacing: .08em; }
+    .lp-latest-badge {
+      background: rgba(245,192,32,.15); border: 1px solid rgba(245,192,32,.3);
+      color: var(--gold); font-family: var(--font-mono); font-size: .65rem;
+      padding: .2rem .6rem; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .lp-release-body { font-size: .85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; white-space: pre-wrap; word-break: break-word; }
+    .lp-release-assets { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .lp-asset-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .06em;
+      padding: .4rem .85rem; border: 1px solid var(--border); color: var(--muted);
+      text-decoration: none !important; transition: border-color .2s, color .2s, background .2s;
+    }
+    .lp-asset-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .lp-asset-btn.primary { background: var(--gold); border-color: var(--gold); color: var(--off-black) !important; }
+    .lp-asset-btn.primary:hover { background: var(--gold-dk); border-color: var(--gold-dk); }
+
+    /* LOADING / ERROR STATES */
+    .lp-loading {
+      padding: 2rem; text-align: center; border: 1px solid var(--border);
+      background: var(--surface); font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+    }
+    .lp-loading span { color: var(--gold); }
+    .lp-error { padding: 1.5rem; border: 1px solid #5a2020; background: rgba(90,32,32,.15); font-size: .85rem; color: #cc7777; }
+
+    /* VIEW ALL LINK */
+    .lp-view-all {
+      display: inline-flex; align-items: center; gap: .5rem; margin-top: 1rem;
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none !important; transition: color .2s;
+    }
+    .lp-view-all:hover { color: var(--gold); }
+
+    /* FOOTER */
+    .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; margin-top: 2rem; }
+    .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .lp-footer p { font-size: .8rem; color: #555; }
+    .lp-footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .lp-footer-links a { color: #555 !important; text-decoration: none !important; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .lp-footer-links a:hover { color: var(--gold) !important; }
+
+    /* STAR BADGE */
+    .lp-star-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em;
+      padding: .35rem .75rem; border: 1px solid var(--border);
+      color: var(--gold); background: rgba(245,192,32,.08);
+      white-space: nowrap;
+    }
+    .lp-star-badge i { font-size: .85rem; }
+    .lp-star-badge.loading { color: var(--muted); background: transparent; }
+
+    /* SHARE BUTTONS */
+    .lp-share-group { display: inline-flex; align-items: center; gap: .3rem; }
+    .lp-share-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer; font-size: .85rem;
+      transition: border-color .2s, color .2s; text-decoration: none !important;
+      flex-shrink: 0;
+    }
+    .lp-share-btn:hover { border-color: #444; color: var(--text); }
+    .lp-share-btn.mastodon:hover { border-color: #6364ff; color: #6364ff; }
+    .lp-share-btn.bluesky:hover { border-color: #0085ff; color: #0085ff; }
+    .lp-share-btn.reddit:hover { border-color: #ff4500; color: #ff4500; }
+    .lp-share-btn.linkedin:hover { border-color: #0077b5; color: #0077b5; }
+    .lp-share-btn.email:hover { border-color: var(--gold); color: var(--gold); }
+    .lp-share-btn.copy-link:hover { border-color: var(--gold); color: var(--gold); }
+    .lp-share-btn.copied { border-color: #4caf50; color: #4caf50; }
+
+    /* COPY BUTTON */
+    .lp-copy-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer;
+      font-size: .8rem; transition: border-color .2s, color .2s, background .2s;
+      flex-shrink: 0; vertical-align: middle;
+    }
+    .lp-copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .lp-copy-btn.copied { border-color: #4caf50; color: #4caf50; background: rgba(76,175,80,.08); }
+
+    /* DOWNLOAD COUNT BADGE */
+    .lp-dl-count-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .75rem; letter-spacing: .06em;
+      padding: .35rem .75rem; border: 1px solid var(--border);
+      color: #aaaaaa; background: rgba(255,255,255,.04);
+      white-space: nowrap;
+    }
+    .lp-dl-count-badge i { font-size: .85rem; }
+    .lp-dl-count-badge.loading { color: var(--muted); background: transparent; }
+    .lp-release-dl-count {
+      font-family: var(--font-mono); font-size: .65rem; letter-spacing: .08em;
+      color: var(--muted); display: inline-flex; align-items: center; gap: .3rem;
+      margin-left: .5rem;
+    }
+
+    /* OLDER RELEASES TOGGLE */
+    .lp-older-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1rem; margin-top: .5rem;
+      border: 1px solid var(--border); background: var(--surface);
+      cursor: pointer; transition: border-color .2s, background .2s;
+      user-select: none;
+    }
+    .lp-older-toggle:hover { border-color: #444; background: var(--surface2); }
+    .lp-older-toggle.open { border-color: rgba(245,192,32,.3); }
+    .lp-older-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .08em; color: var(--muted); display: flex; align-items: center; gap: .5rem; }
+    .lp-older-toggle.open .lp-older-label { color: var(--gold); }
+    .lp-chevron { color: var(--muted); font-size: 1rem; transition: transform .25s; }
+    .lp-older-toggle.open .lp-chevron { transform: rotate(180deg); color: var(--gold); }
+    .lp-older-releases { display: none; flex-direction: column; gap: .75rem; margin-top: .5rem; }
+    .lp-older-toggle.open + .lp-older-releases { display: flex; }
+
+    /* HAMBURGER MENU */
+    .lp-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .lp-hamburger span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--text);
+      transition: transform .25s, opacity .25s;
+      transform-origin: center;
+    }
+    .lp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .lp-hamburger.open span:nth-child(2) { opacity: 0; }
+    .lp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .lp-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 57px;
+      left: 0; right: 0;
+      background: rgba(14,14,14,.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      z-index: 999;
+      padding: 1rem 2rem 1.5rem;
+      flex-direction: column;
+      gap: .25rem;
+    }
+    .lp-mobile-menu.open { display: flex; }
+    .lp-mobile-menu a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 1rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: color .2s;
+    }
+    .lp-mobile-menu a:last-child { border-bottom: none; }
+    .lp-mobile-menu a:hover { color: var(--gold); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .lp-main { grid-template-columns: 1fr; }
+      .lp-sidebar { position: static; }
+      .lp-sidebar-links { flex-direction: row; flex-wrap: wrap; }
+      .lp-sidebar-links a { border-left: none; border-bottom: 2px solid transparent; padding: .4rem .6rem; }
+      .lp-about-box { grid-template-columns: 1fr; }
+      .lp-nav-links { display: none; }
+      .lp-hamburger { display: flex; }
+      .lp-nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="lp-nav">
+    <a href="https://leapps.org" class="lp-nav-logo">LEAPPs</a>
+    <ul class="lp-nav-links">
+      <li><a href="https://leapps.org#tools">Tools</a></li>
+      <li><a href="https://leapps.org#lava">LAVA</a></li>
+      <li><a href="https://leapps.org/releases" class="active">Releases</a></li>
+      <li><a href="https://leapps.org/stats">Stats</a></li>
+      <li class="lp-nav-dropdown">
+        <div class="lp-nav-dropdown-trigger">Community <i class="ti ti-chevron-down lp-chev" aria-hidden="true"></i></div>
+        <div class="lp-nav-dropdown-menu">
+          <a href="https://leapps.org#faq"><i class="ti ti-help-circle" aria-hidden="true"></i>FAQ</a>
+          <a href="https://leapps.org#mentions"><i class="ti ti-award" aria-hidden="true"></i>Featured</a>
+          <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
+          <a href="https://leapps.org#mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
+        </div>
+      </li>
+      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <a href="#" class="lp-nav-cta">Download</a>
+    <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
+    <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="#section-lava" onclick="closeMobileMenu()">LAVA Releases</a>
+    <a href="#section-aleapp" onclick="closeMobileMenu()">ALEAPP</a>
+    <a href="#section-ileapp" onclick="closeMobileMenu()">iLEAPP</a>
+    <a href="#section-rleapp" onclick="closeMobileMenu()">RLEAPP</a>
+    <a href="#section-vleapp" onclick="closeMobileMenu()">VLEAPP</a>
+    <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
+    <a href="https://leapps.org#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
+    <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
+    <a href="https://leapps.org#mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <header class="lp-page-header">
+    <div class="lp-page-header-inner">
+      <span class="lp-eyebrow">Latest Builds</span>
+      <h1>Tool <span>Releases</span></h1>
+      <p>Download the latest versions of the LEAPPs forensic tools. All tools are free and open-source.</p>
+      <div class="lp-tool-nav">
+        <a href="#section-lava" class="lp-tool-pill lava">LAVA</a>
+        <a href="#section-aleapp" class="lp-tool-pill">ALEAPP</a>
+        <a href="#section-ileapp" class="lp-tool-pill">iLEAPP</a>
+        <a href="#section-rleapp" class="lp-tool-pill">RLEAPP</a>
+        <a href="#section-vleapp" class="lp-tool-pill">VLEAPP</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="lp-main">
+
+    <!-- SIDEBAR -->
+    <aside class="lp-sidebar">
+      <div class="lp-sidebar-title">Jump to tool</div>
+      <ul class="lp-sidebar-links">
+        <li><a href="#section-lava" class="lava-link"><i class="ti ti-eye"></i>LAVA</a></li>
+        <li><a href="#section-aleapp"><i class="ti ti-brand-android"></i>ALEAPP</a></li>
+        <li><a href="#section-ileapp"><i class="ti ti-brand-apple"></i>iLEAPP</a></li>
+        <li><a href="#section-rleapp"><i class="ti ti-file-import"></i>RLEAPP</a></li>
+        <li><a href="#section-vleapp"><i class="ti ti-car"></i>VLEAPP</a></li>
+      </ul>
+    </aside>
+
+    <!-- CONTENT -->
+    <main>
+
+      <!-- LAVA -->
+      <section class="lp-tool-section" id="section-lava">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">Visualization · All Platforms</div>
+            <h2 class="lava">LAVA</h2>
+            <div class="lp-tool-fullname">LEAPP Artifact Viewer App</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-lava"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-lava"><i class="ti ti-download"></i>…</span><a href="https://github.com/leapps-org/LAVA-releases" class="lp-gh-link" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-about-box">
+          <div>
+            <h3>What is LAVA?</h3>
+            <p>LAVA lets investigators and analysts browse and explore output reports generated by the *LEAPP family of forensic tools.</p>
+          </div>
+          <div>
+            <h3>Supported Tools</h3>
+            <ul>
+              <li><a href="#section-aleapp">ALEAPP — Android artifacts</a></li>
+              <li><a href="#section-ileapp">iLEAPP — iOS/iPadOS artifacts</a></li>
+              <li><a href="#section-rleapp">RLEAPP — ISP Returns artifacts</a></li>
+              <li><a href="#section-vleapp">VLEAPP — Vehicle artifacts</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+          <span class="lp-status-sep">·</span>
+          <span class="lp-status-sub">Windows · macOS · Linux</span>
+        </div>
+        <div id="releases-lava" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases…</span></div>
+        </div>
+        <a href="https://github.com/leapps-org/LAVA-releases/releases" class="lp-view-all" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View all LAVA releases on GitHub</a>
+      </section>
+
+      <!-- ALEAPP -->
+      <section class="lp-tool-section" id="section-aleapp">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">Android</div>
+            <h2>ALEAPP</h2>
+            <div class="lp-tool-fullname">Android Logs, Events &amp; Plists Parser</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-aleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-aleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/ALEAPP" class="lp-gh-link" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+        </div>
+        <div id="releases-aleapp" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases…</span></div>
+        </div>
+        <a href="https://github.com/abrignoni/ALEAPP/releases" class="lp-view-all" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View all ALEAPP releases on GitHub</a>
+      </section>
+
+      <!-- iLEAPP -->
+      <section class="lp-tool-section" id="section-ileapp">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">iOS · iPadOS</div>
+            <h2>iLEAPP</h2>
+            <div class="lp-tool-fullname">iOS Logs, Events &amp; Plists Parser</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-ileapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-ileapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/iLEAPP" class="lp-gh-link" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+        </div>
+        <div id="releases-ileapp" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases…</span></div>
+        </div>
+        <a href="https://github.com/abrignoni/iLEAPP/releases" class="lp-view-all" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View all iLEAPP releases on GitHub</a>
+      </section>
+
+      <!-- RLEAPP -->
+      <section class="lp-tool-section" id="section-rleapp">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">ISP Returns</div>
+            <h2>RLEAPP</h2>
+            <div class="lp-tool-fullname">Returns, Logs, Events &amp; Properties Parser</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-rleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-rleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/RLEAPP" class="lp-gh-link" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+        </div>
+        <div id="releases-rleapp" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases…</span></div>
+        </div>
+        <a href="https://github.com/abrignoni/RLEAPP/releases" class="lp-view-all" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View all RLEAPP releases on GitHub</a>
+      </section>
+
+      <!-- VLEAPP -->
+      <section class="lp-tool-section" id="section-vleapp">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">Vehicle Systems</div>
+            <h2>VLEAPP</h2>
+            <div class="lp-tool-fullname">Vehicle Logs, Events &amp; Plists Parser</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-vleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-vleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/VLEAPP" class="lp-gh-link" target="_blank" rel="noopener"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+        </div>
+        <div id="releases-vleapp" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases…</span></div>
+        </div>
+        <a href="https://github.com/abrignoni/VLEAPP/releases" class="lp-view-all" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>View all VLEAPP releases on GitHub</a>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="lp-footer">
+    <div class="lp-footer-logo">LEAPPs</div>
+    <p>Free &amp; open-source digital forensics tools for practitioners worldwide.</p>
+    <div class="lp-footer-links">
+      <a href="https://leapps.org">Home</a>
+      <a href="https://leapps.org/releases">Releases</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://leapps.org#mailing">Mailing List</a>
+    </div>
+  </footer>
+
+  <script>
+    const tools = [
+      { id: 'lava',   name: 'LAVA',   repo: 'leapps-org/LAVA-releases' },
+      { id: 'aleapp', name: 'ALEAPP', repo: 'abrignoni/ALEAPP' },
+      { id: 'ileapp', name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
+      { id: 'rleapp', name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
+      { id: 'vleapp', name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+    ];
+
+    function getOSIcon(name) {
+      const n = name.toLowerCase();
+      if (n.includes('win') || n.endsWith('.exe') || n.endsWith('.zip') && n.includes('win')) return '<i class="ti ti-brand-windows"></i>';
+      if (n.includes('mac') || n.endsWith('.dmg') || n.includes('darwin') || n.includes('macos')) return '<i class="ti ti-brand-apple"></i>';
+      if (n.endsWith('.deb') || n.endsWith('.rpm') || n.includes('linux') || n.endsWith('.tar.gz') || n.endsWith('.appimage')) return '<i class="ti ti-brand-ubuntu"></i>';
+      if (n.endsWith('.zip')) return '<i class="ti ti-file-zip"></i>';
+      return '<i class="ti ti-download"></i>';
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes) return '';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function truncateBody(body, max = 300) {
+      if (!body) return '';
+      const plain = body.replace(/#{1,6}\s/g, '').replace(/\*\*/g, '').replace(/\*/g, '').replace(/`/g, '').trim();
+      if (plain.length <= max) return plain;
+      return plain.slice(0, max).trimEnd() + '…';
+    }
+
+    function renderReleases(id, releases, tool) {
+      const container = document.getElementById('releases-' + id);
+      if (!releases || releases.length === 0) {
+        container.innerHTML = '<div class="lp-error">No releases found.</div>';
+        return;
+      }
+      const shown = releases;
+
+      function buildCard(r, i) {
+        const assets = (r.assets || []).filter(a => !a.name.includes('.blockmap') && !a.name.includes('latest'));
+        const assetBtns = assets.map((a, ai) => {
+          const isPrimary = ai === 0;
+          const dlCount = a.download_count > 0 ? `<span style="opacity:.5;font-size:.65rem;margin-left:.35rem"><i class="ti ti-download" style="font-size:.6rem"></i>${formatStars(a.download_count)}</span>` : '';
+          const copyId = `copy-${id}-${ai}`;
+          return `<div style="display:inline-flex;align-items:center;gap:0"><a href="${a.browser_download_url}" class="lp-asset-btn ${isPrimary ? 'primary' : ''}" target="_blank" rel="noopener">${getOSIcon(a.name)} ${a.name} ${a.size ? '<span style="opacity:.6;font-size:.65rem">' + formatBytes(a.size) + '</span>' : ''} ${dlCount}</a><button class="lp-copy-btn" id="${copyId}" onclick="copyUrl('${a.browser_download_url}','${copyId}')" title="Copy download URL"><i class="ti ti-clipboard"></i></button></div>`;
+        }).join('');
+        const body = truncateBody(r.body);
+        const releaseDlCount = assets.reduce((sum, a) => sum + (a.download_count || 0), 0);
+        const releaseDlStr = releaseDlCount > 0 ? `<span class="lp-release-dl-count"><i class="ti ti-download"></i>${formatStars(releaseDlCount)}</span>` : '';
+        const releaseUrl = `https://github.com/${tool.repo}/releases/tag/${r.tag_name}`;
+        const shareText = encodeURIComponent(`${tool.name} ${r.tag_name} just released! Download the latest forensics tools from LEAPPs. ${releaseUrl}`);
+        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(releaseUrl)}`;
+        const shareBtnId = `share-${id}-${i}`;
+        return `
+          <div class="lp-release-card ${i === 0 ? 'latest' : ''}">
+            <div class="lp-release-top">
+              <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
+                <span class="lp-release-version">${r.tag_name}</span>
+                ${i === 0 ? '<span class="lp-latest-badge">Latest</span>' : ''}
+                ${releaseDlStr}
+              </div>
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span class="lp-release-date">${formatDate(r.published_at)}</span>
+                <div class="lp-share-group">
+                  <a href="https://mastodon.social/share?text=${shareText}" class="lp-share-btn mastodon" target="_blank" rel="noopener" title="Share on Mastodon"><i class="ti ti-brand-mastodon"></i></a>
+                  <a href="https://bsky.app/intent/compose?text=${shareText}" class="lp-share-btn bluesky" target="_blank" rel="noopener" title="Share on Bluesky"><i class="ti ti-butterfly"></i></a>
+                  <a href="https://www.reddit.com/r/computerforensics/submit?url=${encodeURIComponent(releaseUrl)}&title=${encodeURIComponent(tool.name + ' ' + r.tag_name + ' released')}" class="lp-share-btn reddit" target="_blank" rel="noopener" title="Share on Reddit"><i class="ti ti-brand-reddit"></i></a>
+                  <a href="${linkedinUrl}" class="lp-share-btn linkedin" target="_blank" rel="noopener" title="Share on LinkedIn"><i class="ti ti-brand-linkedin"></i></a>
+                  <a href="mailto:?subject=${encodeURIComponent(tool.name + ' ' + r.tag_name + ' Released')}&body=${encodeURIComponent('New release: ' + tool.name + ' ' + r.tag_name + '\n\nDownload it here: ' + releaseUrl)}" class="lp-share-btn email" title="Share via Email"><i class="ti ti-mail"></i></a>
+                  <button class="lp-share-btn copy-link" id="${shareBtnId}" onclick="copyReleaseUrl('${releaseUrl}','${shareBtnId}')" title="Copy release link"><i class="ti ti-link"></i></button>
+                </div>
+              </div>
+            </div>
+            ${body ? `<div class="lp-release-body">${body}</div>` : ''}
+            ${assetBtns ? `<div class="lp-release-assets">${assetBtns}</div>` : ''}
+          </div>`;
+      }
+
+      const latest = buildCard(shown[0], 0);
+      const older = shown.slice(1);
+
+      let olderHTML = '';
+      if (older.length > 0) {
+        const cards = older.map((r, i) => buildCard(r, i + 1)).join('');
+        olderHTML = `
+          <div class="lp-older-toggle" onclick="this.classList.toggle('open')">
+            <span class="lp-older-label"><i class="ti ti-history"></i> ${older.length} older release${older.length > 1 ? 's' : ''}</span>
+            <i class="ti ti-chevron-down lp-chevron"></i>
+          </div>
+          <div class="lp-older-releases">
+            ${cards}
+          </div>`;
+      }
+
+      container.innerHTML = latest + olderHTML;
+    }
+
+    async function fetchReleases(tool) {
+      const container = document.getElementById('releases-' + tool.id);
+      try {
+        const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${tool.repo}/releases?per_page=100`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        renderReleases(tool.id, data, tool);
+      } catch (e) {
+        container.innerHTML = `<div class="lp-error">Could not load releases. <a href="https://github.com/${tool.repo}/releases" target="_blank" rel="noopener" style="color:var(--gold)">View on GitHub →</a></div>`;
+      }
+    }
+
+    tools.forEach(fetchReleases);
+
+    // Mobile hamburger menu
+    const hamburger = document.getElementById('lp-hamburger');
+    const mobileMenu = document.getElementById('lp-mobile-menu');
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    function closeMobileMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Fetch star counts
+    function formatStars(n) {
+      if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return n.toString();
+    }
+
+    async function fetchStars(tool) {
+      const el = document.getElementById('stars-releases-' + tool.id);
+      if (!el) return;
+      try {
+        const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${tool.repo}`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        el.innerHTML = `<i class="ti ti-star"></i>${formatStars(data.stargazers_count)}`;
+        el.classList.remove('loading');
+      } catch(e) {
+        el.style.display = 'none';
+      }
+    }
+
+    async function fetchTotalDownloads(tool) {
+      const el = document.getElementById('dlcount-releases-' + tool.id);
+      if (!el) return;
+      try {
+        const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${tool.repo}/releases?per_page=100`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const releases = await res.json();
+        const total = releases.reduce((sum, r) => {
+          return sum + (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0);
+        }, 0);
+        if (total > 0) {
+          el.innerHTML = `<i class="ti ti-download"></i>${formatStars(total)} downloads`;
+          el.classList.remove('loading');
+        } else {
+          el.style.display = 'none';
+        }
+      } catch(e) {
+        el.style.display = 'none';
+      }
+    }
+
+    // Copy release URL to clipboard
+    function copyReleaseUrl(url, btnId) {
+      navigator.clipboard.writeText(url).then(function() {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="ti ti-check"></i>';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<i class="ti ti-link"></i>';
+        }, 2000);
+      }).catch(function() {
+        const ta = document.createElement('textarea');
+        ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta);
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.classList.add('copied');
+          btn.innerHTML = '<i class="ti ti-check"></i>';
+          setTimeout(function() { btn.classList.remove('copied'); btn.innerHTML = '<i class="ti ti-link"></i>'; }, 2000);
+        }
+      });
+    }
+
+    // Copy URL to clipboard
+    function copyUrl(url, btnId) {
+      navigator.clipboard.writeText(url).then(function() {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        const icon = btn.querySelector('i');
+        btn.classList.add('copied');
+        icon.className = 'ti ti-check';
+        setTimeout(function() {
+          btn.classList.remove('copied');
+          icon.className = 'ti ti-clipboard';
+        }, 2000);
+      }).catch(function() {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          const icon = btn.querySelector('i');
+          btn.classList.add('copied');
+          icon.className = 'ti ti-check';
+          setTimeout(function() {
+            btn.classList.remove('copied');
+            icon.className = 'ti ti-clipboard';
+          }, 2000);
+        }
+      });
+    }
+
+    tools.forEach(fetchStars);
+    tools.forEach(fetchTotalDownloads);
+  </script>
+
+</body>
+</html>
