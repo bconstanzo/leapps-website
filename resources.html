@@ -194,6 +194,49 @@
     }
     .lp-res-card-icon i { font-size: 1.4rem; color: var(--gold); }
 
+    /* VIDEO META CHIP */
+    .lp-res-card-meta {
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .08em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .5rem;
+    }
+    .lp-res-card-meta span { display: flex; align-items: center; gap: .25rem; }
+
+    /* SUBMIT CTA */
+    .lp-submit-cta {
+      margin-top: 3rem;
+      border: 1px solid var(--border);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .lp-submit-cta-text {}
+    .lp-submit-cta-text p { font-size: .85rem; color: var(--muted); margin-top: .25rem; }
+    .lp-submit-cta-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; text-transform: uppercase; color: var(--text); }
+    .lp-submit-btn {
+      font-family: var(--font-head);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--off-black);
+      background: var(--gold);
+      padding: .6rem 1.4rem;
+      text-decoration: none !important;
+      white-space: nowrap;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+    .lp-submit-btn:hover { background: var(--gold-dk); }
+
     /* MENTION CARDS */
     .lp-mentions-grid {
       display: grid;
@@ -351,6 +394,15 @@
 
   <main class="lp-main">
 
+    <!-- SUBMIT CTA -->
+    <div class="lp-submit-cta">
+      <div class="lp-submit-cta-text">
+        <div class="lp-submit-cta-title">Know a resource we're missing?</div>
+        <p>Share guides, videos, courses, or community projects with the LEAPPs community via Discord.</p>
+      </div>
+      <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener" class="lp-submit-btn">Suggest a Resource <i class="ti ti-arrow-up-right"></i></a>
+    </div>
+
     <!-- COMMUNITY -->
     <div class="lp-res-section">
       <div class="lp-res-section-label"><i class="ti ti-users"></i> Community</div>
@@ -419,6 +471,10 @@
           </div>
           <div class="lp-res-card-body">
             <div class="lp-res-card-type"><i class="ti ti-brand-youtube"></i> YouTube · Live session</div>
+            <div class="lp-res-card-meta">
+              <span><i class="ti ti-clock"></i> 28:04</span>
+              <span><i class="ti ti-calendar"></i> Jul 30, 2025</span>
+            </div>
             <div class="lp-res-card-title">How to Make LAVA Compliant Artifacts</div>
             <div class="lp-res-card-desc">A walkthrough on building artifacts that conform to the LAVA output format, so your parsed data renders correctly in the LEAPP Artifact Viewer App.</div>
             <div class="lp-res-card-link">Watch on YouTube <i class="ti ti-arrow-up-right"></i></div>
@@ -432,6 +488,10 @@
           </div>
           <div class="lp-res-card-body">
             <div class="lp-res-card-type"><i class="ti ti-brand-youtube"></i> YouTube</div>
+            <div class="lp-res-card-meta">
+              <span><i class="ti ti-clock"></i> 16:27</span>
+              <span><i class="ti ti-calendar"></i> May 24, 2026</span>
+            </div>
             <div class="lp-res-card-title">Build Chat Conversations in LAVA</div>
             <div class="lp-res-card-desc">Learn how to structure and display chat conversation artifacts inside the LEAPP Artifact Viewer App.</div>
             <div class="lp-res-card-link">Watch on YouTube <i class="ti ti-arrow-up-right"></i></div>
@@ -445,6 +505,10 @@
           </div>
           <div class="lp-res-card-body">
             <div class="lp-res-card-type"><i class="ti ti-brand-youtube"></i> YouTube · Hexordia</div>
+            <div class="lp-res-card-meta">
+              <span><i class="ti ti-clock"></i> 5:05</span>
+              <span><i class="ti ti-calendar"></i> Jul 3, 2025</span>
+            </div>
             <div class="lp-res-card-title">ALEAPP Walkthrough</div>
             <div class="lp-res-card-desc">A practical walkthrough of ALEAPP by Hexordia — covering installation, running an Android extraction, and interpreting the parsed artifact reports.</div>
             <div class="lp-res-card-link">Watch on YouTube <i class="ti ti-arrow-up-right"></i></div>
@@ -458,8 +522,29 @@
           </div>
           <div class="lp-res-card-body">
             <div class="lp-res-card-type"><i class="ti ti-brand-youtube"></i> YouTube · Hexordia</div>
+            <div class="lp-res-card-meta">
+              <span><i class="ti ti-clock"></i> 8:48</span>
+              <span><i class="ti ti-calendar"></i> Jul 3, 2025</span>
+            </div>
             <div class="lp-res-card-title">iLEAPP Walkthrough</div>
             <div class="lp-res-card-desc">A practical walkthrough of iLEAPP by Hexordia — covering installation, running an extraction, and interpreting the parsed artifact reports.</div>
+            <div class="lp-res-card-link">Watch on YouTube <i class="ti ti-arrow-up-right"></i></div>
+          </div>
+        </a>
+
+        <a class="lp-res-card" href="https://www.youtube.com/live/17TQn7IsM4E" target="_blank" rel="noopener">
+          <div class="lp-res-card-thumb">
+            <img src="https://img.youtube.com/vi/17TQn7IsM4E/maxresdefault.jpg" alt="LAVA usage demo thumbnail" loading="lazy" />
+            <div class="lp-res-play"><i class="ti ti-player-play-filled"></i></div>
+          </div>
+          <div class="lp-res-card-body">
+            <div class="lp-res-card-type"><i class="ti ti-brand-youtube"></i> YouTube · Live session</div>
+            <div class="lp-res-card-meta">
+              <span><i class="ti ti-clock"></i> 18:38</span>
+              <span><i class="ti ti-calendar"></i> Sep 7, 2025</span>
+            </div>
+            <div class="lp-res-card-title">LAVA Usage Demo</div>
+            <div class="lp-res-card-desc">A live demonstration of the LEAPP Artifact Viewer App — exploring parsed artifacts, navigating the interface, and getting the most out of LAVA's features.</div>
             <div class="lp-res-card-link">Watch on YouTube <i class="ti ti-arrow-up-right"></i></div>
           </div>
         </a>
