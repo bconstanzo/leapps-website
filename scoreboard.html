@@ -139,6 +139,24 @@
     .rank-badge.rank-4 { background: rgba(245,192,32,.12);  color: var(--rank-4); border: 1px solid rgba(245,192,32,.3); }
     .rank-badge.rank-5 { background: rgba(232,118,45,.12);  color: var(--rank-5); border: 1px solid rgba(232,118,45,.3); }
 
+    /* SCOREBOARD CONTROLS */
+    .lp-sb-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+    .lp-sb-search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .lp-sb-search-wrap i { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; pointer-events: none; }
+    .lp-sb-search { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: .875rem; padding: .55rem .75rem .55rem 2.25rem; outline: none; transition: border-color .2s; }
+    .lp-sb-search::placeholder { color: #555; }
+    .lp-sb-search:focus { border-color: #444; }
+    .lp-sb-tool-filter { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .lp-sb-tool-btn { font-family: var(--font-mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; padding: .35rem .85rem; border: 1px solid var(--border); color: var(--muted); background: none; cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+    .lp-sb-tool-btn:hover { border-color: #444; color: var(--text); }
+    .lp-sb-tool-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(245,192,32,.08); }
+    .lp-sb-tool-btn[data-tool="iLEAPP"].active { border-color: #ff7070; color: #ff7070; background: rgba(255,112,112,.08); }
+    .lp-sb-tool-btn[data-tool="ALEAPP"].active { border-color: #6ddc8c; color: #6ddc8c; background: rgba(109,220,140,.08); }
+    .lp-sb-tool-btn[data-tool="RLEAPP"].active { border-color: #64b4ff; color: #64b4ff; background: rgba(100,180,255,.08); }
+    .lp-sb-tool-btn[data-tool="VLEAPP"].active { border-color: #bf80ff; color: #bf80ff; background: rgba(191,128,255,.08); }
+    .lp-sb-results { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; color: var(--muted); margin-bottom: .75rem; min-height: 1.2rem; }
+    .lp-sb-results span { color: var(--gold); }
+
     /* LOADING / STATES */
     .lp-loading-row td { color: #555; font-family: var(--font-mono); font-size: .75rem; text-align: center !important; padding: 3rem; }
     .lp-progress { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); margin-bottom: 1rem; letter-spacing: .06em; }
@@ -278,6 +296,20 @@
       <span class="lp-section-label">All-Time Standings</span>
       <h2 class="lp-section-title">Leaderboard</h2>
       <div class="lp-progress" id="lp-progress"></div>
+      <div class="lp-sb-tool-filter">
+        <button class="lp-sb-tool-btn active" data-tool="all">All Tools</button>
+        <button class="lp-sb-tool-btn" data-tool="iLEAPP">iLEAPP</button>
+        <button class="lp-sb-tool-btn" data-tool="ALEAPP">ALEAPP</button>
+        <button class="lp-sb-tool-btn" data-tool="RLEAPP">RLEAPP</button>
+        <button class="lp-sb-tool-btn" data-tool="VLEAPP">VLEAPP</button>
+      </div>
+      <div class="lp-sb-controls">
+        <div class="lp-sb-search-wrap">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <input class="lp-sb-search" id="sb-search" type="search" placeholder="Search by username…" />
+        </div>
+      </div>
+      <div class="lp-sb-results" id="sb-results"></div>
       <table class="lp-table" aria-label="Contributor leaderboard">
         <thead>
           <tr>
@@ -406,49 +438,19 @@
           }
         });
 
-        const sorted = Object.values(merged)
+        allSorted = Object.values(merged)
           .filter(c => c.prs > 0)
           .sort((a, b) => b.prs - a.prs || a.login.localeCompare(b.login));
 
         progressEl.textContent = '';
 
-        if (sorted.length === 0) {
+        if (allSorted.length === 0) {
           tbody.innerHTML = '<tr class="lp-loading-row"><td colspan="5">No data found.</td></tr>';
           return;
         }
 
-        tbody.innerHTML = sorted.map((c, idx) => {
-          const pos    = idx + 1;
-          const rank   = getRank(c.prs);
-          const posClass = pos <= 3 ? ` pos-${pos}` : '';
-          const repoNames = ['iLEAPP','ALEAPP','RLEAPP','VLEAPP'];
-          const badgeMap  = { iLEAPP: 'badge-ileapp', ALEAPP: 'badge-aleapp', RLEAPP: 'badge-rleapp', VLEAPP: 'badge-vleapp' };
-
-          const repoBadges = repoNames
-            .filter(name => c.repos.has(name))
-            .map(name => `<span class="repo-badge ${badgeMap[name]}">${escapeHtml(name)}</span>`)
-            .join('');
-
-          const rankBadge = rank
-            ? `<span class="rank-badge ${rank.cls}"><i class="ti ${rank.icon}" aria-hidden="true"></i>${escapeHtml(rank.title)}</span>`
-            : '';
-
-          const safeLogin  = escapeHtml(c.login);
-          const safeAvatar = escapeHtml(c.avatar + '&s=64');
-
-          return `<tr>
-            <td><span class="pos-num${posClass}">${pos}</span></td>
-            <td>
-              <div class="contrib-cell">
-                <img class="contrib-avatar" src="${safeAvatar}" alt="" loading="lazy" width="32" height="32" />
-                <a class="contrib-login" href="https://github.com/${safeLogin}" target="_blank" rel="noopener">${safeLogin}</a>
-              </div>
-            </td>
-            <td class="pr-count">${c.prs}</td>
-            <td><div class="repo-badges">${repoBadges}</div></td>
-            <td style="text-align:right">${rankBadge}</td>
-          </tr>`;
-        }).join('');
+        renderRows(allSorted);
+        applyScoreboardFilters();
 
         const now = new Date();
         updatedEl.textContent = 'Last updated: '
@@ -462,6 +464,75 @@
         tbody.innerHTML = '<tr class="lp-loading-row"><td colspan="5">Could not load GitHub data. <a href="https://github.com/abrignoni" style="color:var(--gold)">View on GitHub →</a></td></tr>';
       }
     }
+
+    let allSorted = [];
+    let activeToolFilter = 'all';
+    let searchQuery = '';
+
+    function renderRows(contributors) {
+      const tbody = document.getElementById('scoreboard-tbody');
+      const repoNames = ['iLEAPP','ALEAPP','RLEAPP','VLEAPP'];
+      const badgeMap  = { iLEAPP: 'badge-ileapp', ALEAPP: 'badge-aleapp', RLEAPP: 'badge-rleapp', VLEAPP: 'badge-vleapp' };
+      tbody.innerHTML = contributors.map((c, idx) => {
+        const pos      = idx + 1;
+        const rank     = getRank(c.prs);
+        const posClass = pos <= 3 ? ` pos-${pos}` : '';
+        const repoBadges = repoNames
+          .filter(name => c.repos.has(name))
+          .map(name => `<span class="repo-badge ${badgeMap[name]}">${escapeHtml(name)}</span>`)
+          .join('');
+        const rankBadge = rank
+          ? `<span class="rank-badge ${rank.cls}"><i class="ti ${rank.icon}" aria-hidden="true"></i>${escapeHtml(rank.title)}</span>`
+          : '';
+        const safeLogin  = escapeHtml(c.login);
+        const safeAvatar = escapeHtml(c.avatar + '&s=64');
+        return `<tr>
+          <td><span class="pos-num${posClass}">${pos}</span></td>
+          <td>
+            <div class="contrib-cell">
+              <img class="contrib-avatar" src="${safeAvatar}" alt="" loading="lazy" width="32" height="32" />
+              <a class="contrib-login" href="https://github.com/${safeLogin}" target="_blank" rel="noopener">${safeLogin}</a>
+            </div>
+          </td>
+          <td class="pr-count">${c.prs}</td>
+          <td><div class="repo-badges">${repoBadges}</div></td>
+          <td style="text-align:right">${rankBadge}</td>
+        </tr>`;
+      }).join('') || '<tr class="lp-loading-row"><td colspan="5">No contributors match.</td></tr>';
+    }
+
+    function applyScoreboardFilters() {
+      if (!allSorted.length) return;
+      const q = searchQuery.toLowerCase();
+      const filtered = allSorted.filter(c => {
+        const toolMatch = activeToolFilter === 'all' || c.repos.has(activeToolFilter);
+        const searchMatch = !q || c.login.toLowerCase().includes(q);
+        return toolMatch && searchMatch;
+      });
+      renderRows(filtered);
+      const resultsEl = document.getElementById('sb-results');
+      if (activeToolFilter !== 'all' || q) {
+        resultsEl.innerHTML = `Showing <span>${filtered.length}</span> of <span>${allSorted.length}</span> contributors`;
+      } else {
+        resultsEl.innerHTML = '';
+      }
+    }
+
+    // Tool filter buttons
+    document.querySelectorAll('.lp-sb-tool-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lp-sb-tool-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeToolFilter = btn.dataset.tool;
+        applyScoreboardFilters();
+      });
+    });
+
+    // Username search
+    document.getElementById('sb-search').addEventListener('input', e => {
+      searchQuery = e.target.value.trim();
+      applyScoreboardFilters();
+    });
 
     fetchScoreboard();
 

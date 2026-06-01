@@ -88,6 +88,7 @@
     .lp-artifact-stats { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
     .lp-artifact-stat-num { font-family: var(--font-head); font-size: 1.5rem; font-weight: 900; color: var(--gold); }
     .lp-artifact-stat-lbl { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .1rem; }
+    .lp-stat-filtered { font-family: var(--font-mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .75rem; display: none; }
 
     /* CONTROLS */
     .lp-controls { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem; }
@@ -275,6 +276,7 @@
         <div class="lp-artifact-stat-num" id="stat-tools">4</div>
         <div class="lp-artifact-stat-lbl">Tools</div>
       </div>
+      <div class="lp-stat-filtered" id="stat-filtered-label">Filtered view</div>
     </div>
 
     <!-- ERRORS (populated if any tool fails) -->
@@ -538,17 +540,30 @@
     function applyFilters() {
       const rows = document.querySelectorAll('#artifacts-tbody tr[data-tool]');
       let visible = 0;
+      const visibleCats = new Set();
+      const visibleTools = new Set();
       rows.forEach(row => {
         const toolMatch = activeTool === 'all' || row.dataset.tool === activeTool;
         const catMatch = activeCategory === 'all' || row.dataset.category === activeCategory;
         const searchMatch = !searchQuery || row.dataset.search.includes(searchQuery);
         const show = toolMatch && catMatch && searchMatch;
         row.classList.toggle('hidden', !show);
-        if (show) visible++;
+        if (show) {
+          visible++;
+          visibleCats.add(row.dataset.category);
+          visibleTools.add(row.dataset.tool);
+        }
       });
+
       const meta = document.getElementById('results-meta');
       meta.innerHTML = `Showing <span>${visible}</span> of <span>${allArtifacts.length}</span> artifacts`;
       document.getElementById('no-results').classList.toggle('visible', visible === 0 && allArtifacts.length > 0);
+
+      const isFiltered = activeTool !== 'all' || activeCategory !== 'all' || searchQuery;
+      document.getElementById('stat-total').textContent = visible.toLocaleString();
+      document.getElementById('stat-categories').textContent = visibleCats.size.toLocaleString();
+      document.getElementById('stat-tools').textContent = visibleTools.size.toLocaleString();
+      document.getElementById('stat-filtered-label').style.display = isFiltered ? 'block' : 'none';
     }
 
     function renderAll() {
