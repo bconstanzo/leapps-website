@@ -139,6 +139,7 @@
       .lp-hamburger { display: flex; }
       .lp-nav-cta { display: none; }
       .lp-table th:nth-child(n+4), .lp-table td:nth-child(n+4) { display: none; }
+      .lp-table th:nth-child(-n+3), .lp-table td:nth-child(-n+3) { display: table-cell; }
     }
     /* THEME TOGGLE */
     [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
@@ -154,6 +155,9 @@
     [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
     .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+    .lp-share-btn { position: absolute; top: .75rem; right: .75rem; background: none; border: none; color: var(--border); cursor: pointer; font-size: .85rem; padding: 2px 4px; transition: color .2s; line-height: 1; }
+    .lp-share-btn:hover { color: var(--gold); }
+    .lp-share-btn.copied { color: var(--gold); }
   </style>
   <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('lp-theme')||'dark');</script>
 </head>
@@ -224,30 +228,35 @@
     <!-- GLOBAL METRICS -->
     <div class="lp-metric-grid">
       <div class="lp-metric-card">
+        <button class="lp-share-btn" aria-label="Copy stat" onclick="copyMetric(this,'Total downloads','m-downloads')"><i class="ti ti-copy" aria-hidden="true"></i></button>
         <i class="ti ti-download lp-metric-icon" aria-hidden="true"></i>
         <div class="lp-metric-label">Total downloads</div>
         <div class="lp-metric-value loading" id="m-downloads">—</div>
         <div class="lp-metric-sub">across all tools</div>
       </div>
       <div class="lp-metric-card">
+        <button class="lp-share-btn" aria-label="Copy stat" onclick="copyMetric(this,'Total stars','m-stars')"><i class="ti ti-copy" aria-hidden="true"></i></button>
         <i class="ti ti-star lp-metric-icon" aria-hidden="true"></i>
         <div class="lp-metric-label">Total stars</div>
         <div class="lp-metric-value loading" id="m-stars">—</div>
         <div class="lp-metric-sub">across all repos</div>
       </div>
       <div class="lp-metric-card">
+        <button class="lp-share-btn" aria-label="Copy stat" onclick="copyMetric(this,'Contributors','m-contributors')"><i class="ti ti-copy" aria-hidden="true"></i></button>
         <i class="ti ti-users lp-metric-icon" aria-hidden="true"></i>
         <div class="lp-metric-label">Contributors</div>
         <div class="lp-metric-value loading" id="m-contributors">—</div>
         <div class="lp-metric-sub">unique across repos</div>
       </div>
       <div class="lp-metric-card">
+        <button class="lp-share-btn" aria-label="Copy stat" onclick="copyMetric(this,'Total releases','m-releases')"><i class="ti ti-copy" aria-hidden="true"></i></button>
         <i class="ti ti-package lp-metric-icon" aria-hidden="true"></i>
         <div class="lp-metric-label">Total releases</div>
         <div class="lp-metric-value loading" id="m-releases">—</div>
         <div class="lp-metric-sub">across all tools</div>
       </div>
       <div class="lp-metric-card">
+        <button class="lp-share-btn" aria-label="Copy stat" onclick="copyMetric(this,'Total commits','m-commits')"><i class="ti ti-copy" aria-hidden="true"></i></button>
         <i class="ti ti-git-commit lp-metric-icon" aria-hidden="true"></i>
         <div class="lp-metric-label">Total commits</div>
         <div class="lp-metric-value loading" id="m-commits">—</div>
@@ -291,6 +300,8 @@
             <th>Tool</th>
             <th>Downloads</th>
             <th>Stars</th>
+            <th>Forks</th>
+            <th>Open Issues</th>
             <th>Contributors</th>
             <th>Releases</th>
             <th>Commits</th>
@@ -411,6 +422,8 @@
           return {
             name: t.name, platform: t.platform, openSource: t.openSource,
             stars: repo.stargazers_count || 0,
+            forks: repo.forks_count || 0,
+            openIssues: repo.open_issues_count || 0,
             releases: Array.isArray(releases) ? releases.length : 0,
             downloads, commits, contributors
           };
@@ -476,6 +489,8 @@
               ${fmt(r.stars)}
               <div class="lp-bar-wrap"><div class="lp-bar-fill lp-bar-star" style="width:${maxStar > 0 ? Math.round(r.stars/maxStar*100) : 0}%"></div></div>
             </td>
+            <td>${fmt(r.forks)}</td>
+            <td>${fmt(r.openIssues)}</td>
             <td>${r.openSource ? fmt(r.contributors) + '+' : '—'}</td>
             <td>${fmt(r.releases)}</td>
             <td>${r.openSource ? fmt(r.commits) : '—'}</td>
@@ -483,8 +498,22 @@
 
       } catch(e) {
         document.getElementById('lp-updated').textContent = 'Could not load data. Please try again later.';
-        document.getElementById('stats-tbody').innerHTML = '<tr class="lp-loading-row"><td colspan="6">Could not load GitHub data. <a href="https://github.com/abrignoni" style="color:var(--gold)">View on GitHub →</a></td></tr>';
+        document.getElementById('stats-tbody').innerHTML = '<tr class="lp-loading-row"><td colspan="8">Could not load GitHub data. <a href="https://github.com/abrignoni" style="color:var(--gold)">View on GitHub →</a></td></tr>';
       }
+    }
+
+    function copyMetric(btn, label, valueId) {
+      const val = document.getElementById(valueId).textContent.trim();
+      if (!val || val === '—') return;
+      navigator.clipboard.writeText(`LEAPPs ${label}: ${val}`).then(() => {
+        btn.classList.add('copied');
+        const icon = btn.querySelector('i');
+        icon.className = 'ti ti-check';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          icon.className = 'ti ti-copy';
+        }, 1500);
+      });
     }
 
     fetchStats();
