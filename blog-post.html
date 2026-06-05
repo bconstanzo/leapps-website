@@ -282,8 +282,19 @@
     .lp-footer a { color: var(--muted); text-decoration: none; }
     .lp-footer a:hover { color: var(--gold); }
 
+    .lp-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .lp-hamburger span { display: block; width: 100%; height: 2px; background: var(--text); transition: transform .25s, opacity .25s; transform-origin: center; }
+    .lp-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .lp-hamburger.open span:nth-child(2) { opacity: 0; }
+    .lp-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .lp-mobile-menu { display: none; position: fixed; top: 57px; left: 0; right: 0; background: rgba(14,14,14,.98); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 999; padding: 1rem 2rem 1.5rem; flex-direction: column; gap: .25rem; }
+    .lp-mobile-menu.open { display: flex; }
+    .lp-mobile-menu a { color: var(--muted); text-decoration: none; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; padding: .75rem 0; border-bottom: 1px solid var(--border); transition: color .2s; }
+    .lp-mobile-menu a:last-child { border-bottom: none; }
+    .lp-mobile-menu a:hover { color: var(--gold); }
     @media (max-width: 640px) {
       .lp-nav-links { display: none; }
+      .lp-hamburger { display: flex; }
       .post-header h1 { font-size: 2rem; }
     }
   </style>
@@ -303,7 +314,26 @@
       <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <a href="https://leapps.org/#download" class="lp-nav-cta">Get Tools</a>
+    <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
+    <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
+    <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
+    <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
+    <a href="https://leapps.org/artifacts" onclick="closeMobileMenu()">Artifacts</a>
+    <a href="https://leapps.org#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
+    <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
+    <a href="https://leapps.org/scoreboard" onclick="closeMobileMenu()">Scoreboard</a>
+    <a href="https://leapps.org#mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://leapps.org/resources" onclick="closeMobileMenu()">Resources</a>
+    <a href="https://leapps.org/blog" onclick="closeMobileMenu()">Blog</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+  </div>
 
   <main class="post-wrap">
     <div class="breadcrumb">
@@ -420,6 +450,13 @@
     }
 
     loadPost();
+
+    // Mobile menu
+    const hamburger = document.getElementById('lp-hamburger');
+    const mobileMenu = document.getElementById('lp-mobile-menu');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+    function closeMobileMenu() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }
+    document.addEventListener('click', e => { if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu(); });
   </script>
 </body>
 </html>
