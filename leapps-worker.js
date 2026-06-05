@@ -101,8 +101,8 @@ export default {
 async function handleBlogRequest(url, env) {
   const filePath = url.pathname.replace(/^\/blog\/posts\//, '');
 
-  // Only allow index.json and .md files, no path traversal
-  if (!filePath.match(/^(index\.json|[\w-]+\.md)$/)) {
+  // Only allow index.json, feed.xml, and .md files, no path traversal
+  if (!filePath.match(/^(index\.json|feed\.xml|[\w-]+\.md)$/)) {
     return corsResponse(JSON.stringify({ error: 'Not found' }), 404);
   }
 
@@ -127,7 +127,9 @@ async function handleBlogRequest(url, env) {
     return corsResponse(JSON.stringify({ error: 'Post not found' }), 404);
   }
 
-  const contentType = filePath.endsWith('.json') ? 'application/json' : 'text/markdown; charset=utf-8';
+  const contentType = filePath.endsWith('.json') ? 'application/json'
+    : filePath.endsWith('.xml') ? 'application/rss+xml; charset=utf-8'
+    : 'text/markdown; charset=utf-8';
   const body = await upstream.text();
 
   const responseToCache = new Response(body, {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LEAPPs Blog</title>
+    <link>https://leapps.org/blog</link>
+    <description>Forensics deep dives, tool updates, artifact write-ups, and community contributions from the LEAPPs project.</description>
+    <language>en-us</language>
+    <atom:link href="https://leapps-api.4n6-198.workers.dev/blog/posts/feed.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Introducing the LEAPPs Blog</title>
+      <link>https://leapps.org/blog-post?post=2026-06-05-introducing-the-leapps-blog</link>
+      <guid isPermaLink="true">https://leapps.org/blog-post?post=2026-06-05-introducing-the-leapps-blog</guid>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 +0000</pubDate>
+      <author>Alexis Brignoni</author>
+      <description>The LEAPPs project now has a blog — a place for artifact deep dives, tool updates, and community write-ups. Here&apos;s how it works and how you can contribute.</description>
+    </item>
+
+  </channel>
+</rss>

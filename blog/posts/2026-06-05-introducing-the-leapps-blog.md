@@ -70,7 +70,24 @@ Open `blog/posts/index.json` and add an entry at the top of the array:
 }
 ```
 
-### 4. Open a pull request
+### 4. Add your post to the RSS feed
+
+Open `blog/posts/feed.xml` and add a new `<item>` block at the top, inside `<channel>`, just before the first existing `<item>`:
+
+```xml
+<item>
+  <title>Your Post Title</title>
+  <link>https://leapps.org/blog-post?post=2026-06-05-your-post-title</link>
+  <guid isPermaLink="true">https://leapps.org/blog-post?post=2026-06-05-your-post-title</guid>
+  <pubDate>Fri, 05 Jun 2026 00:00:00 +0000</pubDate>
+  <author>Your Name</author>
+  <description>A one or two sentence summary.</description>
+</item>
+```
+
+Use the correct [RFC 2822 date format](https://www.rfc-editor.org/rfc/rfc2822#section-3.3) for `<pubDate>` (e.g. `Fri, 05 Jun 2026 00:00:00 +0000`).
+
+### 5. Open a pull request
 
 Submit your PR against the `main` branch. All posts are reviewed before merging.
 
