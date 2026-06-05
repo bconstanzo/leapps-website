@@ -82,4 +82,4 @@ Posts support standard Markdown: headings, bold, italic, lists, links, images, c
 
 If you've done forensic research with any of the LEAPPs tools and want to share it, this is the place. Open a PR.
 
-— Alexis
+— Brigs
