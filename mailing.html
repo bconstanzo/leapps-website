@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mailing List — LEAPPs</title>
+  <meta name="description" content="Stay up to date with LEAPPs — get notified about new tool releases, parser updates, and forensics community news." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leapps.org/mailing" />
+  <meta property="og:title" content="Mailing List — LEAPPs" />
+  <meta property="og:description" content="Stay up to date with LEAPPs — get notified about new tool releases, parser updates, and forensics community news." />
+  <meta property="og:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <meta property="og:site_name" content="LEAPPs" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mailing List — LEAPPs" />
+  <meta name="twitter:description" content="Stay up to date with LEAPPs — no spam, just signal." />
+  <meta name="twitter:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng" />
+  <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng" />
+  <meta name="theme-color" content="#F5C020" />
+  <link rel="canonical" href="https://leapps.org/mailing" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #F5C020; --gold-dk: #D4A010; --off-black: #0E0E0E;
+      --surface: #161616; --border: #2C2C2C; --text: #F0EDE6; --muted: #888888;
+      --font-head: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--off-black); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+
+    /* NAV */
+    .lp-nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(14,14,14,0.96); backdrop-filter: blur(8px); z-index: 1000; }
+    .lp-nav-logo { font-family: var(--font-head); font-size: 1.4rem; font-weight: 900; letter-spacing: .05em; color: var(--text); text-decoration: none; }
+    .lp-nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .lp-nav-links a { color: var(--muted); text-decoration: none !important; font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; transition: color .2s; }
+    .lp-nav-links a:hover { color: var(--gold); }
+    .lp-nav-links a.active { color: var(--gold); }
+    .lp-nav-cta { background: var(--gold); color: var(--off-black) !important; padding: .5rem 1.25rem; font-family: var(--font-head); font-weight: 700; font-size: .9rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none !important; transition: background .2s; }
+    .lp-nav-cta:hover { background: var(--gold-dk) !important; }
+
+    /* DROPDOWN */
+    .lp-nav-dropdown { position: relative; }
+    .lp-nav-dropdown-trigger { color: var(--muted); font-size: .875rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: .3rem; transition: color .2s; user-select: none; }
+    .lp-nav-dropdown-trigger:hover { color: var(--gold); }
+    .lp-nav-dropdown-menu { display: none; position: absolute; top: calc(100% + .75rem); left: 50%; transform: translateX(-50%); background: rgba(14,14,14,.98); border: 1px solid var(--border); min-width: 180px; z-index: 200; padding: .5rem 0; }
+    .lp-nav-dropdown-menu a { display: flex; align-items: center; gap: .6rem; padding: .55rem 1rem; color: var(--muted); font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; text-decoration: none !important; transition: color .2s, background .2s; white-space: nowrap; }
+    .lp-nav-dropdown-menu a:hover { color: var(--gold); background: rgba(245,192,32,.06); }
+    .lp-nav-dropdown:hover .lp-nav-dropdown-menu { display: block; }
+    .lp-nav-dropdown-menu::before { content: ''; position: absolute; top: -.75rem; left: 0; right: 0; height: .75rem; }
+    .lp-chev { font-size: .7rem; transition: transform .2s; }
+    .lp-nav-dropdown:hover .lp-chev { transform: rotate(180deg); }
+
+    /* HAMBURGER */
+    .lp-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: .25rem; }
+    .lp-hamburger span { display: block; width: 22px; height: 2px; background: var(--text); transition: .3s; }
+    .lp-mobile-menu { display: none; flex-direction: column; background: rgba(14,14,14,.98); border-bottom: 1px solid var(--border); padding: 1rem 2rem 1.5rem; gap: .1rem; }
+    .lp-mobile-menu.open { display: flex; }
+    .lp-mobile-menu a { color: var(--muted); text-decoration: none !important; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; padding: .55rem 0; border-bottom: 1px solid var(--border); transition: color .2s; }
+    .lp-mobile-menu a:last-child { border-bottom: none; }
+    .lp-mobile-menu a:hover { color: var(--gold); }
+
+    /* HEADER */
+    .lp-header { padding: 4rem 2rem 3rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .lp-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(245,192,32,.06) 0%, transparent 70%); pointer-events: none; }
+    .lp-header-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .lp-eyebrow { display: inline-block; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .lp-header h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 900; text-transform: uppercase; line-height: .95; margin-bottom: 1rem; }
+    .lp-header h1 span { color: var(--gold); }
+    .lp-header p { color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* MAILING SECTION */
+    .lp-main { max-width: 700px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+    .lp-perks { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .lp-perk { display: flex; align-items: center; gap: .5rem; font-family: var(--font-mono); font-size: .78rem; color: var(--muted); letter-spacing: .06em; }
+    .lp-perk i { color: var(--gold); font-size: 1rem; }
+    .lp-form-wrap { background: var(--surface); border: 1px solid var(--border); padding: 2rem; }
+    .lp-form-wrap iframe { display: block; width: 100%; min-height: 160px; border: none; }
+    .lp-note { text-align: center; font-size: .78rem; color: #555; margin-top: 1.25rem; font-family: var(--font-mono); letter-spacing: .06em; }
+
+    /* FOOTER */
+    .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+    .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .lp-footer p { font-size: .8rem; color: #555; }
+    .lp-footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .lp-footer-links a { color: #555 !important; text-decoration: none !important; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .lp-footer-links a:hover { color: var(--gold) !important; }
+
+    @media (max-width: 768px) {
+      .lp-nav-links { display: none; }
+      .lp-hamburger { display: flex; }
+      .lp-nav-cta { display: none; }
+    }
+
+    /* THEME */
+    [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
+    #lp-root { margin: 0 8px; }
+    [data-theme="light"] body, [data-theme="light"] #lp-root { background-color: #F5F2EC !important; }
+    [data-theme="light"] body { color: #1C1A14 !important; }
+    [data-theme="light"] .lp-nav { background: rgba(245,242,236,0.96); }
+    [data-theme="light"] .lp-nav-dropdown-menu { background: rgba(245,242,236,.98); }
+    [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
+    .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
+    .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  </style>
+  <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('lp-theme')||'dark');</script>
+</head>
+<body>
+<div id="lp-root">
+
+  <nav class="lp-nav">
+    <a href="https://leapps.org" class="lp-nav-logo">LEAPPs</a>
+    <ul class="lp-nav-links">
+      <li class="lp-nav-dropdown">
+        <div class="lp-nav-dropdown-trigger">Tools <i class="ti ti-chevron-down lp-chev" aria-hidden="true"></i></div>
+        <div class="lp-nav-dropdown-menu">
+          <a href="https://leapps.org#tools"><i class="ti ti-layout-grid" aria-hidden="true"></i>All Tools</a>
+          <a href="https://leapps.org#lava"><i class="ti ti-eye" aria-hidden="true"></i>LAVA</a>
+          <a href="https://leapps.org/releases"><i class="ti ti-download" aria-hidden="true"></i>Releases</a>
+          <a href="https://leapps.org/artifacts"><i class="ti ti-database" aria-hidden="true"></i>Artifacts</a>
+        </div>
+      </li>
+      <li><a href="https://leapps.org/stats">Stats</a></li>
+      <li><a href="https://leapps.org/changelog">Changelog</a></li>
+      <li class="lp-nav-dropdown">
+        <div class="lp-nav-dropdown-trigger">Community <i class="ti ti-chevron-down lp-chev" aria-hidden="true"></i></div>
+        <div class="lp-nav-dropdown-menu">
+          <a href="https://leapps.org#faq"><i class="ti ti-help-circle" aria-hidden="true"></i>FAQ</a>
+          <a href="https://leapps.org#mentions"><i class="ti ti-award" aria-hidden="true"></i>Featured</a>
+          <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
+          <a href="https://leapps.org/scoreboard"><i class="ti ti-trophy" aria-hidden="true"></i>Scoreboard</a>
+          <a href="https://leapps.org/mailing" class="active"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
+          <a href="https://leapps.org/resources"><i class="ti ti-books" aria-hidden="true"></i>Resources</a>
+        </div>
+      </li>
+      <li><a href="https://leapps.org/blog">Blog</a></li>
+      <li><a href="https://leapps.org/about">About</a></li>
+      <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+    <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
+    <button class="lp-theme-toggle" id="lp-theme-toggle" aria-label="Toggle theme"><i class="ti ti-sun" id="lp-theme-icon" aria-hidden="true"></i></button>
+    <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="lp-mobile-menu" id="lp-mobile-menu">
+    <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
+    <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
+    <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
+    <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
+    <a href="https://leapps.org/artifacts" onclick="closeMobileMenu()">Artifacts</a>
+    <a href="https://leapps.org#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
+    <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
+    <a href="https://leapps.org/scoreboard" onclick="closeMobileMenu()">Scoreboard</a>
+    <a href="https://leapps.org/mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://leapps.org/resources" onclick="closeMobileMenu()">Resources</a>
+    <a href="https://leapps.org/blog" onclick="closeMobileMenu()">Blog</a>
+    <a href="https://leapps.org/about" onclick="closeMobileMenu()">About</a>
+    <a href="https://github.com/abrignoni" target="_blank" rel="noopener" onclick="closeMobileMenu()">GitHub</a>
+  </div>
+
+  <header class="lp-header">
+    <div class="lp-header-inner">
+      <span class="lp-eyebrow">Stay in the Loop</span>
+      <h1>Join the <span>Mailing List</span></h1>
+      <p>Get notified about new tool releases, parser updates, and forensics community news. No spam — just signal.</p>
+    </div>
+  </header>
+
+  <main class="lp-main">
+    <div class="lp-perks">
+      <div class="lp-perk"><i class="ti ti-bell"></i>Release alerts</div>
+      <div class="lp-perk"><i class="ti ti-git-branch"></i>New parsers</div>
+      <div class="lp-perk"><i class="ti ti-news"></i>Community updates</div>
+    </div>
+
+    <div class="lp-form-wrap">
+      <iframe data-w-type="embedded" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+        src="https://shv4k.mjt.lu/wgt/shv4k/0n0g/form?c=10409fc4"
+        width="100%" style="height: 0; min-height: 160px;"></iframe>
+    </div>
+    <p class="lp-note">No spam &middot; Unsubscribe anytime</p>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="lp-footer">
+    <div class="lp-footer-logo">LEAPPs</div>
+    <p>Free digital forensics tools for practitioners worldwide.</p>
+    <div class="lp-footer-links">
+      <a href="https://leapps.org">Home</a>
+      <a href="https://leapps.org/releases">Releases</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://leapps.org/mailing">Mailing List</a>
+      <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener">Discord</a>
+      <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" target="_blank" rel="noopener">RSS</a>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://app.mailjet.com/pas-nc-embedded-v2.js" type="text/javascript"></script>
+
+<script>
+  // Mobile menu
+  const hamburger = document.getElementById('lp-hamburger');
+  const mobileMenu = document.getElementById('lp-mobile-menu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMobileMenu() { mobileMenu.classList.remove('open'); }
+
+  // Theme toggle
+  const toggle = document.getElementById('lp-theme-toggle');
+  const icon = document.getElementById('lp-theme-icon');
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    icon.className = t === 'dark' ? 'ti ti-sun' : 'ti ti-moon';
+  }
+  applyTheme(localStorage.getItem('lp-theme') || 'dark');
+  toggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('lp-theme', next);
+    applyTheme(next);
+  });
+</script>
+</body>
+</html>

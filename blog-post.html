@@ -275,16 +275,12 @@
     .state-msg .icon { font-size: 2rem; margin-bottom: 1rem; color: var(--gold); }
 
     /* Footer */
-    .lp-footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem;
-      text-align: center;
-      font-size: .8rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
-    }
-    .lp-footer a { color: var(--muted); text-decoration: none; }
-    .lp-footer a:hover { color: var(--gold); }
+    .lp-footer { border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+    .lp-footer-logo { font-family: var(--font-head); font-size: 1.2rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+    .lp-footer p { font-size: .8rem; color: #555; }
+    .lp-footer-links { display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .lp-footer-links a { color: #555 !important; text-decoration: none !important; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .lp-footer-links a:hover { color: var(--gold) !important; }
 
     .lp-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: none; padding: 4px; }
     .lp-hamburger span { display: block; width: 100%; height: 2px; background: var(--text); transition: transform .25s, opacity .25s; transform-origin: center; }
@@ -347,7 +343,7 @@
           <a href="https://leapps.org#mentions"><i class="ti ti-award" aria-hidden="true"></i>Featured</a>
           <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
           <a href="https://leapps.org/scoreboard"><i class="ti ti-trophy" aria-hidden="true"></i>Scoreboard</a>
-          <a href="https://leapps.org#mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
+          <a href="https://leapps.org/mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
           <a href="https://leapps.org/resources"><i class="ti ti-books" aria-hidden="true"></i>Resources</a>
         </div>
       </li>
@@ -372,7 +368,7 @@
     <a href="https://leapps.org#mentions" onclick="closeMobileMenu()">Featured</a>
     <a href="https://leapps.org#contributors" onclick="closeMobileMenu()">Contributors</a>
     <a href="https://leapps.org/scoreboard" onclick="closeMobileMenu()">Scoreboard</a>
-    <a href="https://leapps.org#mailing" onclick="closeMobileMenu()">Mailing List</a>
+    <a href="https://leapps.org/mailing" onclick="closeMobileMenu()">Mailing List</a>
     <a href="https://leapps.org/resources" onclick="closeMobileMenu()">Resources</a>
     <a href="https://leapps.org/blog" onclick="closeMobileMenu()">Blog</a>
     <a href="https://leapps.org/about" onclick="closeMobileMenu()">About</a>
@@ -395,7 +391,15 @@
   </main>
 
   <footer class="lp-footer">
-    <p>LEAPPs &copy; <span id="yr"></span> &mdash; <a href="https://leapps.org/">leapps.org</a> &mdash; <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></p>
+    <div class="lp-footer-logo">LEAPPs</div>
+    <p>Free digital forensics tools for practitioners worldwide.</p>
+    <div class="lp-footer-links">
+      <a href="https://leapps.org">Home</a>
+      <a href="https://leapps.org/releases">Releases</a>
+      <a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener">Discord</a>
+      <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" target="_blank" rel="noopener">RSS</a>
+    </div>
   </footer>
 
   <!-- marked.js for Markdown rendering -->

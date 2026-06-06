@@ -30,6 +30,11 @@ export default {
       return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
     }
 
+    // Changelog RSS feed route: /changelog/feed
+    if (url.pathname === '/changelog/feed') {
+      return handleChangelogFeed(env);
+    }
+
     // Blog RSS feed route: /blog/feed
     if (url.pathname === '/blog/feed') {
       return handleBlogFeed(env);
@@ -211,6 +216,88 @@ async function handleBlogFeed(env) {
   });
   await cache.put(cacheKey, responseToCache.clone());
 
+  return responseToCache;
+}
+
+async function handleChangelogFeed(env) {
+  const CHANGELOG_REPOS = [
+    { name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
+    { name: 'ALEAPP', repo: 'abrignoni/ALEAPP' },
+    { name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
+    { name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+    { name: 'LAVA',   repo: 'leapps-org/LAVA-releases' },
+  ];
+
+  const cache = caches.default;
+  const cacheKey = new Request('https://leapps-api.4n6-198.workers.dev/changelog/feed__cache');
+  const cached = await cache.match(cacheKey);
+  if (cached) {
+    const cachedResponse = new Response(cached.body, cached);
+    cachedResponse.headers.set('X-Cache', 'HIT');
+    cachedResponse.headers.set('Access-Control-Allow-Origin', '*');
+    return cachedResponse;
+  }
+
+  const headers = {
+    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'LEAPPs-Worker/1.0',
+  };
+
+  const allReleases = [];
+  await Promise.all(CHANGELOG_REPOS.map(async ({ name, repo }) => {
+    try {
+      const res = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=50`, { headers });
+      if (!res.ok) return;
+      const releases = await res.json();
+      for (const r of releases) {
+        if (r.draft) continue;
+        allReleases.push({ name, repo, tag: r.tag_name, date: r.published_at, body: r.body || '' });
+      }
+    } catch (_) {}
+  }));
+
+  allReleases.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  function esc(s) {
+    return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  const items = allReleases.slice(0, 100).map(r => {
+    const link = `https://github.com/${r.repo}/releases/tag/${encodeURIComponent(r.tag)}`;
+    const pubDate = new Date(r.date).toUTCString();
+    return `
+    <item>
+      <title>${esc(r.name + ' ' + r.tag)}</title>
+      <link>${link}</link>
+      <guid isPermaLink="true">${link}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${esc(r.body.slice(0, 500))}</description>
+    </item>`;
+  }).join('');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LEAPPs Changelog</title>
+    <link>https://leapps.org/changelog</link>
+    <description>Unified release history across iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA.</description>
+    <language>en-us</language>
+    <atom:link href="https://leapps-api.4n6-198.workers.dev/changelog/feed" rel="self" type="application/rss+xml" />
+    ${items}
+  </channel>
+</rss>`;
+
+  const responseToCache = new Response(xml, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/rss+xml; charset=utf-8',
+      'Cache-Control': `public, max-age=${CACHE_TTL}`,
+      'Access-Control-Allow-Origin': '*',
+      'X-Cache': 'MISS',
+    },
+  });
+  await cache.put(cacheKey, responseToCache.clone());
   return responseToCache;
 }
 
