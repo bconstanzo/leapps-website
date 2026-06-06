@@ -20,6 +20,11 @@
   <meta name="twitter:title" content="LEAPPs — Digital Forensics Tools" />
   <meta name="twitter:description" content="Free digital forensics tools. iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA — parse and visualize artifacts from iOS, Android, Windows, and more." />
   <meta name="twitter:image" content="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/1778253329900-PD4YWMXV784IQU8LUW74/LEAPPs_logo_with_icons.png?content-type=image%2Fpng" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng" />
+  <link rel="apple-touch-icon" href="https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng" />
+  <meta name="theme-color" content="#F5C020" />
+  <link rel="canonical" href="https://leapps.org/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -905,6 +910,56 @@
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
   </style>
   <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('lp-theme')||'dark');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "LEAPPs",
+        "url": "https://leapps.org",
+        "logo": "https://leapps.org/logos/LAVA_icon_1024.png",
+        "description": "Free, open-source digital forensics tools for mobile and digital forensics practitioners. Includes iLEAPP, ALEAPP, RLEAPP, VLEAPP, and LAVA.",
+        "founder": {
+          "@type": "Person",
+          "name": "Alexis Brignoni",
+          "url": "https://github.com/abrignoni"
+        },
+        "sameAs": [
+          "https://github.com/abrignoni",
+          "https://github.com/leapps-org"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "name": "LEAPPs",
+        "url": "https://leapps.org"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "iLEAPP",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "description": "iOS Logs, Events and Plists Parser — free open-source tool for parsing artifacts from iOS and iPadOS device extractions.",
+        "url": "https://github.com/abrignoni/iLEAPP",
+        "isAccessibleForFree": true,
+        "license": "https://opensource.org/licenses/Apache-2.0",
+        "author": { "@type": "Person", "name": "Alexis Brignoni" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "ALEAPP",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "description": "Android Logs, Events and Plists Parser — free open-source tool for parsing artifacts from Android device extractions.",
+        "url": "https://github.com/abrignoni/ALEAPP",
+        "isAccessibleForFree": true,
+        "license": "https://opensource.org/licenses/Apache-2.0",
+        "author": { "@type": "Person", "name": "Alexis Brignoni" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <div id="lp-root">
