@@ -329,7 +329,7 @@
             </tr>
           </tbody>
         </table>
-        <p style="font-size:.78rem;color:var(--muted);">Point LEAPPs at the <strong style="color:var(--text);">root folder</strong> of your extraction — not a zip file. Extract first if needed.</p>
+        <p style="font-size:.78rem;color:var(--muted);">Point LEAPPs at the <strong style="color:var(--text);">extraction source</strong>.</p>
       </div>
     </div>
 
@@ -349,8 +349,8 @@
           <div class="lp-code-label">Step 1 — Install dependencies</div>
           <div class="lp-code"><span class="kw">pip</span> install -r requirements.txt</div>
           <div class="lp-code-label">Step 2 — Launch the GUI</div>
-          <div class="lp-code"><span class="kw">python</span> iLEAPP.py  <span class="cm"># or ALEAPP.py / RLEAPP.py / VLEAPP.py</span></div>
-          <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;">Select your input folder (extraction root) and output folder, then click <strong style="color:var(--text);">Process</strong>. The GUI will show progress per module.</p>
+          <div class="lp-code"><span class="kw">python</span> iLEAPPGUI.py  <span class="cm"># or ALEAPPGUI.py / RLEAPPGUI.py / VLEAPPGUI.py</span></div>
+          <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;">Select your input folder (extraction source) and output folder, then click <strong style="color:var(--text);">Process</strong>. The GUI will show progress per module.</p>
         </div>
 
         <div id="tab-cli" style="display:none;">
@@ -358,18 +358,20 @@
           <div class="lp-code"><span class="kw">pip</span> install -r requirements.txt</div>
           <div class="lp-code-label">Run from the command line</div>
           <div class="lp-code"><span class="kw">python</span> iLEAPPGUI.py <span class="kw">-t</span> <span class="st">fs</span> <span class="kw">-i</span> <span class="st">/path/to/extraction</span> <span class="kw">-o</span> <span class="st">/path/to/output</span></div>
-          <div class="lp-code-label">Common flags</div>
-          <div class="lp-code"><span class="kw">-t</span> <span class="st">fs</span>       <span class="cm"># full file system (use 'backup' for iTunes backup)</span>
-<span class="kw">-i</span>           <span class="cm"># input path (extraction root folder)</span>
-<span class="kw">-o</span>           <span class="cm"># output path (where the HTML report is written)</span>
-<span class="kw">--artifact</span>   <span class="cm"># run a single artifact module only (optional)</span></div>
+          <div class="lp-code-label">General options</div>
+          <div class="lp-code"><span class="kw">-h</span>, <span class="kw">--help</span>                        <span class="cm"># show help message and exit</span>
+<span class="kw">-t</span> <span class="st">{fs,tar,zip,gz}</span>                 <span class="cm"># input type: 'fs' for a folder of extracted files,</span>
+                                   <span class="cm">#   'tar', 'zip', or 'gz' for compressed packages</span>
+<span class="kw">-o</span>, <span class="kw">--output_path</span> <span class="st">OUTPUT_PATH</span>     <span class="cm"># path to base output folder (must exist)</span>
+<span class="kw">-i</span>, <span class="kw">--input_path</span>  <span class="st">INPUT_PATH</span>      <span class="cm"># path to extraction source</span></div>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem;">Each tool may have additional options. Run <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">python iLEAPP.py -h</code> (or the equivalent for ALEAPP, RLEAPP, VLEAPP) to see the full list of options for that tool.</p>
         </div>
 
         <ul class="lp-checklist" style="margin-top:1rem;">
           <li><i class="ti ti-download"></i>Download the latest release from <a href="https://leapps.org/releases" style="color:var(--gold);text-decoration:none;">leapps.org/releases</a></li>
           <li><i class="ti ti-brand-python"></i>Requires Python 3.8 or later — <a href="https://www.python.org/downloads/" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">python.org/downloads</a></li>
-          <li><i class="ti ti-folder"></i>Point the tool at the extraction root folder, not individual files</li>
-          <li><i class="ti ti-clock"></i>Runtime depends on extraction size — typically 1–5 minutes for a full iPhone image</li>
+          <li><i class="ti ti-folder"></i>Point the tool at the extraction source, not individual files</li>
+          <li><i class="ti ti-clock"></i>Runtime depends on extraction size</li>
         </ul>
       </div>
     </div>
@@ -382,7 +384,7 @@
         <p class="lp-step-desc">When processing completes, LEAPPs writes an HTML report to your output folder. You have two ways to review it.</p>
 
         <ul class="lp-checklist" style="margin-bottom:1.25rem;">
-          <li><i class="ti ti-file-type-html"></i><strong style="color:var(--text);">Direct HTML</strong> — open <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">_report.html</code> in any browser. Artifacts are organized into categories with search and filtering built in.</li>
+          <li><i class="ti ti-file-type-html"></i><strong style="color:var(--text);">Direct HTML</strong> — open <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">index.html</code> in your output folder in any browser. Artifacts are organized into categories with search and filtering built in.</li>
           <li><i class="ti ti-eye"></i><strong style="color:var(--text);">LAVA viewer</strong> — for a richer, structured experience load the report into LAVA (see below).</li>
         </ul>
 
