@@ -265,8 +265,37 @@
     [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
     .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+  
+    /* Search */
+    .lp-search-wrap { position: relative; display: flex; align-items: center; }
+    .lp-search-input { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .05em; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: .4rem .75rem .4rem 2rem; width: 200px; outline: none; transition: border-color .2s, width .2s; }
+    .lp-search-input:focus { border-color: var(--gold); width: 260px; }
+    .lp-search-icon { position: absolute; left: .55rem; color: var(--muted); pointer-events: none; }
+    .lp-search-results { display: none; position: absolute; top: calc(100% + .5rem); left: 0; min-width: 340px; background: var(--surface); border: 1px solid var(--border); z-index: 9999; max-height: 400px; overflow-y: auto; }
+    .lp-search-group { padding: .35rem .75rem; color: var(--muted); font-family: var(--font-mono); font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; border-bottom: 1px solid var(--border); background: var(--off-black); }
+    .lp-search-item { display: flex; align-items: center; justify-content: space-between; padding: .5rem .75rem; color: var(--text); text-decoration: none; font-size: .8rem; transition: background .15s; border-bottom: 1px solid rgba(44,44,44,.5); }
+    .lp-search-item:last-child { border-bottom: none; }
+    .lp-search-item:hover { background: rgba(245,192,32,.06); color: var(--gold); }
+    .lp-search-badge { font-family: var(--font-mono); font-size: .65rem; color: var(--muted); letter-spacing: .05em; margin-left: .75rem; white-space: nowrap; }
+    .lp-search-empty { padding: .75rem; color: var(--muted); font-family: var(--font-mono); font-size: .75rem; text-align: center; }
+    @media (max-width: 768px) { .lp-search-wrap { display: none; } }
   </style>
   <script>document.documentElement.setAttribute('data-theme',localStorage.getItem('lp-theme')||'dark');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About LEAPPs",
+    "url": "https://leapps.org/about",
+    "description": "The story behind LEAPPs — free, open-source digital forensics tools built by practitioners, for practitioners.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "LEAPPs",
+      "url": "https://leapps.org",
+      "logo": "https://images.squarespace-cdn.com/content/67588c6d2ecfa834463bf5ae/70fbe416-092d-427d-a8d0-4eedbc92df16/leapps-favicon-512.png?content-type=image%2Fpng"
+    }
+  }
+  </script>
 </head>
 <body>
 <div id="lp-root">
@@ -301,6 +330,11 @@
       <li><a href="https://leapps.org/about" class="active">About</a></li>
       <li><a href="https://github.com/abrignoni" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
+    <div class="lp-search-wrap" id="lp-search-wrap">
+      <svg class="lp-search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="lp-search-input" id="lp-search-input" type="text" placeholder="Search artifacts, posts…" autocomplete="off" />
+      <div class="lp-search-results" id="lp-search-results"></div>
+    </div>
     <a href="https://leapps.org/releases" class="lp-nav-cta">Download</a>
     <button class="lp-theme-toggle" id="lp-theme-toggle" aria-label="Toggle theme"><i class="ti ti-sun" id="lp-theme-icon" aria-hidden="true"></i></button>
     <button class="lp-hamburger" id="lp-hamburger" aria-label="Open menu">
@@ -602,6 +636,9 @@
       <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener">Discord</a>
       <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" target="_blank" rel="noopener">RSS</a>
     </div>
+    <div style="margin-top:1.25rem;font-family:var(--font-mono);font-size:.72rem;color:#444;letter-spacing:.08em;">
+      🌐 <a href="https://translate.google.com/translate?u=https://leapps.org" target="_blank" rel="noopener" style="color:#444;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#444'">TRANSLATE THIS PAGE</a>
+    </div>
   </footer>
 
   <script>
@@ -634,5 +671,142 @@
   </script>
 
 </div>
+  <script>
+    // Footer active state
+    (function() {
+      var path = window.location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
+      document.querySelectorAll('.lp-footer-links a').forEach(function(a) {
+        var href = a.getAttribute('href') || '';
+        var ap = href.replace(/https:\/\/leapps\.org/, '').replace(/\/+$/, '') || '/';
+        if (ap === path) { a.style.color = '#F5C020'; }
+      });
+    })();
+  </script>
+  <script>
+    // Back to top button
+    (function() {
+      var btn = document.createElement('button');
+      btn.setAttribute('aria-label', 'Back to top');
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+      btn.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;background:#F5C020;color:#0E0E0E;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s,background .2s;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.4);';
+      document.body.appendChild(btn);
+      function getScrollTop() { return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0; }
+      function onScroll() {
+        if (getScrollTop() > 200) { btn.style.opacity='1'; btn.style.pointerEvents='auto'; }
+        else { btn.style.opacity='0'; btn.style.pointerEvents='none'; }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      document.addEventListener('scroll', onScroll, { passive: true });
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+        document.body.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      btn.addEventListener('mouseover', function() { btn.style.background='#D4A010'; });
+      btn.addEventListener('mouseout', function() { btn.style.background='#F5C020'; });
+    })();
+  </script>
+  <script>
+    // Site search
+    (function() {
+      const WORKER = 'https://leapps-api.4n6-198.workers.dev';
+      const TOOLS = [
+        { id: 'ileapp', name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
+        { id: 'aleapp', name: 'ALEAPP', repo: 'abrignoni/ALEAPP' },
+        { id: 'rleapp', name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
+        { id: 'vleapp', name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+      ];
+      let cache = null, loading = false;
+
+      async function getData() {
+        if (cache) return cache;
+        if (loading) return null;
+        loading = true;
+        try {
+          const [blogRes, pagesRes, ...artifactRess] = await Promise.all([
+            fetch(`${WORKER}/blog/posts/index.json`).then(r => r.ok ? r.json() : []),
+            fetch(`${WORKER}/search-index`).then(r => r.ok ? r.json() : []),
+            ...TOOLS.map(t => fetch(`${WORKER}/repos/${t.repo}/contents/scripts/artifacts`).then(r => r.ok ? r.json() : []).then(files => ({ tool: t, files })))
+          ]);
+          const posts = Array.isArray(blogRes) ? blogRes : [];
+          const pages = Array.isArray(pagesRes) ? pagesRes : [];
+          const artifacts = [];
+          artifactRess.forEach(({ tool, files }) => {
+            if (!Array.isArray(files)) return;
+            files.filter(f => f.name.endsWith('.py') && f.name !== '__init__.py').forEach(f => {
+              artifacts.push({ name: f.name.replace('.py', '').replace(/_/g, ' '), tool: tool.name, url: 'https://leapps.org/artifacts' });
+            });
+          });
+          cache = { posts, artifacts, pages };
+        } catch(e) { cache = { posts: [], artifacts: [], pages: [] }; }
+        loading = false;
+        return cache;
+      }
+
+      function renderResults(query, data) {
+        const q = query.toLowerCase().trim();
+        const el = document.getElementById('lp-search-results');
+        if (!q) { el.style.display = 'none'; return; }
+
+        const posts = data.posts.filter(p => p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)).slice(0, 4);
+        const arts = data.artifacts.filter(a => a.name.toLowerCase().includes(q)).slice(0, 5);
+        const pages = (data.pages||[]).filter(p => p.title.toLowerCase().includes(q) || (p.excerpt||'').toLowerCase().includes(q)).slice(0, 4);
+
+        if (!posts.length && !arts.length && !pages.length) {
+          el.innerHTML = '<div class="lp-search-empty">No results found.</div>';
+          el.style.display = 'block';
+          return;
+        }
+
+        let html = '';
+        if (posts.length) {
+          html += '<div class="lp-search-group">Blog Posts</div>';
+          posts.forEach(p => {
+            html += `<a class="lp-search-item" href="https://leapps.org/blog-post?post=${encodeURIComponent(p.slug)}">${p.title}</a>`;
+          });
+        }
+        if (arts.length) {
+          html += '<div class="lp-search-group">Artifacts</div>';
+          arts.forEach(a => {
+            html += `<a class="lp-search-item" href="${a.url}">${a.name} <span class="lp-search-badge">${a.tool}</span></a>`;
+          });
+        }
+        if (pages.length) {
+          html += '<div class="lp-search-group">Pages</div>';
+          pages.forEach(p => {
+            html += `<a class="lp-search-item" href="${p.url}">${p.title} <span class="lp-search-badge">${p.page}</span></a>`;
+          });
+        }
+        el.innerHTML = html;
+        el.style.display = 'block';
+      }
+
+      const input = document.getElementById('lp-search-input');
+      const results = document.getElementById('lp-search-results');
+      if (!input) return;
+
+      let debounce;
+      input.addEventListener('input', async () => {
+        clearTimeout(debounce);
+        debounce = setTimeout(async () => {
+          const data = await getData();
+          if (data) renderResults(input.value, data);
+        }, 200);
+      });
+      input.addEventListener('focus', async () => {
+        if (input.value.length > 1) {
+          const data = await getData();
+          if (data) renderResults(input.value, data);
+        }
+        // Prefetch on first focus
+        getData();
+      });
+      document.addEventListener('click', e => {
+        if (!document.getElementById('lp-search-wrap')?.contains(e.target)) {
+          results.style.display = 'none';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
