@@ -336,7 +336,7 @@ async function handleChangelogFeed(env) {
   return responseToCache;
 }
 
-function corsResponse(body, status = 200) {
+function corsResponse(body, status = 200, extraHeaders = {}) {
   return new Response(body, {
     status,
     headers: {
@@ -344,6 +344,7 @@ function corsResponse(body, status = 200) {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
+      ...extraHeaders,
     },
   });
 }
