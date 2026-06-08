@@ -177,7 +177,8 @@
     }
     .post-card:hover {
       border-color: var(--gold);
-      background: #1c1c1c;
+      background: var(--surface);
+      filter: brightness(1.1);
     }
     .post-card-meta {
       display: flex;
@@ -269,11 +270,22 @@
     .lp-mobile-menu a:hover { color: var(--gold); }
     .lp-theme-toggle { background: none; border: 1px solid var(--border); color: var(--muted); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: color .2s, border-color .2s; font-size: 1rem; flex-shrink: 0; }
     .lp-theme-toggle:hover { color: var(--gold); border-color: var(--gold); }
+    .lp-page { min-height: 100vh; background: var(--off-black); }
+    [data-theme="light"] .lp-page { background: #F5F2EC; }
     [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
     [data-theme="light"] body { background-color: #F5F2EC !important; color: #1C1A14 !important; }
     [data-theme="light"] .lp-nav { background: rgba(245,242,236,0.96); }
     [data-theme="light"] .lp-nav-dropdown-menu { background: rgba(245,242,236,.98); }
     [data-theme="light"] .lp-mobile-menu { background: rgba(245,242,236,.98); }
+    [data-theme="light"] .post-card { background: #EAE6DE; border-color: #C8C3B8; }
+    [data-theme="light"] .post-card:hover { background: #D8D3C8; border-color: #B8A88A; }
+    [data-theme="light"] .lp-search-results { background: #EAE6DE; border-color: #C8C3B8; }
+    [data-theme="light"] .lp-search-group { background: #D8D3C8; color: #6B6458; }
+    [data-theme="light"] .lp-search-item { color: #1C1A14; }
+    [data-theme="light"] .lp-mobile-search-results { background: #EAE6DE; border-color: #C8C3B8; }
+    [data-theme="light"] .lp-mobile-search-results .lp-search-group { background: #D8D3C8; }
+    [data-theme="light"] .lp-filter-select { background: #EAE6DE; color: #1C1A14; border-color: #C8C3B8; }
+    [data-theme="light"] .lp-footer { background: #EAE6DE; border-color: #C8C3B8; }
     @media (max-width: 768px) {
       .lp-nav-links { display: none; }
       .lp-hamburger { display: flex; }
@@ -323,6 +335,7 @@
   </script>
 </head>
 <body>
+<div class="lp-page">
 
   <nav class="lp-nav">
     <a href="https://leapps.org" class="lp-nav-logo">LEAPPs</a>
@@ -439,6 +452,7 @@
     </div>
     <div style="margin-top:1.25rem;font-family:var(--font-mono);font-size:.72rem;color:#444;letter-spacing:.08em;">🌐 <a href="https://translate.google.com/translate?u=https://leapps.org" target="_blank" rel="noopener" style="color:#444;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#444'">TRANSLATE THIS PAGE</a></div>
   </footer>
+</div>
 
   <script>
     const yrEl = document.getElementById('yr'); if (yrEl) yrEl.textContent = new Date().getFullYear();
