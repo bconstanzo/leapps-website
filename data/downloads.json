@@ -1,3 +1,14 @@
 {
-  "snapshots": []
+  "snapshots": [
+    {
+      "date": "2026-06-12",
+      "totals": {
+        "ileapp": 80389,
+        "aleapp": 59993,
+        "rleapp": 3796,
+        "vleapp": 1318,
+        "lava": 553
+      }
+    }
+  ]
 }
