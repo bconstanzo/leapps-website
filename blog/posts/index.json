@@ -1,5 +1,13 @@
 [
   {
+    "slug": "2026-06-10-leapping-with-lava",
+    "title": "LEAPPing with LAVA",
+    "date": "2026-06-10",
+    "author": "Kevin Pagano",
+    "tags": ["LAVA", "iLEAPP", "ALEAPP", "RLEAPP", "VLEAPP"],
+    "excerpt": "LAVA is another way to view reports created out of iLEAPP, ALEAPP, RLEAPP, and VLEAPP. Here is a look at the new features that make it stand out from the HTML reporting it is set to replace."
+  },
+  {
     "slug": "2026-06-07-website-enhancements",
     "title": "Website Update - Search, Better Docs, and More",
     "date": "2026-06-07",
