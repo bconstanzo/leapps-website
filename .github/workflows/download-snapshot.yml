@@ -77,8 +77,6 @@ jobs:
           snapshots = [s for s in snapshots if s['date'] != today]
           snapshots.append({'date': today, 'totals': totals})
 
-          # Keep last 90 days only
-          snapshots = snapshots[-90:]
           data['snapshots'] = snapshots
 
           with open(snapshot_file, 'w') as f:
