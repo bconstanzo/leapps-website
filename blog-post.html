@@ -614,6 +614,18 @@
 
     const WORKER = 'https://leapps-api.4n6-198.workers.dev';
 
+    // Fire a GA4 event if analytics is present (Squarespace injects gtag/GTM at
+    // runtime). No-ops safely when neither gtag nor dataLayer exists (e.g. local).
+    function trackEvent(name, params) {
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', name, params || {});
+        } else if (Array.isArray(window.dataLayer)) {
+          window.dataLayer.push(Object.assign({ event: name }, params || {}));
+        }
+      } catch (_) {}
+    }
+
     function formatDate(iso) {
       const d = new Date(iso + 'T00:00:00');
       return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -742,9 +754,9 @@
           <article class="post-body">${html}</article>
           <div class="post-share">
             <span class="post-share-label">Share</span>
-            <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
-            <a class="share-btn" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-x"></i> Post</a>
-            <button class="share-btn" id="copy-link-btn" type="button"><i class="ti ti-link"></i> <span>Copy link</span></button>
+            <a class="share-btn" data-share="linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-linkedin"></i> LinkedIn</a>
+            <a class="share-btn" data-share="x" href="https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(postUrl)}" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-x"></i> Post</a>
+            <button class="share-btn" data-share="copy" id="copy-link-btn" type="button"><i class="ti ti-link"></i> <span>Copy link</span></button>
           </div>
           <div id="related-slot"></div>
           <div id="prevnext-slot"></div>
@@ -767,6 +779,25 @@
             } catch (_) {}
           });
         }
+
+        // Analytics — delegate clicks for share / related / prev-next
+        container.addEventListener('click', (e) => {
+          const shareEl = e.target.closest('[data-share]');
+          if (shareEl) {
+            // GA4 recommended 'share' event
+            trackEvent('share', { method: shareEl.dataset.share, content_type: 'blog_post', item_id: slug });
+            return;
+          }
+          const relEl = e.target.closest('[data-related-slug]');
+          if (relEl) {
+            trackEvent('blog_related_click', { source_slug: slug, target_slug: relEl.dataset.relatedSlug });
+            return;
+          }
+          const pnEl = e.target.closest('[data-prevnext]');
+          if (pnEl) {
+            trackEvent('blog_prevnext_click', { source_slug: slug, direction: pnEl.dataset.prevnext, target_slug: pnEl.dataset.targetSlug });
+          }
+        });
 
         // Related posts + prev/next (needs the index)
         loadRelated(slug, meta);
@@ -818,7 +849,7 @@
               <div class="related-posts-label">Related Posts</div>
               <div class="related-grid">
                 ${related.map(p => `
-                  <a class="related-card" href="${postUrlFor(p.slug)}">
+                  <a class="related-card" data-related-slug="${p.slug}" href="${postUrlFor(p.slug)}">
                     <span class="date">${formatDate(p.date)}</span>
                     <h3>${p.title}</h3>
                     <p>${p.excerpt || ''}</p>
@@ -834,11 +865,11 @@
           if (newer || older) {
             document.getElementById('prevnext-slot').innerHTML = `
               <div class="post-prevnext">
-                ${older ? `<a class="prevnext-card prev" href="${postUrlFor(older.slug)}">
+                ${older ? `<a class="prevnext-card prev" data-prevnext="older" data-target-slug="${older.slug}" href="${postUrlFor(older.slug)}">
                   <span class="prevnext-dir"><i class="ti ti-arrow-left"></i> Older</span>
                   <span class="prevnext-title">${older.title}</span>
                 </a>` : '<span></span>'}
-                ${newer ? `<a class="prevnext-card next" href="${postUrlFor(newer.slug)}">
+                ${newer ? `<a class="prevnext-card next" data-prevnext="newer" data-target-slug="${newer.slug}" href="${postUrlFor(newer.slug)}">
                   <span class="prevnext-dir">Newer <i class="ti ti-arrow-right"></i></span>
                   <span class="prevnext-title">${newer.title}</span>
                 </a>` : '<span></span>'}
