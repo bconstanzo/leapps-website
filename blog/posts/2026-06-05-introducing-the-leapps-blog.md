@@ -78,6 +78,26 @@ Submit your PR against the `main` branch. All posts are reviewed before merging.
 
 Posts support standard Markdown: headings, bold, italic, lists, links, images, code blocks with syntax highlighting, tables, and blockquotes. Write it the same way you'd write a GitHub README.
 
+## Adding images
+
+Store images in the repo alongside your post — create a folder for your post under `blog/images/` named after your slug:
+
+```
+blog/images/2026-06-05-your-post-title/screenshot.png
+```
+
+Include the image files in the **same pull request** as your Markdown file, so the post and its images are reviewed and merged together. Then reference them in your post using the jsDelivr CDN, which serves the files straight from the repo:
+
+```markdown
+![Description of the image](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-05-your-post-title/screenshot.png)
+```
+
+A few rules:
+
+- **Use the full jsDelivr URL.** Relative paths like `images/screenshot.png` will not work — posts are rendered from a shared page, so image paths must be absolute.
+- **Always include alt text** (the part in square brackets) for accessibility.
+- Compress images so posts stay fast to load — aim for under ~300 KB each.
+
 ---
 
 If you've done forensic research with any of the LEAPPs tools and want to share it, this is the place. Open a PR.
