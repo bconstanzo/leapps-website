@@ -1,12 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "leapps-website",
+  // Worker entry — injects per-post OG tags for /blog-post; everything else
+  // passes through to the static assets via the ASSETS binding.
+  "main": "worker.js",
   "compatibility_date": "2026-06-25",
   "observability": {
     "enabled": true
   },
   "assets": {
     "directory": ".",
+    "binding": "ASSETS",
     // Serve /releases from releases.html and redirect /releases.html -> /releases
     "html_handling": "auto-trailing-slash",
     // Serve our custom 404.html on unknown paths instead of a bare 404
