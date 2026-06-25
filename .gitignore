@@ -1,2 +1,10 @@
 .claude/launch.json
 .DS_Store
+
+# wrangler / Cloudflare
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+node_modules
