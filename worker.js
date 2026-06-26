@@ -43,7 +43,10 @@ async function injectOG(request, url, slug, env) {
 
   const title = `${post.title} — LEAPPs Blog`;
   const desc = post.excerpt || 'News, updates and forensics insights from the LEAPPs project.';
-  const image = `${ORIGIN}/blog/og/${encodeURIComponent(slug)}.png`;
+  // Version the card URL by the post date. It's the same image, but the
+  // distinct URL forces social platforms to fetch it fresh instead of serving
+  // a previously-cached result (e.g. a 404 cached before the card deployed).
+  const image = `${ORIGIN}/blog/og/${encodeURIComponent(slug)}.png?v=${encodeURIComponent(post.date || '1')}`;
   const postUrl = `${ORIGIN}/blog-post?post=${encodeURIComponent(slug)}`;
 
   const content = (val) => ({ element(el) { el.setAttribute('content', val); } });
