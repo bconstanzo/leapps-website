@@ -45,16 +45,6 @@ export default {
       return handleBlogFeed(env);
     }
 
-    // Blog content route: /blog/posts/index.json or /blog/posts/{slug}.md
-    if (url.pathname.startsWith('/blog/posts/')) {
-      return handleBlogRequest(url, env);
-    }
-
-    // Blog share route: /blog/share/:slug — OG-enriched redirect page for social cards
-    if (url.pathname.startsWith('/blog/share/')) {
-      return handleBlogShare(url, env);
-    }
-
     // Daily downloads route: /downloads/daily
     if (url.pathname === '/downloads/daily') {
       return handleDownloadsDaily(env);
@@ -161,52 +151,6 @@ function handleSearchIndex() {
     { title: "Command Line Usage", url: "https://leapps.org/docs#step-3", page: "Docs", excerpt: "Run from command line: python iLEAPP.py -t {fs,tar,zip,gz} -i INPUT_PATH -o OUTPUT_PATH. Each tool may have additional options." }
   ];
   return corsResponse(JSON.stringify(index), 200, { 'Cache-Control': 'public, max-age=3600' });
-}
-
-async function handleBlogRequest(url, env) {
-  const filePath = url.pathname.replace(/^\/blog\/posts\//, '');
-
-  // Only allow index.json and .md files, no path traversal
-  if (!filePath.match(/^(index\.json|[\w-]+\.md)$/)) {
-    return corsResponse(JSON.stringify({ error: 'Not found' }), 404);
-  }
-
-  const rawUrl = `https://raw.githubusercontent.com/${BLOG_REPO}/${BLOG_BRANCH}/blog/posts/${filePath}`;
-
-  const cache = caches.default;
-  const cacheKey = new Request(rawUrl);
-  const cached = await cache.match(cacheKey);
-  if (cached) {
-    const cachedResponse = new Response(cached.body, cached);
-    cachedResponse.headers.set('X-Cache', 'HIT');
-    cachedResponse.headers.set('Access-Control-Allow-Origin', '*');
-    return cachedResponse;
-  }
-
-  const headers = { 'User-Agent': 'LEAPPs-Worker/1.0' };
-  if (env.GITHUB_TOKEN) headers['Authorization'] = `Bearer ${env.GITHUB_TOKEN}`;
-
-  const upstream = await fetch(rawUrl, { headers });
-
-  if (!upstream.ok) {
-    return corsResponse(JSON.stringify({ error: 'Post not found' }), 404);
-  }
-
-  const contentType = filePath.endsWith('.json') ? 'application/json' : 'text/markdown; charset=utf-8';
-  const body = await upstream.text();
-
-  const responseToCache = new Response(body, {
-    status: 200,
-    headers: {
-      'Content-Type': contentType,
-      'Cache-Control': `public, max-age=${BLOG_CACHE_TTL}`,
-      'Access-Control-Allow-Origin': '*',
-      'X-Cache': 'MISS',
-    },
-  });
-  await cache.put(cacheKey, responseToCache.clone());
-
-  return responseToCache;
 }
 
 async function handleBlogFeed(env) {
@@ -354,63 +298,6 @@ async function handleChangelogFeed(env) {
   });
   await cache.put(cacheKey, responseToCache.clone());
   return responseToCache;
-}
-
-async function handleBlogShare(url, env) {
-  const slug = url.pathname.replace(/^\/blog\/share\//, '');
-  if (!slug.match(/^[\w-]+$/)) {
-    return new Response('Not found', { status: 404 });
-  }
-
-  const indexUrl = `https://raw.githubusercontent.com/${BLOG_REPO}/${BLOG_BRANCH}/blog/posts/index.json`;
-  let post = null;
-  try {
-    const res = await fetch(indexUrl, { headers: { 'User-Agent': 'LEAPPs-Worker/1.0' } });
-    if (res.ok) {
-      const index = await res.json();
-      post = index.find(p => p.slug === slug) || null;
-    }
-  } catch (_) {}
-
-  const title = post ? `${post.title} — LEAPPs Blog` : 'LEAPPs Blog';
-  const description = post ? post.excerpt : 'News, updates and forensics insights from the LEAPPs project.';
-  // Per-post social card (generated in CI, served by the static site); falls back to the site card.
-  const image = post
-    ? `https://leapps.org/blog/og/${encodeURIComponent(slug)}.png`
-    : 'https://leapps.org/blog/og/default.png';
-  const destination = `https://leapps.org/blog-post?post=${encodeURIComponent(slug)}`;
-  const shareUrl = `${url.origin}/blog/share/${slug}`;
-
-  const html = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>${title}</title>
-  <meta name="description" content="${description}" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="${title}" />
-  <meta property="og:description" content="${description}" />
-  <meta property="og:url" content="${shareUrl}" />
-  <meta property="og:image" content="${image}" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="LEAPPs" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="${title}" />
-  <meta name="twitter:description" content="${description}" />
-  <meta name="twitter:image" content="${image}" />
-  <script>window.location.replace('${destination}');</script>
-</head>
-<body></body>
-</html>`;
-
-  return new Response(html, {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': `public, max-age=${BLOG_CACHE_TTL}`,
-    },
-  });
 }
 
 const ALLOWED_DOWNLOADS = {
