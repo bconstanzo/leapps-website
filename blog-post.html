@@ -452,8 +452,8 @@ img { max-width: 100%; display: block; }
 
     const WORKER = 'https://leapps-api.4n6-198.workers.dev';
 
-    // Fire a GA4 event if analytics is present (Squarespace injects gtag/GTM at
-    // runtime). No-ops safely when neither gtag nor dataLayer exists (e.g. local).
+    // Fire a GA4 event if analytics is present (gtag is loaded by analytics.js
+    // once the visitor consents). No-ops safely when gtag/dataLayer don't exist.
     function trackEvent(name, params) {
       try {
         if (typeof window.gtag === 'function') {

@@ -200,10 +200,7 @@ a { color: inherit; }
 }
 [data-theme="light"] { --off-black: #F5F2EC; --surface: #EAE6DE; --border: #C8C3B8; --text: #1C1A14; --muted: #6B6458; }
 [data-theme="light"] body, [data-theme="light"] #lp-root, [data-theme="light"] section,
-    [data-theme="light"] main, [data-theme="light"] footer, [data-theme="light"] #canvas,
-    [data-theme="light"] #page, [data-theme="light"] #content, [data-theme="light"] .page-section,
-    [data-theme="light"] .page-section-wrapper,
-    [data-theme="light"] .sqs-layout { background-color: #F5F2EC !important; }
+    [data-theme="light"] main, [data-theme="light"] footer { background-color: #F5F2EC !important; }
 [data-theme="light"] body { color: #1C1A14 !important; }
 [data-theme="light"] .lp-nav { background: rgba(245,242,236,0.96); }
 [data-theme="light"] .lp-nav-dropdown-menu { background: rgba(245,242,236,.98); }
