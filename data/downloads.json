@@ -139,6 +139,16 @@
         "vleapp": 1365,
         "lava": 697
       }
+    },
+    {
+      "date": "2026-06-26",
+      "totals": {
+        "ileapp": 82198,
+        "aleapp": 61446,
+        "rleapp": 3887,
+        "vleapp": 1365,
+        "lava": 698
+      }
     }
   ]
 }
