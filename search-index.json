@@ -120,18 +120,6 @@
     "excerpt": "Artifact write-ups, tool updates, and community contributions from the LEAPPs project."
   },
   {
-    "title": "How to Write an iLEAPP Module",
-    "url": "https://leapps.org/blog-post?post=2026-06-14-how-to-write-an-ileapp-module",
-    "page": "Blog",
-    "excerpt": "A complete guide to writing artifact modules for iLEAPP, ALEAPP, RLEAPP, and VLEAPP — module structure, SQLite and plist parsing, LAVA conversation view, and submitting a pull request."
-  },
-  {
-    "title": "LEAPPing with LAVA",
-    "url": "https://leapps.org/blog-post?post=2026-06-10-leapping-with-lava",
-    "page": "Blog",
-    "excerpt": "LAVA is another way to view reports created out of iLEAPP, ALEAPP, RLEAPP, and VLEAPP. A look at the new features that make it stand out from the HTML reporting it is set to replace."
-  },
-  {
     "title": "Community — Discord and RSS",
     "url": "https://discord.gg/XaZaknENUR",
     "page": "Community",
