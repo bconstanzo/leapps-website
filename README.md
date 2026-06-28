@@ -109,13 +109,15 @@ Blog posts are plain Markdown files. Adding a post is two file changes and a pul
 
 ### 1. Create the Markdown file
 
-Add a file to `blog/posts/` named with this format:
+Add a Markdown file to `blog/posts/`. The filename (without `.md`) becomes the post's **slug** — its public URL — so it must be URL-safe and unique: lowercase letters, digits, and hyphens. Pick something short and descriptive:
 
 ```
-YYYY-MM-DD-your-post-title.md
+your-post-title.md
 ```
 
-Start it with YAML frontmatter:
+Dating the slug (`2026-06-05-your-post-title.md`) is an **optional** convention — it keeps the folder sorted and guarantees uniqueness — but it is not required. The `date` frontmatter field below is what the site uses for ordering and display, not the filename.
+
+Start the file with YAML frontmatter:
 
 ```markdown
 ---
@@ -145,7 +147,7 @@ Open `blog/posts/index.json` and add an entry at the **top** of the array (newes
 
 ```json
 {
-  "slug": "2026-06-05-your-post-title",
+  "slug": "your-post-title",
   "title": "Your Post Title",
   "date": "2026-06-05",
   "author": "Your Name",
@@ -154,14 +156,18 @@ Open `blog/posts/index.json` and add an entry at the **top** of the array (newes
 }
 ```
 
-The `slug` must match the filename exactly (without the `.md` extension).
+Field rules (enforced by CI — see step 5):
+
+- **`slug`** — must match the `.md` filename exactly (without the extension) and be URL-safe (`[\w-]+`: letters, digits, hyphen, underscore; lowercase by convention). It becomes the public URL, so it must be unique and not change after a post is shared. The `YYYY-MM-DD-` prefix is the convention but isn't required by the code; if you use one, it should match the `date` field.
+- **`date`** — required, `YYYY-MM-DD`. This field (not the filename) drives post ordering, prev/next, related posts, and the social-card cache-bust, so it must be correct.
+- **`title`, `author`, `excerpt`** — required, non-empty. **`tags`** — array of strings; the first tool tag (iLEAPP/ALEAPP/RLEAPP/VLEAPP/LAVA) sets the social-card accent color.
 
 ### 3. Images (optional)
 
 Put images in `blog/images/<slug>/` and reference them from the Markdown via the jsDelivr CDN so they load fast and cached:
 
 ```markdown
-![Alt text](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-05-your-post-title/screenshot.png)
+![Alt text](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/your-post-title/screenshot.png)
 ```
 
 ### 4. Social card — automatic
@@ -171,6 +177,12 @@ You do **not** create the 1200×630 social-share card. A GitHub Action (`.github
 ### 5. Open a pull request
 
 Submit your PR against `main`. Posts are reviewed before merging. Once merged, the post is live immediately and the social card is generated on the same push.
+
+A GitHub Action (`.github/workflows/validate-blog.yml`) runs `tools/validate-blog.mjs` on every PR that touches `blog/posts/`, checking the manifest against the post files (URL-safe/unique slugs, a matching `.md` for each entry, a valid `date`, and the required fields). If it fails, the PR check turns red with the exact problem. Run it locally before pushing:
+
+```bash
+node tools/validate-blog.mjs
+```
 
 ### Markdown support
 
