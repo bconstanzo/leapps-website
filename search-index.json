@@ -31,31 +31,31 @@
   },
   {
     "title": "iLEAPP — iOS Logs Events and Plists Parser",
-    "url": "https://leapps.org/releases",
+    "url": "https://leapps.org/releases#section-ileapp",
     "page": "Releases",
     "excerpt": "Parse iOS and iPadOS artifacts from iTunes backups and full file system extractions."
   },
   {
     "title": "ALEAPP — Android Logs Events and Plists Parser",
-    "url": "https://leapps.org/releases",
+    "url": "https://leapps.org/releases#section-aleapp",
     "page": "Releases",
     "excerpt": "Parse Android device artifacts from adb backups, full file system, and Cellebrite extractions."
   },
   {
     "title": "RLEAPP — Returns Logs Events and Plists Parser",
-    "url": "https://leapps.org/releases",
+    "url": "https://leapps.org/releases#section-rleapp",
     "page": "Releases",
     "excerpt": "Parse ISP and carrier records, warrant returns, and subscriber data exports."
   },
   {
     "title": "VLEAPP — Vehicle Logs Events and Plists Parser",
-    "url": "https://leapps.org/releases",
+    "url": "https://leapps.org/releases#section-vleapp",
     "page": "Releases",
     "excerpt": "Parse vehicle system image artifacts and infotainment data from logical acquisitions."
   },
   {
     "title": "LAVA — LEAPPs Artifact Viewer Application",
-    "url": "https://leapps.org/releases",
+    "url": "https://leapps.org/releases#section-lava",
     "page": "Releases",
     "excerpt": "View and explore LEAPPs reports with filtering capabilities, data export options, and structured navigation."
   },
