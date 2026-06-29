@@ -12,7 +12,7 @@ If you have ever had a folder full of extractions and needed to run them through
 
 It works with iLEAPP, ALEAPP, RLEAPP, and VLEAPP. They share the same command line, so the same tool drives any of them.
 
-![Batch LEAPP running a batch of extractions](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-28-batch-leapp/batch-leapp-gui.png)
+![Batch LEAPP running a batch of extractions](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/2026-06-28-batch-leapp/batch-leapp-gui.webp)
 *Figure 1: Batch LEAPP processing a folder of iOS extractions*
 
 ## What it does
