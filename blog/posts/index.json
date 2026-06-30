@@ -1,5 +1,19 @@
 [
   {
+    "slug": "home-depot-ios-artifacts",
+    "title": "Getting It Done with Home Depot iOS Artifacts",
+    "date": "2026-06-29",
+    "author": "James Habben",
+    "tags": [
+      "iLEAPP",
+      "iOS",
+      "artifacts",
+      "Home Depot",
+      "research"
+    ],
+    "excerpt": "A look at new iLEAPP parsing for the Home Depot iOS app, including account details, store preferences, searches, viewed products, shopping lists, cached location, and a few useful cache artifacts."
+  },
+  {
     "slug": "2026-06-28-batch-leapp",
     "title": "Introducing Batch LEAPP",
     "date": "2026-06-28",
