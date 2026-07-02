@@ -112,6 +112,33 @@
 .lp-status-text { color: var(--gold); }
 .lp-status-sep { color: var(--border); }
 .lp-status-sub { color: var(--muted); }
+.lp-install-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); border-radius: 0 6px 6px 0;
+      padding: .9rem 1.1rem; margin-bottom: 1.25rem;
+    }
+.lp-install-head {
+      font-family: var(--font-mono); font-size: .68rem; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .6rem;
+      display: flex; align-items: center; gap: .45rem;
+    }
+.lp-install-row { display: flex; align-items: center; gap: .6rem; padding: .3rem 0; min-width: 0; }
+.lp-install-row code {
+      font-family: var(--font-mono); font-size: .8rem; color: var(--text);
+      overflow-x: auto; white-space: nowrap; flex: 1; min-width: 0;
+    }
+.lp-install-tag {
+      font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); width: 2.6rem; flex-shrink: 0;
+    }
+.lp-brew-copy {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border-radius: 4px; flex-shrink: 0; transition: color .2s, border-color .2s;
+    }
+.lp-brew-copy:hover, .lp-brew-copy.copied { color: var(--gold); border-color: var(--gold); }
+.lp-install-note { font-size: .75rem; color: var(--muted); margin-top: .5rem; }
+.lp-install-note a { color: var(--gold); text-decoration: none; }
 .lp-releases-list { display: flex; flex-direction: column; gap: .75rem; }
 .lp-release-card {
       background: var(--surface); border: 1px solid var(--border);
@@ -373,6 +400,7 @@
         <div class="lp-nav-dropdown-menu">
           <a href="https://leapps.org#tools"><i class="ti ti-layout-grid" aria-hidden="true"></i>All Tools</a>
           <a href="https://leapps.org#lava"><i class="ti ti-eye" aria-hidden="true"></i>LAVA</a>
+          <a href="https://leapps.org/releases#section-batch-leapp"><i class="ti ti-stack-2" aria-hidden="true"></i>Batch LEAPP</a>
           <a href="https://leapps.org/releases" class="active"><i class="ti ti-download" aria-hidden="true"></i>Releases</a>
           <a href="https://leapps.org/artifacts"><i class="ti ti-database" aria-hidden="true"></i>Artifacts</a>
           <a href="https://leapps.org/docs"><i class="ti ti-book" aria-hidden="true"></i>Docs</a>
@@ -415,11 +443,13 @@
 
     <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
     <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases#section-batch-leapp" onclick="closeMobileMenu()">Batch LEAPP</a>
     <a href="#section-lava" onclick="closeMobileMenu()">LAVA Releases</a>
     <a href="#section-aleapp" onclick="closeMobileMenu()">ALEAPP</a>
     <a href="#section-ileapp" onclick="closeMobileMenu()">iLEAPP</a>
     <a href="#section-rleapp" onclick="closeMobileMenu()">RLEAPP</a>
     <a href="#section-vleapp" onclick="closeMobileMenu()">VLEAPP</a>
+    <a href="#section-batch-leapp" onclick="closeMobileMenu()">Batch LEAPP</a>
     <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
     <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
     <a href="https://leapps.org/artifacts" onclick="closeMobileMenu()">Artifacts</a>
@@ -447,6 +477,7 @@
         <a href="#section-ileapp" class="lp-tool-pill">iLEAPP</a>
         <a href="#section-rleapp" class="lp-tool-pill">RLEAPP</a>
         <a href="#section-vleapp" class="lp-tool-pill">VLEAPP</a>
+        <a href="#section-batch-leapp" class="lp-tool-pill">Batch LEAPP</a>
       </div>
     </div>
   </header>
@@ -463,6 +494,7 @@
         <li><a href="#section-ileapp"><i class="ti ti-brand-apple"></i>iLEAPP</a></li>
         <li><a href="#section-rleapp"><i class="ti ti-file-import"></i>RLEAPP</a></li>
         <li><a href="#section-vleapp"><i class="ti ti-car"></i>VLEAPP</a></li>
+        <li><a href="#section-batch-leapp"><i class="ti ti-stack-2"></i>Batch LEAPP</a></li>
       </ul>
     </aside>
 
@@ -494,6 +526,11 @@
             </ul>
           </div>
         </div>
+        <div class="lp-install-box">
+          <div class="lp-install-head"><i class="ti ti-brand-apple"></i>Fastest install &mdash; macOS via Homebrew</div>
+          <div class="lp-install-row"><span class="lp-install-tag">GUI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install --cask lava</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install --cask lava" data-tool="LAVA" aria-label="Copy LAVA GUI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-note">On Windows or installing manually? Grab a build below, or see the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew">Homebrew guide</a>.</div>
+        </div>
         <div class="lp-status-bar">
           <div class="lp-status-dot"></div>
           <span class="lp-status-text">Live releases</span>
@@ -516,6 +553,12 @@
           </div>
           <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-aleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-aleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/ALEAPP" class="lp-gh-link" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i>GitHub</a></div>
         </div>
+        <div class="lp-install-box">
+          <div class="lp-install-head"><i class="ti ti-brand-apple"></i>Fastest install &mdash; macOS via Homebrew</div>
+          <div class="lp-install-row"><span class="lp-install-tag">CLI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install aleapp</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install aleapp" data-tool="ALEAPP" aria-label="Copy ALEAPP CLI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-row"><span class="lp-install-tag">GUI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install --cask aleapp-gui</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install --cask aleapp-gui" data-tool="ALEAPP" aria-label="Copy ALEAPP GUI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-note">On Windows or installing manually? Grab a build below, or see the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew">Homebrew guide</a>.</div>
+        </div>
         <div class="lp-status-bar">
           <div class="lp-status-dot"></div>
           <span class="lp-status-text">Live releases</span>
@@ -535,6 +578,12 @@
             <div class="lp-tool-fullname">iOS Logs, Events &amp; Plists Parser</div>
           </div>
           <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-ileapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-ileapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/iLEAPP" class="lp-gh-link" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-install-box">
+          <div class="lp-install-head"><i class="ti ti-brand-apple"></i>Fastest install &mdash; macOS via Homebrew</div>
+          <div class="lp-install-row"><span class="lp-install-tag">CLI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install ileapp</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install ileapp" data-tool="iLEAPP" aria-label="Copy iLEAPP CLI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-row"><span class="lp-install-tag">GUI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install --cask ileapp-gui</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install --cask ileapp-gui" data-tool="iLEAPP" aria-label="Copy iLEAPP GUI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-note">On Windows or installing manually? Grab a build below, or see the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew">Homebrew guide</a>.</div>
         </div>
         <div class="lp-status-bar">
           <div class="lp-status-dot"></div>
@@ -556,6 +605,12 @@
           </div>
           <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-rleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-rleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/RLEAPP" class="lp-gh-link" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i>GitHub</a></div>
         </div>
+        <div class="lp-install-box">
+          <div class="lp-install-head"><i class="ti ti-brand-apple"></i>Fastest install &mdash; macOS via Homebrew</div>
+          <div class="lp-install-row"><span class="lp-install-tag">CLI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install rleapp</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install rleapp" data-tool="RLEAPP" aria-label="Copy RLEAPP CLI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-row"><span class="lp-install-tag">GUI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install --cask rleapp-gui</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install --cask rleapp-gui" data-tool="RLEAPP" aria-label="Copy RLEAPP GUI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-note">On Windows or installing manually? Grab a build below, or see the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew">Homebrew guide</a>.</div>
+        </div>
         <div class="lp-status-bar">
           <div class="lp-status-dot"></div>
           <span class="lp-status-text">Live releases</span>
@@ -576,6 +631,12 @@
           </div>
           <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-vleapp"><i class="ti ti-star"></i>…</span><span class="lp-dl-count-badge loading" id="dlcount-releases-vleapp"><i class="ti ti-download"></i>…</span><a href="https://github.com/abrignoni/VLEAPP" class="lp-gh-link" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i>GitHub</a></div>
         </div>
+        <div class="lp-install-box">
+          <div class="lp-install-head"><i class="ti ti-brand-apple"></i>Fastest install &mdash; macOS via Homebrew</div>
+          <div class="lp-install-row"><span class="lp-install-tag">CLI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install vleapp</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install vleapp" data-tool="VLEAPP" aria-label="Copy VLEAPP CLI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-row"><span class="lp-install-tag">GUI</span><code>brew tap leapps-org/leapps &amp;&amp; brew install --cask vleapp-gui</code><button class="lp-brew-copy" data-copy="brew tap leapps-org/leapps &amp;&amp; brew install --cask vleapp-gui" data-tool="VLEAPP" aria-label="Copy VLEAPP GUI install command"><i class="ti ti-copy"></i></button></div>
+          <div class="lp-install-note">On Windows or installing manually? Grab a build below, or see the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew">Homebrew guide</a>.</div>
+        </div>
         <div class="lp-status-bar">
           <div class="lp-status-dot"></div>
           <span class="lp-status-text">Live releases</span>
@@ -584,6 +645,41 @@
           <div class="lp-loading"><span>Fetching releases…</span></div>
         </div>
         <a href="https://github.com/abrignoni/VLEAPP/releases" class="lp-view-all" target="_blank" rel="noopener noreferrer"><i class="ti ti-external-link"></i>View all VLEAPP releases on GitHub</a>
+      </section>
+
+      <!-- BATCH LEAPP -->
+      <section class="lp-tool-section" id="section-batch-leapp">
+        <div class="lp-tool-header">
+          <div class="lp-tool-header-left">
+            <div class="lp-tool-platform">Automation &middot; macOS &middot; Windows</div>
+            <h2>Batch LEAPP</h2>
+            <div class="lp-tool-fullname">Run any LEAPP tool across a folder of extractions</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="lp-star-badge loading" id="stars-releases-batch-leapp"><i class="ti ti-star"></i>&hellip;</span><span class="lp-dl-count-badge loading" id="dlcount-releases-batch-leapp"><i class="ti ti-download"></i>&hellip;</span><a href="https://github.com/abrignoni/batch-leapp" class="lp-gh-link" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i>GitHub</a></div>
+        </div>
+        <div class="lp-about-box">
+          <div>
+            <h3>What is Batch LEAPP?</h3>
+            <p>Point it at a directory and it finds every extraction inside, runs iLEAPP, ALEAPP, RLEAPP, or VLEAPP against each one in parallel, and builds a single report index linking every result &mdash; with SHA-256 hashing and a manifest for your case file.</p>
+          </div>
+          <div>
+            <h3>Highlights</h3>
+            <ul>
+              <li>One index.html linking every report and LAVA project</li>
+              <li>SHA-256 manifest (CSV &amp; JSON) for casework</li>
+              <li>GUI and CLI &mdash; prebuilt for macOS and Windows</li>
+              <li><a href="https://leapps.org/blog-post?post=2026-06-28-batch-leapp">Read the announcement post</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="lp-status-bar">
+          <div class="lp-status-dot"></div>
+          <span class="lp-status-text">Live releases</span>
+        </div>
+        <div id="releases-batch-leapp" class="lp-releases-list">
+          <div class="lp-loading"><span>Fetching releases&hellip;</span></div>
+        </div>
+        <a href="https://github.com/abrignoni/batch-leapp/releases" class="lp-view-all" target="_blank" rel="noopener noreferrer"><i class="ti ti-external-link"></i>View all Batch LEAPP releases on GitHub</a>
       </section>
 
     </main>
@@ -636,6 +732,7 @@
       { id: 'ileapp', name: 'iLEAPP', repo: 'abrignoni/iLEAPP' },
       { id: 'rleapp', name: 'RLEAPP', repo: 'abrignoni/RLEAPP' },
       { id: 'vleapp', name: 'VLEAPP', repo: 'abrignoni/VLEAPP' },
+      { id: 'batch-leapp', name: 'Batch LEAPP', repo: 'abrignoni/batch-leapp' },
     ];
 
     function getOSIcon(name) {
@@ -765,6 +862,27 @@
           setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100);
         }
       }
+    });
+
+    // Copy-to-clipboard for the Homebrew install commands
+    document.querySelectorAll('.lp-brew-copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cmd = btn.getAttribute('data-copy');
+        try { await navigator.clipboard.writeText(cmd); }
+        catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = cmd; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (_) {}
+          ta.remove();
+        }
+        const icon = btn.querySelector('i');
+        btn.classList.add('copied');
+        if (icon) icon.className = 'ti ti-check';
+        setTimeout(() => { btn.classList.remove('copied'); if (icon) icon.className = 'ti ti-copy'; }, 1500);
+        if (window.gtag) {
+          window.gtag('event', 'install_copy', { tool: btn.getAttribute('data-tool') || '', link_text: cmd.slice(0, 100) });
+        }
+      });
     });
 
     // Mobile hamburger menu

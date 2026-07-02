@@ -60,6 +60,18 @@
     "excerpt": "View and explore LEAPPs reports with filtering capabilities, data export options, and structured navigation."
   },
   {
+    "title": "Batch LEAPP — batch processing for LEAPP tools",
+    "url": "https://leapps.org/releases#section-batch-leapp",
+    "page": "Releases",
+    "excerpt": "Run iLEAPP, ALEAPP, RLEAPP, or VLEAPP across a whole folder of extractions with one report index, SHA-256 manifest, and GUI or CLI."
+  },
+  {
+    "title": "Install with Homebrew (macOS)",
+    "url": "https://leapps.org/releases",
+    "page": "Releases",
+    "excerpt": "brew tap leapps-org/leapps — install the LEAPP command line tools, GUI apps, and LAVA with Homebrew."
+  },
+  {
     "title": "About LEAPPs",
     "url": "https://leapps.org/about",
     "page": "About",
