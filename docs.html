@@ -46,7 +46,7 @@
 .lp-step { display: grid; grid-template-columns: 48px 1fr; gap: 0 1.75rem; margin-bottom: 3.5rem; position: relative; }
 .lp-step:not(:last-child)::before { content: ''; position: absolute; left: 23px; top: 48px; bottom: -3.5rem; width: 2px; background: var(--border); }
 .lp-step-num { width: 48px; height: 48px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: .9rem; color: var(--gold); font-weight: 500; flex-shrink: 0; }
-.lp-step-body { padding-top: .6rem; }
+.lp-step-body { padding-top: .6rem; min-width: 0; } /* min-width:0 lets wide code blocks scroll inside the grid column instead of overflowing the page */
 .lp-step-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; color: var(--text); margin-bottom: .5rem; letter-spacing: .04em; }
 .lp-step-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.25rem; max-width: 640px; }
 .lp-decision { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: .75rem; margin-bottom: 1rem; }
@@ -140,6 +140,7 @@
         <div class="lp-nav-dropdown-menu">
           <a href="https://leapps.org#tools"><i class="ti ti-layout-grid" aria-hidden="true"></i>All Tools</a>
           <a href="https://leapps.org#lava"><i class="ti ti-eye" aria-hidden="true"></i>LAVA</a>
+          <a href="https://leapps.org/releases#section-batch-leapp"><i class="ti ti-stack-2" aria-hidden="true"></i>Batch LEAPP</a>
           <a href="https://leapps.org/releases"><i class="ti ti-download" aria-hidden="true"></i>Releases</a>
           <a href="https://leapps.org/artifacts"><i class="ti ti-database" aria-hidden="true"></i>Artifacts</a>
           <a href="https://leapps.org/docs" class="active"><i class="ti ti-book" aria-hidden="true"></i>Docs</a>
@@ -183,6 +184,7 @@
 
     <a href="https://leapps.org#tools" onclick="closeMobileMenu()">Tools</a>
     <a href="https://leapps.org#lava" onclick="closeMobileMenu()">LAVA</a>
+    <a href="https://leapps.org/releases#section-batch-leapp" onclick="closeMobileMenu()">Batch LEAPP</a>
     <a href="https://leapps.org/releases" onclick="closeMobileMenu()">Releases</a>
     <a href="https://leapps.org/stats" onclick="closeMobileMenu()">Stats</a>
     <a href="https://leapps.org/changelog" onclick="closeMobileMenu()">Changelog</a>
@@ -289,6 +291,12 @@
         <div class="lp-step-title">Install &amp; Run</div>
         <p class="lp-step-desc">LEAPPs tools run on Python 3.12+. Download the latest release, install dependencies, and run against your extraction folder.</p>
         <p style="font-size:.85rem;margin-bottom:1rem;padding:.6rem .9rem;background:var(--surface);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;">💡 <strong>Prefer not to run Python scripts directly?</strong> The <a href="https://leapps.org/releases" style="color:var(--gold);text-decoration:none;">Releases page</a> provides pre-built executables — no Python installation required.</p>
+
+        <div class="lp-code-label">Fastest install — macOS (Homebrew)</div>
+        <div class="lp-code" style="white-space:pre;"><span class="kw">brew</span> tap leapps-org/leapps
+<span class="kw">brew</span> install ileapp                <span class="cm"># CLI — or aleapp / rleapp / vleapp</span>
+<span class="kw">brew</span> install --cask ileapp-gui    <span class="cm"># GUI app — or aleapp-gui / rleapp-gui / vleapp-gui / lava</span></div>
+        <p style="font-size:.82rem;color:var(--muted);margin:.5rem 0 1.25rem;">A Homebrew install handles Python and dependencies for you — skip the pip steps below and run the tool directly. Full walkthrough in the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew" style="color:var(--gold);text-decoration:none;">Homebrew guide</a>. On Windows, use the pre-built executables or the manual steps below.</p>
 
         <div class="lp-tabs" id="run-tabs">
           <div class="lp-tab active" data-tab="gui">GUI</div>
