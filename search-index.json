@@ -36,7 +36,7 @@
     "excerpt": "Parse iOS and iPadOS artifacts from iTunes backups and full file system extractions."
   },
   {
-    "title": "ALEAPP — Android Logs Events and Plists Parser",
+    "title": "ALEAPP — Android Logs Events and Protobuf Parser",
     "url": "https://leapps.org/releases#section-aleapp",
     "page": "Releases",
     "excerpt": "Parse Android device artifacts from adb backups, full file system, and Cellebrite extractions."

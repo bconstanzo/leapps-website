@@ -28,6 +28,7 @@
   <meta name="author" content="Alexis Brignoni" />
   <meta name="google-site-verification" content="4NRgfrYq66eJKZVReVwQNbH_cyJI4bLQXXnrm8WuW9A" />
   <link rel="canonical" href="https://leapps.org/docs" />
+  <link rel="alternate" type="application/rss+xml" title="LEAPPs Blog" href="https://leapps-api.4n6-198.workers.dev/blog/feed" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -331,6 +332,12 @@
           <li><i class="ti ti-folder"></i>Point the tool at the extraction source, not individual files</li>
           <li><i class="ti ti-clock"></i>Runtime depends on extraction size</li>
         </ul>
+
+        <div class="lp-code-label" style="margin-top:1.75rem;">Your first run — end to end (macOS)</div>
+        <div class="lp-code" style="white-space:pre;"><span class="kw">brew</span> tap leapps-org/leapps &amp;&amp; brew install ileapp
+<span class="kw">ileapp</span> <span class="kw">-t</span> <span class="st">zip</span> <span class="kw">-i</span> <span class="st">~/Cases/ios_extraction.zip</span> <span class="kw">-o</span> <span class="st">~/Cases/reports</span>
+<span class="kw">open</span> <span class="st">~/Cases/reports</span>    <span class="cm"># open index.html in the newest folder, or load the LAVA project</span></div>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;">Three commands: install, parse, review. No extraction to test with yet? Explore a pre-processed report in the <a href="https://github.com/leapps-org/LAVA-sample-projects" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;">LAVA sample projects</a> to see what the output looks like.</p>
       </div>
     </div>
 

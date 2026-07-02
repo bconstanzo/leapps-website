@@ -24,6 +24,7 @@
   <meta name="twitter:description" content="News, updates and forensics insights from the LEAPPs project." />
   <meta name="twitter:image" content="https://leapps.org/blog/og/default.png" />
   <link rel="canonical" href="https://leapps.org/blog" />
+  <link rel="alternate" type="application/rss+xml" title="LEAPPs Blog" href="https://leapps-api.4n6-198.workers.dev/blog/feed" />
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/logos/leapps-favicon-512.png" />
   <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/logos/leapps-favicon-512.png" />
@@ -130,7 +131,17 @@ img { max-width: 100%; display: block; }
       padding: 1.25rem;
       overflow-x: auto;
       margin-bottom: 1.5rem;
+      position: relative;
     }
+.post-code-copy {
+      position: absolute; top: .5rem; right: .5rem;
+      background: var(--off-black); border: 1px solid var(--border); color: var(--muted);
+      width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border-radius: 4px; opacity: 0; transition: opacity .15s, color .2s, border-color .2s;
+    }
+.post-body pre:hover .post-code-copy, .post-code-copy:focus-visible, .post-code-copy.copied { opacity: 1; }
+.post-code-copy:hover, .post-code-copy.copied { color: var(--gold); border-color: var(--gold); }
+@media (hover: none) { .post-code-copy { opacity: 1; } } /* always visible on touch devices */
 .post-body pre code {
       background: none;
       border: none;
@@ -642,6 +653,31 @@ img { max-width: 100%; display: block; }
             } catch (_) {}
           });
         }
+
+        // Copy buttons on code blocks (posts are command-heavy)
+        document.querySelectorAll('.post-body pre').forEach(pre => {
+          const btn = document.createElement('button');
+          btn.className = 'post-code-copy';
+          btn.type = 'button';
+          btn.setAttribute('aria-label', 'Copy code');
+          btn.innerHTML = '<i class="ti ti-copy"></i>';
+          btn.addEventListener('click', async () => {
+            const text = (pre.querySelector('code') || pre).innerText.replace(/\n$/, '');
+            try { await navigator.clipboard.writeText(text); }
+            catch (_) {
+              const ta = document.createElement('textarea');
+              ta.value = text; document.body.appendChild(ta); ta.select();
+              try { document.execCommand('copy'); } catch (_) {}
+              ta.remove();
+            }
+            const icon = btn.querySelector('i');
+            btn.classList.add('copied');
+            if (icon) icon.className = 'ti ti-check';
+            setTimeout(() => { btn.classList.remove('copied'); if (icon) icon.className = 'ti ti-copy'; }, 1500);
+            if (window.gtag) window.gtag('event', 'code_copy', { post: slug, link_text: text.slice(0, 100) });
+          });
+          pre.appendChild(btn);
+        });
 
         // Analytics — delegate clicks for share / related / prev-next
         container.addEventListener('click', (e) => {
