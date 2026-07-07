@@ -206,6 +206,20 @@ img { max-width: 100%; display: block; }
       transition: color .2s;
     }
 .back-link:hover { color: var(--gold); }
+.post-subscribe {
+      margin-top: 3rem; padding: 1.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); border-radius: 0 6px 6px 0;
+    }
+.post-subscribe h3 {
+      font-family: var(--font-head); font-size: 1.25rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em; margin-bottom: .35rem;
+    }
+.post-subscribe h3 span { color: var(--gold); }
+.post-subscribe p { font-size: .88rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
+.post-subscribe iframe { display: block; width: 100%; border: none; height: 0; min-height: 140px; }
+.post-subscribe-alt { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .05em; color: var(--muted); margin-top: .75rem; }
+.post-subscribe-alt a { color: var(--gold); text-decoration: none; }
 .post-share {
       margin-top: 3rem;
       padding-top: 2rem;
@@ -634,6 +648,15 @@ img { max-width: 100%; display: block; }
           </div>
           <div id="related-slot"></div>
           <div id="prevnext-slot"></div>
+          <div class="post-subscribe">
+            <h3>Enjoyed this post? <span>Get the next one.</span></h3>
+            <p>New posts, tool releases, and parser updates by email. No spam &mdash; just signal.</p>
+            <iframe data-w-type="embedded" loading="lazy" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+              title="LEAPPs mailing list signup form"
+              src="https://shv4k.mjt.lu/wgt/shv4k/0n0g/form?c=10409fc4"
+              width="100%"></iframe>
+            <div class="post-subscribe-alt">Prefer a feed? <a href="https://leapps-api.4n6-198.workers.dev/blog/feed" data-sub="rss" target="_blank" rel="noopener noreferrer">Subscribe via RSS</a></div>
+          </div>
           <nav class="post-footer-nav">
             <a href="https://leapps.org/blog" class="back-link">
               <i class="ti ti-arrow-left"></i> All Posts
