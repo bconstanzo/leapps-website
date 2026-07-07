@@ -142,6 +142,8 @@ img { max-width: 100%; display: block; }
       letter-spacing: .05em;
     }
 .post-card:hover .tag { border-color: #3a3a3a; }
+.card-author { cursor: pointer; transition: color .2s; }
+.card-author:hover { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
 .pin-badge {
       font-family: var(--font-mono);
       font-size: .65rem;
@@ -347,13 +349,26 @@ img { max-width: 100%; display: block; }
     }
 
     const PAGE_SIZE = 8;
-    let allPosts = [], activeTag = null, visibleCount = PAGE_SIZE;
+    let allPosts = [], activeTag = null, activeAuthor = null, visibleCount = PAGE_SIZE;
+    // shareable filters: /blog?tag=X&author=Y
+    {
+      const params = new URLSearchParams(window.location.search);
+      activeTag = params.get('tag') || null;
+      activeAuthor = params.get('author') || null;
+    }
+    function syncFilterUrl() {
+      const params = new URLSearchParams();
+      if (activeTag) params.set('tag', activeTag);
+      if (activeAuthor) params.set('author', activeAuthor);
+      const qs = params.toString();
+      history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+    }
 
     function postCard(post) {
       return `<a class="post-card" href="${slugToUrl(post.slug)}">
         <div class="post-card-meta">
           <span class="date">${formatDate(post.date)}</span>
-          <span>${post.author}</span>
+          <span class="card-author" data-author="${post.author.replace(/\"/g,'&quot;')}" title="More by ${post.author}">${post.author}</span>
           ${post.pinned ? `<span class="pin-badge">Pinned</span>` : ''}
         </div>
         <h2>${post.title}</h2>
@@ -364,11 +379,12 @@ img { max-width: 100%; display: block; }
 
     function renderPosts() {
       const container = document.getElementById('post-list');
-      const filtered = activeTag ? allPosts.filter(p => p.tags && p.tags.includes(activeTag)) : allPosts;
+      let filtered = activeTag ? allPosts.filter(p => p.tags && p.tags.includes(activeTag)) : allPosts;
+      if (activeAuthor) filtered = filtered.filter(p => p.author === activeAuthor);
       const slice = filtered.slice(0, visibleCount);
 
       if (!filtered.length) {
-        container.innerHTML = `<div class="state-msg"><div class="icon"><i class="ti ti-filter-off"></i></div>No posts with that tag.</div>`;
+        container.innerHTML = `<div class="state-msg"><div class="icon"><i class="ti ti-filter-off"></i></div>No posts match that filter.</div>`;
         return;
       }
 
@@ -406,14 +422,58 @@ img { max-width: 100%; display: block; }
         select.appendChild(opt);
       });
 
+      select.value = activeTag || '';
       select.addEventListener('change', () => {
         activeTag = select.value || null;
         visibleCount = PAGE_SIZE;
+        syncFilterUrl();
         renderPosts();
       });
 
       filterEl.appendChild(select);
+
+      // author dropdown
+      const authorCounts = {};
+      posts.forEach(p => { if (p.author) authorCounts[p.author] = (authorCounts[p.author] || 0) + 1; });
+      const authors = Object.keys(authorCounts).sort();
+      if (authors.length > 1) {
+        const aSelect = document.createElement('select');
+        aSelect.className = 'lp-filter-select';
+        const aAll = document.createElement('option');
+        aAll.value = '';
+        aAll.textContent = 'All authors';
+        aSelect.appendChild(aAll);
+        authors.forEach(a => {
+          const opt = document.createElement('option');
+          opt.value = a;
+          opt.textContent = `${a} (${authorCounts[a]})`;
+          aSelect.appendChild(opt);
+        });
+        aSelect.value = activeAuthor || '';
+        aSelect.addEventListener('change', () => {
+          activeAuthor = aSelect.value || null;
+          visibleCount = PAGE_SIZE;
+          syncFilterUrl();
+          renderPosts();
+        });
+        filterEl.appendChild(aSelect);
+        window.__authorSelect = aSelect;
+      }
     }
+
+    // clicking an author on a card filters by that author (card is a link, so intercept)
+    document.getElementById('post-list').addEventListener('click', (e) => {
+      const el = e.target.closest('.card-author');
+      if (!el) return;
+      e.preventDefault();
+      e.stopPropagation();
+      activeAuthor = el.getAttribute('data-author');
+      if (window.__authorSelect) window.__authorSelect.value = activeAuthor;
+      visibleCount = PAGE_SIZE;
+      syncFilterUrl();
+      renderPosts();
+      if (window.gtag) window.gtag('event', 'author_filter', { author: activeAuthor });
+    });
 
     async function loadPosts() {
       const container = document.getElementById('post-list');

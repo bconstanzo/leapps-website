@@ -1,0 +1,78 @@
+{
+  "generated": "2026-07-07",
+  "window_days": 45,
+  "items": [
+    {
+      "name": "Oura",
+      "query": "Oura",
+      "tool": "iLEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360circlesettings",
+      "query": "L360circlesettings",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360driveblade",
+      "query": "L360driveblade",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360eventstore",
+      "query": "L360eventstore",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360memberscircles",
+      "query": "L360memberscircles",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360noshowalerts",
+      "query": "L360noshowalerts",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360petprofile",
+      "query": "L360petprofile",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360places",
+      "query": "L360places",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "L360user",
+      "query": "L360user",
+      "tool": "ALEAPP",
+      "date": "2026-07-01"
+    },
+    {
+      "name": "home depot",
+      "query": "home_depot",
+      "tool": "iLEAPP",
+      "date": "2026-06-30"
+    },
+    {
+      "name": "samsungSecureFolderHistoryLog",
+      "query": "samsungSecureFolderHistoryLog",
+      "tool": "ALEAPP",
+      "date": "2026-06-30"
+    },
+    {
+      "name": "apple atx images",
+      "query": "apple_atx_images",
+      "tool": "iLEAPP",
+      "date": "2026-06-26"
+    }
+  ]
+}
