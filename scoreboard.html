@@ -97,6 +97,7 @@
 .lp-sb-tool-btn[data-tool="ALEAPP"].active { border-color: #A4C639; color: #A4C639; background: rgba(164,198,57,.08); }
 .lp-sb-tool-btn[data-tool="RLEAPP"].active { border-color: #4BA3C7; color: #4BA3C7; background: rgba(75,163,199,.08); }
 .lp-sb-tool-btn[data-tool="VLEAPP"].active { border-color: #531dab; color: #531dab; background: rgba(83,29,171,.08); }
+.lp-sb-tool-btn[data-tool="Batch LEAPP"].active { border-color: #E8762D; color: #E8762D; background: rgba(232,118,45,.08); }
 .lp-sb-results { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; color: var(--muted); margin-bottom: .75rem; min-height: 1.2rem; }
 .lp-sb-results span { color: var(--gold); }
 .lp-loading-row td { color: #555; font-family: var(--font-mono); font-size: .75rem; text-align: center !important; padding: 3rem; }
@@ -257,6 +258,7 @@
         <button class="lp-sb-tool-btn" data-tool="ALEAPP">ALEAPP</button>
         <button class="lp-sb-tool-btn" data-tool="RLEAPP">RLEAPP</button>
         <button class="lp-sb-tool-btn" data-tool="VLEAPP">VLEAPP</button>
+        <button class="lp-sb-tool-btn" data-tool="Batch LEAPP">Batch LEAPP</button>
       </div>
       <div class="lp-sb-controls">
         <div class="lp-sb-search-wrap">
@@ -455,7 +457,7 @@
 
     function renderRows(contributors) {
       const tbody = document.getElementById('scoreboard-tbody');
-      const repoNames = ['iLEAPP','ALEAPP','RLEAPP','VLEAPP'];
+      const repoNames = ['iLEAPP','ALEAPP','RLEAPP','VLEAPP','Batch LEAPP'];
       const badgeMap  = { iLEAPP: 'badge-ileapp', ALEAPP: 'badge-aleapp', RLEAPP: 'badge-rleapp', VLEAPP: 'badge-vleapp', 'Batch LEAPP': 'badge-batch' };
       tbody.innerHTML = contributors.map((c, idx) => {
         const pos      = idx + 1;
