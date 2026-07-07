@@ -100,10 +100,84 @@ def notes_excerpt(markdown: str) -> str:
     return text
 
 
+FALLBACK_INTRO = (
+    "Fresh releases are out for the LEAPP tools. Here is what shipped and "
+    "where to get it."
+)
+
+# Style reference for the generated intro: Alexis's own words, sampled from
+# abrignoni.blogspot.com announcement posts.
+VOICE_SAMPLES = """\
+- "Tor Browser investigations usually don't go beyond possible user saved \
+bookmarks. Thanks to a find by Loicforensic we can locate Tor Browser \
+thumbnails of opened tabs."
+- "Have you heard about binary JSON in SQLite? I hadn't. Today I was made \
+aware of it by digital forensics examiner and software developer \
+extraordinaire Alex Caithness."
+- "The need to analyze cars for digital forensic artifacts has grown recently \
+as vehicles have smart mobile features by default. From GPS coordinates, \
+contact databases, call logs, and even automated driving, the forensic value \
+of these items cannot be overstated."
+- "If you have ever had a folder full of extractions and needed to run them \
+through iLEAPP one at a time, this is for you."
+"""
+
+
+def generate_intro(releases: list) -> str:
+    """Ask Claude for a short intro in Alexis's voice; None-safe fallback.
+
+    The result lands in a Mailjet DRAFT that is reviewed by a human before
+    sending, so a bad generation is editable/deletable, never subscriber-facing.
+    Any failure (missing key, missing SDK, API error) falls back to a static
+    intro rather than blocking the digest.
+    """
+    try:
+        import anthropic
+
+        notes = "\n\n".join(
+            f"### {r['tool']} {r['tag']} — {r['name']}\n{notes_excerpt(r['notes'])}"
+            for r in releases
+        )
+        client = anthropic.Anthropic()
+        response = client.messages.create(
+            model="claude-opus-4-8",
+            max_tokens=1024,
+            system=(
+                "You write the opening paragraph for the LEAPPs project mailing "
+                "list release announcements, in the voice of Alexis Brignoni: "
+                "direct, warm, practical, enthusiastic about open source digital "
+                "forensics and the community behind it. Plain sentences, no "
+                "corporate fluff, no emoji, no hashtags, no markdown. "
+                "Occasionally a rhetorical hook or a light touch of humor. "
+                "Credit contributors by name when the release notes name them.\n\n"
+                "Style samples of his writing:\n" + VOICE_SAMPLES
+            ),
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Write a 2-3 sentence intro paragraph for a mailing list "
+                    "email announcing these releases. Summarize what matters to "
+                    "a forensic examiner reading it. Return only the paragraph, "
+                    "nothing else.\n\n" + notes
+                ),
+            }],
+        )
+        if response.stop_reason == "refusal":
+            return FALLBACK_INTRO
+        intro = next(
+            (b.text.strip() for b in response.content if b.type == "text"), "")
+        return intro or FALLBACK_INTRO
+    except Exception as err:  # noqa: BLE001 — intro is best-effort by design
+        print(f"warning: intro generation failed ({err}); using fallback.",
+              file=sys.stderr)
+        return FALLBACK_INTRO
+
+
 def build_email(releases: list) -> tuple[str, str, str]:
     """Return (subject, html_part, text_part) for the digest."""
     versions = ", ".join(f"{r['tool']} {r['tag']}" for r in releases)
     subject = f"New LEAPPs release{'s' if len(releases) > 1 else ''}: {versions}"
+    intro = generate_intro(releases)
 
     sections_html = []
     sections_text = []
@@ -141,9 +215,12 @@ def build_email(releases: list) -> tuple[str, str, str]:
         <p style="margin:0 0 6px; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#F5C020;">
           LEAPPs Project
         </p>
-        <h1 style="margin:0; font-size:28px; line-height:1.1; color:#F0EDE6;">
+        <h1 style="margin:0 0 14px; font-size:28px; line-height:1.1; color:#F0EDE6;">
           New Release{'s' if len(releases) > 1 else ''}
         </h1>
+        <p style="margin:0; font-size:15px; line-height:1.6; color:#CFC9BE;">
+          {html.escape(intro)}
+        </p>
       </div>
       {''.join(sections_html)}
     </div>
@@ -158,6 +235,7 @@ def build_email(releases: list) -> tuple[str, str, str]:
 
     text_part = (
         "New LEAPPs releases\n\n"
+        f"{intro}\n\n"
         + "\n----------------------------------------\n\n".join(sections_text)
         + "\nYou are receiving this because you subscribed to the LEAPPs "
         f"mailing list at {SITE}/mailing\n"

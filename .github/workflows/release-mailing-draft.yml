@@ -9,6 +9,9 @@ name: Release mailing list draft
 # Uses the same repo configuration as blog-mailing-draft.yml:
 #   Secrets:   MAILJET_API_KEY, MAILJET_API_SECRET
 #   Variables: MAILJET_LIST_ID, MAILJET_SENDER_EMAIL, MAILJET_SENDER_NAME
+# Optional:    ANTHROPIC_API_KEY secret — generates the email intro in
+#              Alexis's voice via the Claude API; without it (or on any API
+#              failure) the draft gets a static intro instead.
 
 on:
   schedule:
@@ -34,9 +37,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Anthropic SDK for intro generation
+        run: pip install anthropic
+
       - name: Create release digest draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MAILJET_API_KEY: ${{ secrets.MAILJET_API_KEY }}
           MAILJET_API_SECRET: ${{ secrets.MAILJET_API_SECRET }}
           MAILJET_LIST_ID: ${{ vars.MAILJET_LIST_ID }}
