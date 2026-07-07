@@ -13,6 +13,14 @@ on:
     branches: [main]
     paths:
       - 'blog/posts/*.md'
+  # Manual test run: creates a draft for the given post without needing a new
+  # post to land on main. Still draft-only — nothing is ever sent.
+  workflow_dispatch:
+    inputs:
+      post:
+        description: 'Post file to create a test draft for'
+        required: true
+        default: 'blog/posts/2026-07-02-life360.md'
 
 permissions:
   contents: read
@@ -28,6 +36,11 @@ jobs:
       - name: Find newly added posts
         id: added
         run: |
+          # Manual test run: draft exactly the post given as input.
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "files=${{ inputs.post }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           # github.event.before is all zeros on a brand-new branch; nothing to diff.
           if [[ "${{ github.event.before }}" =~ ^0+$ ]]; then
             echo "files=" >> "$GITHUB_OUTPUT"
