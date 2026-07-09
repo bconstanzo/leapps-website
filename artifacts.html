@@ -90,6 +90,7 @@
 .lp-output-badge.html { border-color: rgba(75,163,199,.3); color: #4BA3C7; }
 .lp-output-badge.tsv { border-color: rgba(164,198,57,.3); color: #A4C639; }
 .lp-output-badge.timeline { border-color: rgba(83,29,171,.3); color: #531dab; }
+.lp-output-badge.kml { border-color: rgba(232,118,45,.35); color: #E8762D; }
 .lp-paths-toggle { font-family: var(--font-mono); font-size: .6rem; letter-spacing: .08em; color: var(--muted); cursor: pointer; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .3rem; transition: color .2s; margin-top: .35rem; }
 .lp-paths-toggle:hover { color: var(--gold); }
 .lp-paths-list { display: none; margin-top: .4rem; }
@@ -343,10 +344,33 @@
       return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
     }
 
+    // Mirrors the framework's check_output_types (ilapfuncs.py): the shorthand
+    // strings 'standard' and 'all' expand to concrete output types, so they
+    // render as badges instead of leaving the column blank.
+    const OUTPUT_STANDARD = ['html', 'tsv', 'timeline', 'lava'];        // all but kml
+    const OUTPUT_ALL = ['html', 'tsv', 'timeline', 'lava', 'kml'];
+    function expandOutputTypes(list) {
+      const out = [];
+      const add = t => { if (t && !out.includes(t)) out.push(t); };
+      for (const raw of list) {
+        const t = String(raw).toLowerCase().trim();
+        if (t === 'all') OUTPUT_ALL.forEach(add);
+        else if (t === 'standard') OUTPUT_STANDARD.forEach(add);
+        else if (t === 'lava_only') add('lava');
+        else if (t === 'none') { /* produces no report output */ }
+        else add(t);
+      }
+      return out;
+    }
     function extractOutputTypes(body) {
-      const m = body.match(/['"]output_types['"]\s*:\s*\[([^\]]*)\]/s);
+      // output_types may be a list ([...]) OR a bare string ('standard' / 'all').
+      const m = body.match(/['"]output_types['"]\s*:\s*(\[[^\]]*\]|'[^']*'|"[^"]*")/s);
       if (!m) return [];
-      return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
+      const val = m[1].trim();
+      const raw = val[0] === '['
+        ? [...val.matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1])
+        : [val.slice(1, -1)];
+      return expandOutputTypes(raw);
     }
 
     function parseV2(content, toolId, filename) {
