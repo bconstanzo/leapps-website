@@ -679,6 +679,35 @@ img { max-width: 100%; display: block; }
           });
         }
 
+        // Per-post page_view — with the real title, canonical URL, and slug.
+        // analytics.js suppressed the automatic (generic-title) page_view; this
+        // replaces it. Stored in __lpPV too, so a late consent can still fire it.
+        window.__lpPV = { page_title: `${title} — LEAPPs Blog`, page_location: postUrl, post_slug: slug };
+        if (typeof window.lpPageView === 'function') window.lpPageView(window.__lpPV);
+
+        // post_read — fires once when ~75% of the article has scrolled past,
+        // a proxy for "actually read it" rather than just "opened it".
+        (function () {
+          const article = document.querySelector('.post-body');
+          if (!article) return;
+          let fired = false;
+          const vh = () => window.innerHeight || document.documentElement.clientHeight || 0;
+          function check() {
+            if (fired) return;
+            const rect = article.getBoundingClientRect();
+            const h = vh();
+            if (h > 0 && rect.height > 0 && (h - rect.top) / rect.height >= 0.75) {
+              fired = true;
+              window.removeEventListener('scroll', check);
+              if (typeof window.gtag === 'function') {
+                window.gtag('event', 'post_read', { post_slug: slug, post_title: title, reading_time_min: readingMin });
+              }
+            }
+          }
+          window.addEventListener('scroll', check, { passive: true });
+          check();
+        })();
+
         // Copy buttons on code blocks (posts are command-heavy)
         document.querySelectorAll('.post-body pre').forEach(pre => {
           const btn = document.createElement('button');
@@ -1030,6 +1059,6 @@ img { max-width: 100%; display: block; }
       }
     })();
   </script>
-  <script src="/analytics.js?v=20260627" defer></script>
+  <script src="/analytics.js?v=20260707" defer></script>
 </body>
 </html>

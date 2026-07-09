@@ -18,7 +18,28 @@
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
     window.gtag('js', new Date());
-    window.gtag('config', GA_ID);
+    // Send page_view manually (not on config): blog posts set their <title>
+    // asynchronously after fetching Markdown, so the automatic page_view would
+    // record the generic title. We fire it once the correct title is known.
+    window.gtag('config', GA_ID, { send_page_view: false });
+
+    window.lpPageView = function (params) {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('event', 'page_view', Object.assign({
+        page_location: location.href,
+        page_title: document.title,
+        page_referrer: document.referrer || undefined
+      }, params || {}));
+    };
+
+    // Regular pages have their final <title> at load — fire now. Blog posts
+    // fire their own page_view when the post loads (see blog-post.html); if the
+    // post already loaded before consent, its params wait in window.__lpPV.
+    if (/\/blog-post(\.html)?$/.test(location.pathname)) {
+      if (window.__lpPV) window.lpPageView(window.__lpPV);
+    } else {
+      window.lpPageView();
+    }
   }
 
   var choice = null;
