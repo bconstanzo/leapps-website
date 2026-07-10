@@ -464,6 +464,13 @@
       }
       return out;
     }
+    // An ABSENT output_types key defaults to all types, matching the framework
+    // (ilapfuncs.py: artifact_info.get('output_types', ['html','tsv','timeline',
+    // 'lava','kml'])). A present 'none' / [] correctly yields no badges.
+    function extractOutputTypes(body) {
+      if (findValueStart(body, 'output_types') < 0) return OUTPUT_ALL.slice();
+      return expandOutputTypes(extractStrList(body, 'output_types'));
+    }
 
     function parseV2(content, toolId, filename) {
       const results = [];
@@ -504,7 +511,7 @@
           category: category || 'Uncategorized',
           author: extractStrJoined(body, 'author'),
           paths: extractStrList(body, 'paths'),
-          outputTypes: expandOutputTypes(extractStrList(body, 'output_types')),
+          outputTypes: extractOutputTypes(body),
         });
       }
       return results;
