@@ -513,9 +513,13 @@
     // Render an author string: link any site/URL it contains, and — matching
     // the convention where authors embed a {site}/(site) — append Alexis
     // Brignoni's site when his handle appears and no site is already present.
+    // Alexis's older Linq link-in-bio (linqapp.com/abrignoni) is rewritten to
+    // his current site (abrignoni.github.io) wherever it appears.
     const SITE_TLDS = 'com|org|net|io|blog|dev|me|co|app|xyz|info|us|page|site';
     function authorHtml(raw) {
       let s = escHtml(raw);
+      // Substitute Alexis's retired Linq link for his GitHub Pages site
+      s = s.replace(/(?:https?:\/\/)?(?:www\.)?linqapp\.com\/abrignoni\/?/gi, 'abrignoni.github.io');
       // full URLs
       s = s.replace(/\bhttps?:\/\/[^\s{}()]+/g, u =>
         `<a href="${u}" target="_blank" rel="noopener noreferrer">${u.replace(/^https?:\/\//, '')}</a>`);
