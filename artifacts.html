@@ -337,26 +337,113 @@
 
     // ── PARSER ──────────────────────────────────────────────────────────────
 
+    // The metadata block (`__artifacts_v2__`) is Python source, not JSON, so we
+    // scan it with a small string-aware reader instead of brittle regexes. This
+    // correctly handles single- OR double-quoted keys/values, the *other* quote
+    // appearing inside a string (e.g. user's), `\`-newline line continuations,
+    // implicit "a" "b" concatenation, and ( ... )-wrapped values — all of which
+    // previously left descriptions blank or produced phantom rows.
+
+    // Skip whitespace and Python `#` comments.
+    function skipWs(s, i) {
+      while (i < s.length) {
+        const c = s[i];
+        if (c === ' ' || c === '\t' || c === '\n' || c === '\r' || c === '\f' || c === '\v') { i++; continue; }
+        if (c === '#') { while (i < s.length && s[i] !== '\n') i++; continue; }
+        break;
+      }
+      return i;
+    }
+    // If a (possibly r/b/f/u-prefixed) string literal starts at i, return the
+    // index of its opening quote; else -1.
+    function strStart(s, i) {
+      let j = i, k = 0;
+      while (k < 2 && j < s.length && /[rbfuRBFU]/.test(s[j])) { j++; k++; }
+      return (s[j] === '"' || s[j] === "'") ? j : -1;
+    }
+    // Read a Python string literal at s[i] (a quote). Returns {value, end}.
+    function readStr(s, i) {
+      const q = s[i];
+      const triple = s.substr(i, 3) === q + q + q;
+      let j = i + (triple ? 3 : 1), val = '';
+      const esc = { n: '\n', t: '\t', r: '\r', '"': '"', "'": "'", '\\': '\\', '0': '\0', a: '\x07', b: '\b', f: '\f', v: '\v' };
+      while (j < s.length) {
+        const c = s[j];
+        if (c === '\\') {
+          const n = s[j + 1];
+          if (n === '\n') { j += 2; continue; }                    // line continuation
+          if (n === '\r' && s[j + 2] === '\n') { j += 3; continue; }
+          val += (n in esc ? esc[n] : n); j += 2; continue;
+        }
+        if (triple) { if (s.substr(j, 3) === q + q + q) return { value: val, end: j + 3 }; }
+        else { if (c === q) return { value: val, end: j + 1 }; if (c === '\n') return { value: val, end: j }; }
+        val += c; j++;
+      }
+      return { value: val, end: j };
+    }
+    // Advance past a (), [] or {} region at s[i], skipping strings/comments so
+    // brackets inside them don't miscount. Returns the index after the close.
+    function scanBalanced(s, i) {
+      let depth = 0;
+      while (i < s.length) {
+        const c = s[i];
+        if (c === '"' || c === "'") { i = readStr(s, i).end; continue; }
+        if (c === '#') { while (i < s.length && s[i] !== '\n') i++; continue; }
+        if (c === '{' || c === '[' || c === '(') depth++;
+        else if (c === '}' || c === ']' || c === ')') { depth--; if (depth === 0) return i + 1; }
+        i++;
+      }
+      return i;
+    }
+    // Position just after `"field":` within a metadata-dict body (key only).
+    function findValueStart(body, field) {
+      const m = new RegExp(`(?:^|[\\s,{])['"]${field}['"]\\s*:\\s*`).exec(body);
+      return m ? m.index + m[0].length : -1;
+    }
+    // A single string value (name, category).
     function extractStr(body, field) {
-      const m = body.match(new RegExp(`['"]${field}['"]\\s*:\\s*['"]([^'"]*?)['"]`));
-      return m ? m[1] : '';
+      let i = findValueStart(body, field);
+      if (i < 0) return '';
+      i = skipWs(body, i);
+      const ss = strStart(body, i);
+      return ss === -1 ? '' : readStr(body, ss).value.replace(/\s+/g, ' ').trim();
     }
-
-    // Like extractStr, but joins Python implicit string concatenation so
-    // multi-line values (common for `description`) are captured in full, e.g.
-    //   "description": "first part "
-    //                  "second part"
+    // A value that may be implicitly concatenated and/or ( ... )-wrapped
+    // (description, author).
     function extractStrJoined(body, field) {
-      const m = body.match(new RegExp(`['"]${field}['"]\\s*:\\s*((?:(['"])(?:[^'"\\\\]|\\\\.)*\\2\\s*)+)`));
-      if (!m) return '';
-      const segs = [...m[1].matchAll(/(['"])((?:[^'"\\]|\\.)*?)\1/g)].map(x => x[2]);
-      return segs.join('').replace(/\s+/g, ' ').trim();
+      let i = findValueStart(body, field);
+      if (i < 0) return '';
+      i = skipWs(body, i);
+      if (body[i] === '(') i++;
+      const parts = [];
+      while (i < body.length) {
+        i = skipWs(body, i);
+        const ss = strStart(body, i);
+        if (ss === -1) break;
+        const r = readStr(body, ss); parts.push(r.value); i = r.end;
+      }
+      return parts.join('').replace(/\s+/g, ' ').trim();
     }
-
-    function extractPaths(body) {
-      const m = body.match(/['"]paths['"]\s*:\s*\(([^)]*)\)/s);
-      if (!m) return [];
-      return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1]);
+    // A list/tuple/single-string value -> array of strings (paths, output_types).
+    function extractStrList(body, field) {
+      let i = findValueStart(body, field);
+      if (i < 0) return [];
+      i = skipWs(body, i);
+      const out = [];
+      if (body[i] === '(' || body[i] === '[') {
+        const end = scanBalanced(body, i);
+        let j = i + 1;
+        while (j < end - 1) {
+          j = skipWs(body, j);
+          const ss = strStart(body, j);
+          if (ss === -1) { j++; continue; }
+          const r = readStr(body, ss); out.push(r.value); j = r.end;
+        }
+      } else {
+        const ss = strStart(body, i);
+        if (ss !== -1) out.push(readStr(body, ss).value);
+      }
+      return out;
     }
 
     // Mirrors the framework's check_output_types (ilapfuncs.py): the shorthand
@@ -377,52 +464,35 @@
       }
       return out;
     }
-    function extractOutputTypes(body) {
-      // output_types may be a list ([...]) OR a bare string ('standard' / 'all').
-      const m = body.match(/['"]output_types['"]\s*:\s*(\[[^\]]*\]|'[^']*'|"[^"]*")/s);
-      if (!m) return [];
-      const val = m[1].trim();
-      const raw = val[0] === '['
-        ? [...val.matchAll(/['"]([^'"]+)['"]/g)].map(x => x[1])
-        : [val.slice(1, -1)];
-      return expandOutputTypes(raw);
-    }
 
     function parseV2(content, toolId, filename) {
       const results = [];
       const startIdx = content.indexOf('__artifacts_v2__');
       if (startIdx === -1) return results;
-
       let i = content.indexOf('{', startIdx);
       if (i === -1) return results;
       i++; // step past outer opening brace
 
       while (i < content.length) {
-        // Skip whitespace and commas
-        while (i < content.length && /[\s,]/.test(content[i])) i++;
+        i = skipWs(content, i);
         if (i >= content.length) break;
-        // End of outer dict
-        if (content[i] === '}') break;
-        // Skip comments
-        if (content[i] === '#') { while (i < content.length && content[i] !== '\n') i++; continue; }
+        if (content[i] === ',') { i++; continue; }
+        if (content[i] === '}') break;                    // end of outer dict
 
-        // Expect "key":
-        const keyM = content.slice(i).match(/^"([^"]+)"\s*:/);
-        if (!keyM) { i++; continue; }
-        const key = keyM[1];
-        i += keyM[0].length;
+        // Key — single- or double-quoted.
+        const ks = strStart(content, i);
+        if (ks === -1) { i++; continue; }
+        const keyR = readStr(content, ks);
+        const key = keyR.value;
+        let k = skipWs(content, keyR.end);
+        if (content[k] !== ':') { i = keyR.end; continue; }
+        k = skipWs(content, k + 1);
+        if (content[k] !== '{') { i = k; continue; }       // value isn't a dict
 
-        // Find opening { of this entry's dict
-        while (i < content.length && content[i] !== '{') i++;
-        if (i >= content.length) break;
-        const bodyStart = ++i;
-        let depth = 1;
-        while (i < content.length && depth > 0) {
-          if (content[i] === '{') depth++;
-          else if (content[i] === '}') depth--;
-          i++;
-        }
-        const body = content.slice(bodyStart, i - 1);
+        const bodyStart = k + 1;
+        const bodyEnd = scanBalanced(content, k);          // index after matching }
+        const body = content.slice(bodyStart, bodyEnd - 1);
+        i = bodyEnd;
 
         const name = extractStr(body, 'name') || key;
         const category = extractStr(body, 'category');
@@ -433,8 +503,8 @@
           description: extractStrJoined(body, 'description'),
           category: category || 'Uncategorized',
           author: extractStrJoined(body, 'author'),
-          paths: extractPaths(body),
-          outputTypes: extractOutputTypes(body),
+          paths: extractStrList(body, 'paths'),
+          outputTypes: expandOutputTypes(extractStrList(body, 'output_types')),
         });
       }
       return results;
