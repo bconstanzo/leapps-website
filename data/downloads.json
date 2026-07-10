@@ -291,12 +291,12 @@
     {
       "date": "2026-07-10",
       "totals": {
-        "ileapp": 83299,
-        "aleapp": 62455,
-        "rleapp": 4028,
-        "vleapp": 1426,
-        "lava": 852,
-        "batchleapp": 45
+        "ileapp": 83314,
+        "aleapp": 62468,
+        "rleapp": 4029,
+        "vleapp": 1427,
+        "lava": 856,
+        "batchleapp": 50
       }
     }
   ]
