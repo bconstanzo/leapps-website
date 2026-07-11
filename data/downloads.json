@@ -302,12 +302,12 @@
     {
       "date": "2026-07-11",
       "totals": {
-        "ileapp": 83421,
-        "aleapp": 62570,
+        "ileapp": 83450,
+        "aleapp": 62594,
         "rleapp": 4032,
         "vleapp": 1431,
-        "lava": 868,
-        "batchleapp": 59
+        "lava": 872,
+        "batchleapp": 60
       }
     }
   ]
