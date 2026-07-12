@@ -1,5 +1,19 @@
 [
   {
+    "slug": "2026-07-11-the-rules-keep-changing",
+    "title": "The Rules Keep Changing",
+    "date": "2026-07-11",
+    "author": "Alexis Brignoni",
+    "tags": [
+      "iLEAPP",
+      "iOS",
+      "Biome",
+      "LLM",
+      "research"
+    ],
+    "excerpt": "The first fully LLM-generated set of artifacts lands in iLEAPP: fourteen Biome parsers built from public community research and test data, 3,668 rows of previously unparsed data on the first clean pass. If coding is now accessible to everyone, what does that mean for tooling in digital forensics?"
+  },
+  {
     "slug": "2026-07-08-app-coverage-analysis",
     "title": "The Apps We Are Not Parsing (Yet)",
     "date": "2026-07-08",
