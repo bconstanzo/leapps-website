@@ -101,6 +101,18 @@
 .lp-sb-results { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; color: var(--muted); margin-bottom: .75rem; min-height: 1.2rem; }
 .lp-sb-results span { color: var(--gold); }
 .lp-loading-row td { color: #555; font-family: var(--font-mono); font-size: .75rem; text-align: center !important; padding: 3rem; }
+/* Loading skeletons — placeholder shapes that mirror a real row while PR data loads */
+@keyframes lp-sk-shimmer { 100% { transform: translateX(100%); } }
+.sk { position: relative; overflow: hidden; display: inline-block; background: var(--surface); border-radius: 3px; vertical-align: middle; }
+.sk::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent); animation: lp-sk-shimmer 1.4s infinite; }
+.sk-avatar { width: 32px; height: 32px; border-radius: 50%; }
+.sk-pos { width: 16px; height: 20px; }
+.sk-name { width: clamp(80px, 12vw, 140px); height: 12px; }
+.sk-prs { width: 42px; height: 14px; }
+.sk-badge { width: 52px; height: 16px; border-radius: 2px; }
+.sk-rank { width: 116px; height: 22px; border-radius: 2px; }
+.sk-row td { vertical-align: middle; }
+@media (prefers-reduced-motion: reduce) { .sk::after { animation: none; } }
 .lp-progress { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); margin-bottom: 1rem; letter-spacing: .06em; }
 .lp-progress span { color: var(--gold); }
 @media (max-width: 768px) {
@@ -396,6 +408,8 @@
       const updatedEl  = document.getElementById('lp-updated');
       const tbody      = document.getElementById('scoreboard-tbody');
 
+      renderSkeleton();
+
       const completed = {};
       REPOS.forEach(r => { completed[r.name] = 0; });
 
@@ -454,6 +468,25 @@
     let allSorted = [];
     let activeToolFilter = 'all';
     let searchQuery = '';
+
+    // Shimmer placeholder rows shown while PR data loads. Badge counts vary per
+    // row so it reads like a real leaderboard rather than a grid.
+    function renderSkeleton(n = 10) {
+      const badgeCounts = [4, 4, 3, 2, 3, 2, 2, 3, 2, 2];
+      let html = '';
+      for (let i = 0; i < n; i++) {
+        const badges = Array.from({ length: badgeCounts[i % badgeCounts.length] },
+          () => '<span class="sk sk-badge"></span>').join(' ');
+        html += `<tr class="sk-row" aria-hidden="true">
+          <td><span class="sk sk-pos"></span></td>
+          <td><div class="contrib-cell"><span class="sk sk-avatar"></span><span class="sk sk-name"></span></div></td>
+          <td class="pr-count"><span class="sk sk-prs"></span></td>
+          <td><div class="repo-badges">${badges}</div></td>
+          <td style="text-align:right"><span class="sk sk-rank"></span></td>
+        </tr>`;
+      }
+      document.getElementById('scoreboard-tbody').innerHTML = html;
+    }
 
     function renderRows(contributors) {
       const tbody = document.getElementById('scoreboard-tbody');
