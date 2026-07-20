@@ -849,7 +849,7 @@
       try {
         const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${tool.repo}/releases?per_page=100`);
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
+        const data = (await res.json()).filter(r => !r.draft);
         renderReleases(tool.id, data, tool);
       } catch (e) {
         container.innerHTML = `<div class="lp-error">Could not load releases. <a href="https://github.com/${tool.repo}/releases" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">View on GitHub →</a></div>`;
@@ -929,7 +929,7 @@
       try {
         const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${tool.repo}/releases?per_page=100`);
         if (!res.ok) throw new Error('HTTP ' + res.status);
-        const releases = await res.json();
+        const releases = (await res.json()).filter(r => !r.draft);
         const total = releases.reduce((sum, r) => {
           return sum + (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0);
         }, 0);

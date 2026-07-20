@@ -1717,7 +1717,7 @@ img { max-width: 100%; display: block; }
           const [releaseResults, contribLogins] = await Promise.all([
             Promise.all(repos.map(async t => {
               const res = await fetch(`${API}/repos/${t.repo}/releases?per_page=100`);
-              const releases = res.ok ? await res.json().catch(() => []) : [];
+              const releases = (res.ok ? await res.json().catch(() => []) : []).filter(r => !r.draft);
               const downloads = Array.isArray(releases) ? releases.reduce((sum, r) =>
                 sum + (r.assets||[]).reduce((s, a) => s + (a.download_count||0), 0), 0) : 0;
               return downloads;

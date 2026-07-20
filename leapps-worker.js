@@ -104,7 +104,22 @@ export default {
       );
     }
 
-    const data = await githubResponse.text();
+    let data = await githubResponse.text();
+
+    // Never expose DRAFT releases. This Worker authenticates with a token that
+    // can see unpublished drafts; without this filter they leak to the public
+    // site (and 404 for anyone who clicks them). Strip them at the source so
+    // every consumer — and the cached copy — is clean.
+    if (/^\/repos\/[^\/]+\/[^\/]+\/releases/.test(url.pathname)) {
+      try {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed)) {
+          data = JSON.stringify(parsed.filter(r => !r.draft));
+        } else if (parsed && parsed.draft) {
+          return corsResponse(JSON.stringify({ error: 'Not found' }), 404);
+        }
+      } catch (_) { /* leave non-JSON responses untouched */ }
+    }
 
     // Store in cache
     const responseToCache = new Response(data, {

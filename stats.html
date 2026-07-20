@@ -438,7 +438,7 @@
             fetch(`https://leapps-api.4n6-198.workers.dev/repos/${t.repo}/releases?per_page=100`),
           ]);
           const repo = repoRes.ok ? await repoRes.json().catch(() => ({})) : {};
-          const releases = relRes.ok ? await relRes.json().catch(() => []) : [];
+          const releases = (relRes.ok ? await relRes.json().catch(() => []) : []).filter(r => !r.draft);
 
           const downloads = Array.isArray(releases) ? releases.reduce((sum, r) =>
             sum + (r.assets || []).reduce((s, a) => s + (a.download_count || 0), 0), 0) : 0;
