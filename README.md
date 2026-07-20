@@ -45,6 +45,7 @@ leapps-website/
 | `blog.html` | leapps.org/blog |
 | `blog-post.html` | leapps.org/blog-post (template for all posts) |
 | `changelog.html` | leapps.org/changelog |
+| `designs.html` | leapps.org/designs |
 | `docs.html` | leapps.org/docs |
 | `mailing.html` | leapps.org/mailing |
 | `releases.html` | leapps.org/releases |
@@ -176,6 +177,43 @@ python3 scripts/generate_blog_index.py --check
 ### Markdown support
 
 Standard Markdown: headings, bold/italic/strikethrough, ordered/unordered lists, links and images, fenced code blocks with syntax highlighting, tables, blockquotes, and horizontal rules.
+
+---
+
+## Adding a design review
+
+Design reviews are Markdown files for larger cross-LEAPP proposals. Add a file to `designs/posts/`; the filename without `.md` becomes the public slug:
+
+```
+designs/posts/your-design-slug.md
+```
+
+Start it with frontmatter:
+
+```markdown
+---
+title: Your Design Title
+status: Draft
+date: 2026-07-20
+updated: 2026-07-20
+author: Your Name
+scope: [iLEAPP, ALEAPP, LAVA]
+discussion: pending
+excerpt: One sentence summary for the design-review index and site search.
+---
+```
+
+The index is generated from frontmatter by `scripts/generate_design_index.py`. A GitHub Action runs it after design docs merge to `main`, so contributors normally only edit the Markdown file. To refresh the index locally:
+
+```bash
+python3 scripts/generate_design_index.py
+```
+
+A separate PR check validates design-review frontmatter. Run the same check locally with:
+
+```bash
+python3 scripts/generate_design_index.py --check
+```
 
 ---
 

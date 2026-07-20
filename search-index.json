@@ -120,6 +120,18 @@
     "excerpt": "Tutorials, conference talks, walkthroughs, training programs, and community resources for LEAPPs tools."
   },
   {
+    "title": "Design Reviews — Cross-LEAPP Proposals",
+    "url": "https://leapps.org/designs",
+    "page": "Design Reviews",
+    "excerpt": "Shared design reviews for larger LEAPPs changes, including the Forensic Object Framework proposal."
+  },
+  {
+    "title": "Forensic Object Framework",
+    "url": "https://leapps.org/designs?design=forensic-object-framework",
+    "page": "Design Reviews",
+    "excerpt": "Proposal for normalized forensic objects, parser-side registration, provenance, analyzers, and LAVA object views."
+  },
+  {
     "title": "Mailing List",
     "url": "https://leapps.org/mailing",
     "page": "Mailing",

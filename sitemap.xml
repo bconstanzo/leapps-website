@@ -41,6 +41,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://leapps.org/designs</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://leapps.org/stats</loc>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
