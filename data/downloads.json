@@ -401,12 +401,12 @@
     {
       "date": "2026-07-20",
       "totals": {
-        "ileapp": 84348,
-        "aleapp": 63300,
-        "rleapp": 4131,
-        "vleapp": 1484,
-        "lava": 1063,
-        "batchleapp": 107
+        "ileapp": 84388,
+        "aleapp": 63327,
+        "rleapp": 4134,
+        "vleapp": 1486,
+        "lava": 1071,
+        "batchleapp": 108
       }
     }
   ]
