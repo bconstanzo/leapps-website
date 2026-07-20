@@ -419,7 +419,7 @@
         const results = await Promise.all(tools.map(async t => {
           const res = await fetch(`https://leapps-api.4n6-198.workers.dev/repos/${t.repo}/releases?per_page=100`);
           if (!res.ok) return [];
-          const releases = await res.json();
+          const releases = (await res.json()).filter(r => !r.draft);
           return releases.map(r => ({
             tool: t.id,
             name: t.name,
