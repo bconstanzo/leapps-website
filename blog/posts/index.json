@@ -1,5 +1,20 @@
 [
   {
+    "slug": "feature-leapps-recent-run-history",
+    "title": "Feature Highlight: Recent Run History in LAVA",
+    "date": "2026-07-20",
+    "author": "James Habben",
+    "tags": [
+      "LAVA",
+      "iLEAPP",
+      "ALEAPP",
+      "RLEAPP",
+      "VLEAPP",
+      "features"
+    ],
+    "excerpt": "A quick look at the new opt-in LEAPPs recent run history feature and how LAVA can use it to put recent parser outputs right on the welcome screen."
+  },
+  {
     "slug": "united-ios-app-artifacts",
     "title": "A Trip Through the United iOS App",
     "date": "2026-07-15",
