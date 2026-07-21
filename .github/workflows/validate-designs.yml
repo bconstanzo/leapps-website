@@ -1,0 +1,28 @@
+name: Validate design reviews
+
+# Validates design-review frontmatter and slugs before merge. The index itself
+# is generated post-merge by generate-designs.yml.
+
+on:
+  pull_request:
+    paths:
+      - 'designs/posts/**'
+      - 'scripts/generate_design_index.py'
+      - '.github/workflows/validate-designs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-designs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate design review frontmatter
+        run: python3 scripts/generate_design_index.py --check

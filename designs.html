@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quick Start — LEAPPs</title>
-  <meta name="description" content="Get started with LEAPPs digital forensics tools — pick your tool, run your first extraction, and read your report with LAVA." />
+  <title>Design Reviews — LEAPPs</title>
+  <meta name="description" content="Cross-LEAPP design reviews for larger feature proposals, shared architecture, and community feedback." />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://leapps.org/docs" />
-  <meta property="og:title" content="Quick Start — LEAPPs" />
-  <meta property="og:description" content="Get started with LEAPPs digital forensics tools — pick your tool, run your first extraction, and read your report with LAVA." />
+  <meta property="og:url" content="https://leapps.org/designs" />
+  <meta property="og:title" content="Design Reviews — LEAPPs" />
+  <meta property="og:description" content="Cross-LEAPP design reviews for larger feature proposals, shared architecture, and community feedback." />
   <meta property="og:image" content="https://leapps.org/blog/og/default.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -18,8 +18,8 @@
   <meta property="og:site_name" content="LEAPPs" />
   <meta property="og:locale" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Quick Start — LEAPPs" />
-  <meta name="twitter:description" content="Get started with LEAPPs digital forensics tools in minutes." />
+  <meta name="twitter:title" content="Design Reviews — LEAPPs" />
+  <meta name="twitter:description" content="Cross-LEAPP design reviews for larger feature proposals and shared architecture." />
   <meta name="twitter:image" content="https://leapps.org/blog/og/default.png" />
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/logos/leapps-favicon-512.png" />
@@ -27,7 +27,7 @@
   <meta name="theme-color" content="#F5C020" />
   <meta name="author" content="Alexis Brignoni" />
   <meta name="google-site-verification" content="4NRgfrYq66eJKZVReVwQNbH_cyJI4bLQXXnrm8WuW9A" />
-  <link rel="canonical" href="https://leapps.org/docs" />
+  <link rel="canonical" href="https://leapps.org/designs" />
   <link rel="alternate" type="application/rss+xml" title="LEAPPs Blog" href="https://leapps-api.4n6-198.workers.dev/blog/feed" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,7 +43,41 @@
 .lp-header h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; text-transform: uppercase; line-height: .95; margin-bottom: 1rem; }
 .lp-header h1 span { color: var(--gold); }
 .lp-header p { color: var(--muted); font-size: 1rem; max-width: 560px; line-height: 1.7; }
-.lp-docs-wrap { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+.lp-docs-wrap { max-width: 980px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+.lp-review-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 3rem; }
+.lp-review-meta-item { background: var(--surface); padding: 1rem; }
+.lp-review-meta-label { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+.lp-review-meta-value { color: var(--text); font-size: .92rem; line-height: 1.45; }
+.lp-review-status { display: inline-flex; align-items: center; gap: .35rem; color: var(--gold); font-family: var(--font-mono); font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; }
+.lp-review-card { background: var(--surface); border: 1px solid var(--border); padding: 1.35rem 1.5rem; margin: 1rem 0; }
+.lp-review-card h3 { font-family: var(--font-head); font-size: 1.15rem; letter-spacing: .05em; text-transform: uppercase; margin-bottom: .45rem; color: var(--text); }
+.lp-review-card p { color: var(--muted); font-size: .9rem; line-height: 1.65; }
+.lp-review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 1rem 0 1.25rem; }
+.lp-review-grid > div { background: var(--surface); padding: 1rem; }
+.lp-review-grid strong { display: block; font-family: var(--font-head); font-size: 1rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text); margin-bottom: .35rem; }
+.lp-review-grid span { color: var(--muted); font-size: .84rem; line-height: 1.55; }
+.lp-review-list { list-style: none; display: flex; flex-direction: column; gap: .65rem; margin: .75rem 0 1.25rem; }
+.lp-review-list li { color: var(--muted); font-size: .9rem; line-height: 1.6; padding-left: 1.25rem; position: relative; }
+.lp-review-list li::before { content: ''; position: absolute; left: 0; top: .65rem; width: 6px; height: 6px; background: var(--gold); }
+.lp-review-list strong { color: var(--text); }
+.lp-flow { background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 1.25rem; font-family: var(--font-mono); font-size: .82rem; color: #c8c3b8; line-height: 1.85; overflow-x: auto; margin: 1rem 0 1.25rem; }
+.lp-design-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.lp-design-card { display: block; background: var(--surface); padding: 1.35rem 1.5rem; text-decoration: none !important; transition: background .2s; }
+.lp-design-card:hover { background: var(--surface2); }
+.lp-design-card-meta { display: flex; flex-wrap: wrap; gap: .55rem; align-items: center; font-family: var(--font-mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: .45rem; }
+.lp-design-card h2 { font-family: var(--font-head); font-size: 1.45rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text); margin-bottom: .35rem; }
+.lp-design-card p { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+.lp-design-body { color: var(--muted); font-size: .96rem; line-height: 1.72; }
+.lp-design-body h2 { font-family: var(--font-head); font-size: 1.65rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text); margin: 2.25rem 0 .65rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+.lp-design-body h3 { font-family: var(--font-head); font-size: 1.22rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text); margin: 1.6rem 0 .4rem; }
+.lp-design-body p { margin-bottom: 1rem; }
+.lp-design-body ul, .lp-design-body ol { margin: .25rem 0 1.1rem 1.35rem; }
+.lp-design-body li { margin-bottom: .35rem; }
+.lp-design-body strong { color: var(--text); }
+.lp-design-body code { font-family: var(--font-mono); font-size: .86em; color: var(--gold); background: rgba(245,192,32,.08); padding: .08rem .28rem; border: 1px solid rgba(245,192,32,.18); }
+.lp-design-body pre { background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 1rem 1.25rem; overflow-x: auto; margin: 1rem 0 1.25rem; }
+.lp-design-body pre code { color: #c8c3b8; background: transparent; border: none; padding: 0; }
+.lp-design-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin: 1.5rem 0 2.5rem; }
 .lp-step { display: grid; grid-template-columns: 48px 1fr; gap: 0 1.75rem; margin-bottom: 3.5rem; position: relative; }
 .lp-step:not(:last-child)::before { content: ''; position: absolute; left: 23px; top: 48px; bottom: -3.5rem; width: 2px; background: var(--border); }
 .lp-step-num { width: 48px; height: 48px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: .9rem; color: var(--gold); font-weight: 500; flex-shrink: 0; }
@@ -111,17 +145,10 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "Quick Start — LEAPPs",
-    "url": "https://leapps.org/docs",
-    "description": "Get started with LEAPPs digital forensics tools — pick your tool, run your first extraction, and read your report with LAVA.",
-    "step": [
-      { "@type": "HowToStep", "position": 1, "name": "Pick Your Tool", "text": "Choose iLEAPP, ALEAPP, RLEAPP, or VLEAPP based on the device or data type you are analyzing." },
-      { "@type": "HowToStep", "position": 2, "name": "Get Your Extraction", "text": "Acquire a supported extraction using your preferred forensic acquisition tool." },
-      { "@type": "HowToStep", "position": 3, "name": "Install & Run", "text": "Install Python dependencies and run the tool against your extraction folder via GUI or command line." },
-      { "@type": "HowToStep", "position": 4, "name": "Read Your Report", "text": "Open index.html in your output folder or load the report into LAVA for a richer experience." },
-      { "@type": "HowToStep", "position": 5, "name": "Contribute a Parser", "text": "Add a new Python file to scripts/artifacts/ and submit a pull request on GitHub." }
-    ],
+    "@type": "CollectionPage",
+    "name": "Design Reviews — LEAPPs",
+    "url": "https://leapps.org/designs",
+    "description": "Cross-LEAPP design reviews for larger feature proposals, shared architecture, and community feedback.",
     "publisher": {
       "@type": "Organization",
       "name": "LEAPPs",
@@ -144,7 +171,7 @@
           <a href="https://leapps.org/releases#section-batch-leapp"><i class="ti ti-stack-2" aria-hidden="true"></i>Batch LEAPP</a>
           <a href="https://leapps.org/releases"><i class="ti ti-download" aria-hidden="true"></i>Releases</a>
           <a href="https://leapps.org/artifacts"><i class="ti ti-database" aria-hidden="true"></i>Artifacts</a>
-          <a href="https://leapps.org/docs" class="active"><i class="ti ti-book" aria-hidden="true"></i>Docs</a>
+          <a href="https://leapps.org/docs"><i class="ti ti-book" aria-hidden="true"></i>Docs</a>
         </div>
       </li>
       <li><a href="https://leapps.org/stats">Stats</a></li>
@@ -157,7 +184,7 @@
           <a href="https://leapps.org#contributors"><i class="ti ti-users" aria-hidden="true"></i>Contributors</a>
           <a href="https://leapps.org/scoreboard"><i class="ti ti-trophy" aria-hidden="true"></i>Scoreboard</a>
           <a href="https://leapps.org/mailing"><i class="ti ti-mail" aria-hidden="true"></i>Mailing List</a>
-          <a href="https://leapps.org/designs"><i class="ti ti-notes" aria-hidden="true"></i>Design Reviews</a>
+          <a href="https://leapps.org/designs" class="active"><i class="ti ti-notes" aria-hidden="true"></i>Design Reviews</a>
           <a href="https://leapps.org/resources"><i class="ti ti-books" aria-hidden="true"></i>Resources</a>
         </div>
       </li>
@@ -206,208 +233,16 @@
 
   <header class="lp-header">
     <div class="lp-header-inner">
-      <span class="lp-eyebrow">Documentation · Getting Started</span>
-      <h1>Quick <span>Start</span></h1>
-      <p>From zero to your first forensic report in five steps. Pick your tool, acquire the data, run the parser, and review results in LAVA.</p>
+      <span class="lp-eyebrow">Community · Design Reviews</span>
+      <h1>Design <span>Reviews</span></h1>
+      <p>Shared proposals for larger LEAPPs changes. These documents give core maintainers and module developers a neutral place to review ideas that span more than one tool.</p>
     </div>
   </header>
 
-  <div class="lp-docs-wrap">
-
-    <!-- STEP 1 -->
-    <div class="lp-step" id="step-1">
-      <div class="lp-step-num">01</div>
-      <div class="lp-step-body">
-        <div class="lp-step-title">Pick Your Tool</div>
-        <p class="lp-step-desc">Start with the device or platform you're analyzing. Each LEAPPs tool targets a specific ecosystem.</p>
-        <div class="lp-decision">
-          <a href="https://leapps.org/releases#section-ileapp" class="lp-decision-card">
-            <div class="lp-decision-card-tag ileapp">iLEAPP</div>
-            <div class="lp-decision-card-title">iOS &amp; iPadOS</div>
-            <div class="lp-decision-card-sub">iPhone, iPad backups &amp; full file system extractions</div>
-          </a>
-          <a href="https://leapps.org/releases#section-aleapp" class="lp-decision-card">
-            <div class="lp-decision-card-tag aleapp">ALEAPP</div>
-            <div class="lp-decision-card-title">Android</div>
-            <div class="lp-decision-card-sub">Android devices, adb extractions &amp; full file system</div>
-          </a>
-          <a href="https://leapps.org/releases#section-rleapp" class="lp-decision-card">
-            <div class="lp-decision-card-tag rleapp">RLEAPP</div>
-            <div class="lp-decision-card-title">Returns</div>
-            <div class="lp-decision-card-sub">ISP &amp; carrier records, warrant returns, subscriber data</div>
-          </a>
-          <a href="https://leapps.org/releases#section-vleapp" class="lp-decision-card">
-            <div class="lp-decision-card-tag vleapp">VLEAPP</div>
-            <div class="lp-decision-card-title">Vehicle Systems</div>
-            <div class="lp-decision-card-sub">In-vehicle infotainment &amp; telematics data</div>
-          </a>
-        </div>
-        <p style="font-size:.78rem;color:var(--muted);font-family:var(--font-mono);">Not sure? Check the <a href="https://leapps.org/artifacts" style="color:var(--gold);text-decoration:none;">Artifacts page</a> to see which tool covers the data you need.</p>
-      </div>
+  <div class="lp-docs-wrap" id="design-root">
+    <div class="state-msg" style="color:var(--muted);font-family:var(--font-mono);font-size:.85rem;">
+      Loading design reviews...
     </div>
-
-    <!-- STEP 2 -->
-    <div class="lp-step" id="step-2">
-      <div class="lp-step-num">02</div>
-      <div class="lp-step-body">
-        <div class="lp-step-title">Get Your Extraction</div>
-        <p class="lp-step-desc">LEAPPs works on extracted data — it does not acquire from live devices. You need a file system or backup from your preferred acquisition tool.</p>
-        <table class="lp-table">
-          <thead>
-            <tr>
-              <th>Platform</th>
-              <th>Extraction type</th>
-              <th>Compatible tools</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><span class="lp-pill ileapp">iLEAPP</span></td>
-              <td>iTunes/Finder backup, full file system (FFS), GrayKey, Cellebrite</td>
-              <td>Cellebrite UFED, GrayKey, iTunes backup</td>
-            </tr>
-            <tr>
-              <td><span class="lp-pill aleapp">ALEAPP</span></td>
-              <td>Full file system, adb backup, Cellebrite, GrayKey</td>
-              <td>Cellebrite UFED, GrayKey, adb pull</td>
-            </tr>
-            <tr>
-              <td><span class="lp-pill rleapp">RLEAPP</span></td>
-              <td>ISP/carrier records, warrant returns, subscriber data exports</td>
-              <td>Carrier-provided CSV/Excel returns, law enforcement subpoena responses</td>
-            </tr>
-            <tr>
-              <td><span class="lp-pill vleapp">VLEAPP</span></td>
-              <td>Vehicle system image</td>
-              <td>Logical acquisitions</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="font-size:.78rem;color:var(--muted);">Point LEAPPs at the <strong style="color:var(--text);">extraction source</strong>.</p>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div class="lp-step" id="step-3">
-      <div class="lp-step-num">03</div>
-      <div class="lp-step-body">
-        <div class="lp-step-title">Install &amp; Run</div>
-        <p class="lp-step-desc">LEAPPs tools run on Python 3.12+. Download the latest release, install dependencies, and run against your extraction folder.</p>
-        <p style="font-size:.85rem;margin-bottom:1rem;padding:.6rem .9rem;background:var(--surface);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;">💡 <strong>Prefer not to run Python scripts directly?</strong> The <a href="https://leapps.org/releases" style="color:var(--gold);text-decoration:none;">Releases page</a> provides pre-built executables — no Python installation required.</p>
-
-        <div class="lp-code-label">Fastest install — macOS (Homebrew)</div>
-        <div class="lp-code" style="white-space:pre;"><span class="kw">brew</span> tap leapps-org/leapps
-<span class="kw">brew</span> install ileapp                <span class="cm"># CLI — or aleapp / rleapp / vleapp</span>
-<span class="kw">brew</span> install --cask ileapp-gui    <span class="cm"># GUI app — or aleapp-gui / rleapp-gui / vleapp-gui / lava</span></div>
-        <p style="font-size:.82rem;color:var(--muted);margin:.5rem 0 1.25rem;">A Homebrew install handles Python and dependencies for you — skip the pip steps below and run the tool directly. Full walkthrough in the <a href="https://leapps.org/blog-post?post=installing-leapps-with-homebrew" style="color:var(--gold);text-decoration:none;">Homebrew guide</a>. On Windows, use the pre-built executables or the manual steps below.</p>
-
-        <div class="lp-tabs" id="run-tabs">
-          <div class="lp-tab active" data-tab="gui">GUI</div>
-          <div class="lp-tab" data-tab="cli">Command Line</div>
-        </div>
-
-        <div id="tab-gui">
-          <div class="lp-code-label">Step 1 — Install dependencies</div>
-          <div class="lp-code"><span class="kw">pip</span> install -r requirements.txt</div>
-          <div class="lp-code-label">Step 2 — Launch the GUI</div>
-          <div class="lp-code"><span class="kw">python</span> iLEAPPGUI.py  <span class="cm"># or ALEAPPGUI.py / RLEAPPGUI.py / VLEAPPGUI.py</span></div>
-          <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;">Select your input folder (extraction source) and output folder, then click <strong style="color:var(--text);">Process</strong>. The GUI will show progress per module.</p>
-        </div>
-
-        <div id="tab-cli" style="display:none;">
-          <div class="lp-code-label">Step 1 — Install dependencies</div>
-          <div class="lp-code"><span class="kw">pip</span> install -r requirements.txt</div>
-          <div class="lp-code-label">Step 2 — Run from the command line</div>
-          <div class="lp-code"><span class="kw">python</span> iLEAPP.py <span class="kw">-t</span> <span class="st">fs</span> <span class="kw">-i</span> <span class="st">/path/to/extraction</span> <span class="kw">-o</span> <span class="st">/path/to/output</span></div>
-          <div class="lp-code-label">General options</div>
-          <div class="lp-code"><span class="kw">-h</span>, <span class="kw">--help</span>                        <span class="cm"># show help message and exit</span>
-<span class="kw">-t</span> <span class="st">{fs,tar,zip,gz}</span>                 <span class="cm"># input type: 'fs' for a folder of extracted files,</span>
-                                   <span class="cm">#   'tar', 'zip', or 'gz' for compressed packages</span>
-<span class="kw">-o</span>, <span class="kw">--output_path</span> <span class="st">OUTPUT_PATH</span>     <span class="cm"># path to base output folder (must exist)</span>
-<span class="kw">-i</span>, <span class="kw">--input_path</span>  <span class="st">INPUT_PATH</span>      <span class="cm"># path to extraction source</span></div>
-          <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem;">Each tool may have additional options. Run <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">python iLEAPP.py -h</code> (or the equivalent for ALEAPP, RLEAPP, VLEAPP) to see the full list of options for that tool.</p>
-        </div>
-
-        <ul class="lp-checklist" style="margin-top:1rem;">
-          <li><i class="ti ti-download"></i>Download the latest release from <a href="https://leapps.org/releases" style="color:var(--gold);text-decoration:none;">leapps.org/releases</a></li>
-          <li><i class="ti ti-brand-python"></i>Requires Python 3.12 or later — <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;">python.org/downloads</a></li>
-          <li><i class="ti ti-folder"></i>Point the tool at the extraction source, not individual files</li>
-          <li><i class="ti ti-clock"></i>Runtime depends on extraction size</li>
-        </ul>
-
-        <div class="lp-code-label" style="margin-top:1.75rem;">Your first run — end to end (macOS)</div>
-        <div class="lp-code" style="white-space:pre;"><span class="kw">brew</span> tap leapps-org/leapps &amp;&amp; brew install ileapp
-<span class="kw">ileapp</span> <span class="kw">-t</span> <span class="st">zip</span> <span class="kw">-i</span> <span class="st">~/Cases/ios_extraction.zip</span> <span class="kw">-o</span> <span class="st">~/Cases/reports</span>
-<span class="kw">open</span> <span class="st">~/Cases/reports</span>    <span class="cm"># open index.html in the newest folder, or load the LAVA project</span></div>
-        <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;">Three commands: install, parse, review. No extraction to test with yet? Explore a pre-processed report in the <a href="https://github.com/leapps-org/LAVA-sample-projects" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;">LAVA sample projects</a> to see what the output looks like.</p>
-      </div>
-    </div>
-
-    <!-- STEP 4 -->
-    <div class="lp-step" id="step-4">
-      <div class="lp-step-num">04</div>
-      <div class="lp-step-body">
-        <div class="lp-step-title">Read Your Report</div>
-        <p class="lp-step-desc">When processing completes, LEAPPs writes an HTML report to your output folder. You have two ways to review it.</p>
-
-        <ul class="lp-checklist" style="margin-bottom:1.25rem;">
-          <li><i class="ti ti-file-type-html"></i><div><strong style="color:var(--text);">Direct HTML</strong> — open <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">index.html</code> in your output folder in any browser. Artifacts are organized into categories with search and filtering built in.</div></li>
-          <li><i class="ti ti-eye"></i><div><strong style="color:var(--text);">LAVA viewer</strong> — for a richer, structured experience load the report into LAVA (see below).</div></li>
-        </ul>
-
-        <div class="lp-lava-callout">
-          <div class="lp-lava-callout-head"><i class="ti ti-eye" aria-hidden="true"></i> Recommended: Open in LAVA</div>
-          <p>LAVA (LEAPPs Artifact Viewer Application) is the purpose-built viewer for LEAPPs reports. Instead of browsing a flat HTML file, LAVA gives you filtering capabilities and data export options.</p>
-          <p><strong style="color:var(--text);">How to use it:</strong></p>
-          <ul class="lp-checklist" style="margin-bottom:.75rem;">
-            <li><i class="ti ti-download"></i>Download LAVA from <a href="https://leapps.org/releases">leapps.org/releases</a></li>
-            <li><i class="ti ti-folder-open"></i>Launch LAVA and open the output folder from your LEAPPs run</li>
-            <li><i class="ti ti-layout-list"></i>Browse artifacts by category with structured navigation</li>
-            <li><i class="ti ti-filter"></i>Filter artifacts by category, date, or keyword to zero in on relevant data</li>
-            <li><i class="ti ti-file-export"></i>Export findings for reports and documentation</li>
-          </ul>
-          <p>LAVA works with output from iLEAPP, ALEAPP, RLEAPP, and VLEAPP. <a href="https://github.com/leapps-org/LAVA-releases" target="_blank" rel="noopener noreferrer">View LAVA on GitHub →</a></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 5 -->
-    <div class="lp-step" id="step-5">
-      <div class="lp-step-num">05</div>
-      <div class="lp-step-body">
-        <div class="lp-step-title">Contribute a Parser</div>
-        <p class="lp-step-desc">Found an artifact that isn't parsed yet? LEAPPs is open-source and built by the community. Adding a parser is straightforward.</p>
-        <ul class="lp-checklist" style="margin-bottom:1rem;">
-          <li><i class="ti ti-brand-github"></i>Fork the relevant repo on GitHub</li>
-          <li><i class="ti ti-file-code"></i>Add a new Python file to the <code style="font-family:var(--font-mono);font-size:.8rem;color:var(--gold);">scripts/artifacts/</code> folder following the existing module pattern</li>
-          <li><i class="ti ti-git-pull-request"></i>Open a pull request — the maintainer reviews and merges quickly</li>
-          <li><i class="ti ti-trophy"></i>Your GitHub handle appears on the <a href="https://leapps.org/scoreboard" style="color:var(--gold);text-decoration:none;">Scoreboard</a> once your parser ships</li>
-        </ul>
-        <p style="font-size:.82rem;color:var(--muted);">Questions? Ask in <a href="https://discord.gg/XaZaknENUR" target="_blank" rel="noopener noreferrer" style="color:var(--gold);text-decoration:none;">Discord</a> — the community is active and happy to help new contributors get started.</p>
-      </div>
-    </div>
-
-    <!-- CTA -->
-    <div class="lp-cta-strip">
-      <div class="lp-cta-strip-text">
-        <div class="lp-cta-strip-title">Ready to run your first extraction?</div>
-        <div class="lp-cta-strip-desc">Download the latest release and LAVA — both free, no account required.</div>
-      </div>
-      <div class="lp-cta-strip-btns">
-        <a href="https://leapps.org/releases" class="lp-btn-primary">Download Tools</a>
-        <a href="https://leapps.org/artifacts" class="lp-btn-outline">Browse Artifacts</a>
-      </div>
-    </div>
-
-    <!-- CONTRIBUTE TEASER -->
-    <div style="margin-top:1.5rem;border:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;">
-      <div>
-        <div style="font-family:var(--font-head);font-size:1rem;font-weight:700;text-transform:uppercase;color:var(--text);margin-bottom:.25rem;"><i class="ti ti-puzzle" style="color:var(--gold);margin-right:.4rem;"></i>Want to add a parser?</div>
-        <div style="font-size:.82rem;color:var(--muted);">The contributor guide walks through everything — module structure, SQLite and plist parsing, and submitting a pull request.</div>
-      </div>
-      <a href="https://leapps.org/blog-post?post=2026-06-14-how-to-write-an-ileapp-module" style="font-family:var(--font-head);font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--off-black);background:var(--gold);padding:.6rem 1.4rem;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:background .2s;" onmouseover="this.style.background='var(--gold-dk)'" onmouseout="this.style.background='var(--gold)'">Read the Guide <i class="ti ti-arrow-up-right"></i></a>
-    </div>
-
   </div>
 
     <footer class="lp-footer">
@@ -452,6 +287,125 @@
 
 </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <script>
+    function formatDesignDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function designUrl(slug) {
+      return `/designs?design=${encodeURIComponent(slug)}`;
+    }
+
+    function stripFrontmatter(md) {
+      return md.replace(/^---[\s\S]*?---\n?/, '');
+    }
+
+    function parseFrontmatter(md) {
+      const match = md.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return {};
+      const meta = {};
+      match[1].split('\n').forEach(line => {
+        const idx = line.indexOf(':');
+        if (idx === -1) return;
+        const key = line.slice(0, idx).trim();
+        let val = line.slice(idx + 1).trim();
+        if (val.length >= 2 && ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'")))) {
+          val = val.slice(1, -1);
+        }
+        if (val.startsWith('[') && val.endsWith(']')) {
+          val = val.slice(1, -1).split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+        }
+        meta[key] = val;
+      });
+      return meta;
+    }
+
+    async function loadDesignIndex() {
+      const root = document.getElementById('design-root');
+      const res = await fetch('/designs/posts/index.json');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const designs = await res.json();
+      root.innerHTML = `
+        <div class="lp-design-list">
+          ${designs.map(item => `
+            <a class="lp-design-card" href="${designUrl(item.slug)}">
+              <div class="lp-design-card-meta">
+                <span>${item.status || 'Draft'}</span>
+                ${item.updated ? `<span>Updated ${formatDesignDate(item.updated)}</span>` : ''}
+                ${item.scope && item.scope.length ? `<span>${item.scope.join(' · ')}</span>` : ''}
+              </div>
+              <h2>${item.title}</h2>
+              <p>${item.excerpt || ''}</p>
+            </a>
+          `).join('')}
+        </div>`;
+    }
+
+    async function loadDesign(slug) {
+      const root = document.getElementById('design-root');
+      const res = await fetch(`/designs/posts/${encodeURIComponent(slug)}.md`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const raw = await res.text();
+      const meta = parseFrontmatter(raw);
+      const html = marked.parse(stripFrontmatter(raw));
+      const title = meta.title || slug;
+      const excerpt = meta.excerpt || '';
+      const canonical = designUrl(slug);
+
+      document.title = `${title} — LEAPPs Design Reviews`;
+      document.querySelector('meta[name="description"]').setAttribute('content', excerpt);
+      document.querySelector('meta[property="og:title"]').setAttribute('content', `${title} — LEAPPs Design Reviews`);
+      document.querySelector('meta[property="og:description"]').setAttribute('content', excerpt);
+      document.querySelector('meta[property="og:url"]').setAttribute('content', canonical);
+      document.querySelector('meta[name="twitter:title"]').setAttribute('content', `${title} — LEAPPs Design Reviews`);
+      document.querySelector('meta[name="twitter:description"]').setAttribute('content', excerpt);
+      document.querySelector('link[rel="canonical"]').setAttribute('href', canonical);
+
+      root.innerHTML = `
+        <div class="lp-review-meta">
+          <div class="lp-review-meta-item">
+            <div class="lp-review-meta-label">Review</div>
+            <div class="lp-review-meta-value">${title}</div>
+          </div>
+          <div class="lp-review-meta-item">
+            <div class="lp-review-meta-label">Status</div>
+            <div class="lp-review-meta-value"><span class="lp-review-status"><i class="ti ti-message-circle"></i> ${meta.status || 'Draft'}</span></div>
+          </div>
+          <div class="lp-review-meta-item">
+            <div class="lp-review-meta-label">Scope</div>
+            <div class="lp-review-meta-value">${Array.isArray(meta.scope) ? meta.scope.join(', ') : (meta.scope || 'LEAPPs')}</div>
+          </div>
+          <div class="lp-review-meta-item">
+            <div class="lp-review-meta-label">Updated</div>
+            <div class="lp-review-meta-value">${formatDesignDate(meta.updated || meta.date)}</div>
+          </div>
+        </div>
+        <div class="lp-design-actions">
+          <a href="/designs" class="lp-btn-outline"><i class="ti ti-arrow-left"></i> All Designs</a>
+          ${meta.discussion && meta.discussion !== 'pending' ? `<a href="${meta.discussion}" class="lp-btn-primary" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i> Discussion</a>` : `<a href="https://github.com/abrignoni/iLEAPP/issues" class="lp-btn-outline" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-github"></i> Discussion Pending</a>`}
+        </div>
+        <article class="lp-design-body">${html}</article>`;
+    }
+
+    (async function initDesigns() {
+      const root = document.getElementById('design-root');
+      const params = new URLSearchParams(window.location.search);
+      const slug = (params.get('design') || '').replace(/\/+$/, '');
+      try {
+        if (slug) {
+          if (!slug.match(/^[\w-]+$/)) throw new Error('Invalid design slug');
+          await loadDesign(slug);
+        } else {
+          await loadDesignIndex();
+        }
+      } catch (error) {
+        root.innerHTML = `<div class="lp-review-card"><h3>Design Review Not Found</h3><p>The requested design review could not be loaded. <a href="/designs" style="color:var(--gold);text-decoration:none;">Back to all design reviews</a>.</p></div>`;
+      }
+    })();
+  </script>
 <script>
   // Mobile menu
   const hamburger = document.getElementById('lp-hamburger');
@@ -471,17 +425,6 @@
     const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     localStorage.setItem('lp-theme', next);
     applyTheme(next);
-  });
-
-  // GUI / CLI tabs
-  document.querySelectorAll('.lp-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.lp-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const which = tab.dataset.tab;
-      document.getElementById('tab-gui').style.display = which === 'gui' ? '' : 'none';
-      document.getElementById('tab-cli').style.display = which === 'cli' ? '' : 'none';
-    });
   });
 </script>
   <script>
