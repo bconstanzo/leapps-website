@@ -12,7 +12,7 @@ This is the first in what I hope becomes a small series of LEAPPs and LAVA featu
 
 Recent run history is one of those. The short version: the LEAPP runners can now save recent run information, and LAVA can read that shared history so recent LEAPP outputs show up on the welcome screen. It is a LAVA feature from the user's point of view, but it is powered by the LEAPP tools doing a little extra bookkeeping after a successful run.
 
-![LAVA welcome screen showing Watched Folders populated with recent LEAPP runs](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/feature-leapps-recent-run-history/lava-watched-folders.png)
+![LAVA welcome screen showing Watched Folders populated with recent LEAPP runs](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/feature-leapps-recent-run-history/lava-watched-folders.webp)
 *Figure 1: Recent LEAPP runs shown in LAVA's Watched Folders section*
 
 ## The welcome screen gets smarter
@@ -27,7 +27,7 @@ The history feature is intentionally opt in. Each LEAPP runner has a setting for
 
 Once enabled, the runner can save recent input paths, recent output paths, and successful LAVA project outputs. There is also a clear-history option from the runner settings if you want to wipe the shared history later.
 
-![iLEAPP settings window showing the recent history opt-in setting](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/feature-leapps-recent-run-history/ileapp-settings.png)
+![iLEAPP settings window showing the recent history opt-in setting](https://cdn.jsdelivr.net/gh/abrignoni/leapps-website@main/blog/images/feature-leapps-recent-run-history/ileapp-settings.webp)
 *Figure 2: Recent history is enabled from the LEAPP runner settings*
 
 ## What gets saved
