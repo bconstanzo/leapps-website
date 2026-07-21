@@ -334,6 +334,7 @@
             <a class="lp-design-card" href="${designUrl(item.slug)}">
               <div class="lp-design-card-meta">
                 <span>${item.status || 'Draft'}</span>
+                ${item.author ? `<span>By ${item.author}</span>` : ''}
                 ${item.updated ? `<span>Updated ${formatDesignDate(item.updated)}</span>` : ''}
                 ${item.scope && item.scope.length ? `<span>${item.scope.join(' · ')}</span>` : ''}
               </div>
@@ -374,6 +375,10 @@
             <div class="lp-review-meta-label">Status</div>
             <div class="lp-review-meta-value"><span class="lp-review-status"><i class="ti ti-message-circle"></i> ${meta.status || 'Draft'}</span></div>
           </div>
+          ${meta.author ? `<div class="lp-review-meta-item">
+            <div class="lp-review-meta-label">Author</div>
+            <div class="lp-review-meta-value">${meta.author}</div>
+          </div>` : ''}
           <div class="lp-review-meta-item">
             <div class="lp-review-meta-label">Scope</div>
             <div class="lp-review-meta-value">${Array.isArray(meta.scope) ? meta.scope.join(', ') : (meta.scope || 'LEAPPs')}</div>
