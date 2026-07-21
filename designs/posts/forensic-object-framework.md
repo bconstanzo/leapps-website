@@ -5,7 +5,7 @@ date: 2026-07-20
 updated: 2026-07-20
 author: James Habben
 scope: [iLEAPP, ALEAPP, RLEAPP, VLEAPP, LAVA]
-discussion: pending
+discussion: (https://github.com/abrignoni/iLEAPP/issues/1736)
 excerpt: Proposal for a normalized, cross-artifact forensic object layer that preserves source artifact output while enabling combined LAVA views and future analyzers.
 ---
 
